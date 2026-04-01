@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.2.7",
     "astro": "^6.1.2"
   },
   "devDependencies": {

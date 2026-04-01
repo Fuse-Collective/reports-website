@@ -10,8 +10,11 @@
 - Styling: Tailwind CSS v4 (@theme tokens)
 - Verification: Playwright
 
+## Design System
+→ design.md (Tier 1 — single source of truth)
+
 ## Design Tokens
-TBD — populated after Design workflow completes.
+20 color tokens, 14 type scale tokens, 8 spacing tokens, 2 radius tokens. Font: Poppins (400, 600, 700).
 
 ## Components
 TBD
@@ -23,7 +26,7 @@ None
 - css_spec_test: true
 - axe_per_section: true
 - playwright_vrt: true
-- figma_export: false
+- figma_export: true
 
 ## Session State
-Kickoff — Step 1 complete. Site initialized.
+2026-04-01 — Session saved. Design complete. Next: register sections → /web:build.

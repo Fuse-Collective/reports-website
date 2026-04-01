@@ -1,5 +1,74 @@
 @import "tailwindcss";
 
 @theme {
-  /* Design tokens populated by Design workflow */
+  /* === COLOR TOKENS === */
+  --color-surface-light: #FFFFFF;
+  --color-surface-muted: #EEEEEE;
+  --color-surface-dark: #1D1D1B;
+  --color-surface-dark-card: #2C3338;
+  --color-surface-accent: #FECD36;
+  --color-on-surface-dark: #191919;
+  --color-on-surface-light: #FFFFFF;
+  --color-on-surface-muted: #333333;
+  --color-on-surface-secondary: #444444;
+  --color-on-surface-accent: #191919;
+  --color-primary: #FECD36;
+  --color-on-primary: #191919;
+  --color-primary-hover: #191919;
+  --color-outline-subtle: #F2F2F2;
+  --color-outline-light: #D8D8D8;
+  --color-outline-dark: #191919;
+  --color-outline-white: #FFFFFF;
+  --color-link-dark: #FECD36;
+  --color-text-muted: #808080;
+
+  /* === FONT FAMILY === */
+  --font-body: "Poppins", sans-serif;
+
+  /* === FONT SIZE TOKENS === */
+  --text-display-xl: 4rem;         /* 64px */
+  --text-display-lg: 3.25rem;      /* 52px */
+  --text-display-md: 2.875rem;     /* 46px */
+  --text-price-display: 3.25rem;   /* 52px */
+  --text-headline-lg: 2.75rem;     /* 44px */
+  --text-headline-md: 2.375rem;    /* 38px */
+  --text-headline-sm: 1.875rem;    /* 30px */
+  --text-title-lg: 1.5rem;         /* 24px */
+  --text-card-heading: 1.5rem;     /* 24px */
+  --text-title-md: 1.375rem;       /* 22px */
+  --text-body-lg: 1.25rem;         /* 20px */
+  --text-body-md: 1.125rem;        /* 18px */
+  --text-label-md: 1rem;           /* 16px */
+  --text-label-sm: 0.875rem;       /* 14px */
+
+  /* === FONT WEIGHT TOKENS === */
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === LINE HEIGHT TOKENS === */
+  --leading-tight: 1.35;           /* display-xl */
+  --leading-normal: 1.42;          /* display-lg/md, headline-*, price-display */
+  --leading-relaxed: 1.55;         /* body-lg */
+  --leading-loose: 1.6;            /* title-*, body-md, label-* */
+
+  /* === SPACING TOKENS === */
+  --spacing-tight: 0.5rem;         /* 8px */
+  --spacing-compact: 1rem;         /* 16px */
+  --spacing-standard: 1.5rem;      /* 24px */
+  --spacing-relaxed: 2rem;         /* 32px */
+  --spacing-comfortable: 3rem;     /* 48px */
+  --spacing-breathing: 3.4375rem;  /* 55px */
+  --spacing-monumental: 7rem;      /* 112px */
+  --spacing-page-gutter: 8.25vw;   /* ~138px on 1670px */
+
+  /* === BORDER RADIUS TOKENS === */
+  --radius-button: 80px;
+  --radius-none: 0px;
+}
+
+:root {
+  /* === UNMAPPED TOKENS (no @theme namespace) === */
+  --overlay: rgba(29, 29, 27, 0.9);
+  --transition-button: 0.15s ease-in-out;
 }
