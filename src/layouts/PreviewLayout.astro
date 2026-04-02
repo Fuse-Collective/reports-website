@@ -1,0 +1,41 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  current?: string;
+}
+
+const { title, current } = Astro.props;
+
+const nav = [
+  { href: '/design-system/', label: 'Overview' },
+  { href: '/design-system/tokens/', label: '1. Tokens' },
+  { href: '/design-system/components/', label: '2. UI Components' },
+  { href: '/design-system/sections/', label: '3. Sections' },
+];
+---
+
+<BaseLayout title={`${title} — Design System`}>
+  <header class="bg-surface-dark py-comfortable px-page-gutter">
+    <p class="font-body text-label-sm text-text-muted mb-tight">Design System</p>
+    <h1 class="font-body text-display-md leading-normal text-on-surface-light">{title}</h1>
+    <nav class="flex gap-compact mt-relaxed flex-wrap">
+      {nav.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'font-body text-label px-compact py-tight rounded-button transition-colors duration-150',
+            current === href
+              ? 'bg-primary text-on-primary'
+              : 'text-text-muted hover:text-on-surface-light',
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+  </header>
+
+  <slot />
+</BaseLayout>

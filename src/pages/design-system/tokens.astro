@@ -1,0 +1,282 @@
+---
+import PreviewLayout from '../../layouts/PreviewLayout.astro';
+
+const surfaces = [
+  { token: '--color-surface-light', hex: '#FFFFFF', utility: 'bg-surface-light', role: 'Default page bg', textClass: 'text-on-surface-dark' },
+  { token: '--color-surface-muted', hex: '#EEEEEE', utility: 'bg-surface-muted', role: 'Alternating sections', textClass: 'text-on-surface-dark' },
+  { token: '--color-surface-dark', hex: '#1D1D1B', utility: 'bg-surface-dark', role: 'Dark sections, footer', textClass: 'text-on-surface-light' },
+  { token: '--color-surface-dark-card', hex: '#2C3338', utility: 'bg-surface-dark-card', role: 'Cards on dark bg', textClass: 'text-on-surface-light' },
+  { token: '--color-surface-accent', hex: '#FECD36', utility: 'bg-surface-accent', role: 'CTA sections', textClass: 'text-on-surface-dark' },
+];
+
+const textColors = [
+  { token: '--color-on-surface-dark', hex: '#191919', utility: 'text-on-surface-dark', role: 'Primary text on light' },
+  { token: '--color-on-surface-light', hex: '#FFFFFF', utility: 'text-on-surface-light', role: 'Text on dark' },
+  { token: '--color-on-surface-secondary', hex: '#444444', utility: 'text-on-surface-secondary', role: 'Muted body' },
+  { token: '--color-on-surface-muted', hex: '#333333', utility: 'text-on-surface-muted', role: 'Secondary text' },
+  { token: '--color-text-muted', hex: '#808080', utility: 'text-text-muted', role: 'Tertiary/meta' },
+  { token: '--color-primary', hex: '#FECD36', utility: 'text-primary', role: 'Bullet markers' },
+  { token: '--color-link-dark', hex: '#FECD36', utility: 'text-link-dark', role: 'Links on dark bg' },
+];
+
+const borders = [
+  { token: '--color-outline-subtle', hex: '#F2F2F2', utility: 'border-outline-subtle', role: 'Card borders (light)' },
+  { token: '--color-outline-light', hex: '#D8D8D8', utility: 'border-outline-light', role: 'Separators' },
+  { token: '--color-outline-dark', hex: '#191919', utility: 'border-outline-dark', role: 'Card borders (offer)' },
+  { token: '--color-outline-white', hex: '#FFFFFF', utility: 'border-outline-white', role: 'Borders on dark' },
+];
+
+const typography = [
+  { token: 'text-display-xl', css: '--text-display-xl', size: '64px', weight: '400', leading: '1.35', usage: 'Footer headings', sample: 'Poznaj nas' },
+  { token: 'text-display-lg', css: '--text-display-lg', size: '56px', weight: '400', leading: '1.42', usage: 'Section H1', sample: 'Klienci wybieraja nas' },
+  { token: 'text-display-md', css: '--text-display-md', size: '46px', weight: '400', leading: '1.42', usage: 'Subpage H1, CTA', sample: 'Masz pomysl?' },
+  { token: 'text-headline-lg', css: '--text-headline-lg', size: '44px', weight: '400', leading: '1.42', usage: 'Category headings', sample: 'Nasze uslugi' },
+  { token: 'text-headline-md', css: '--text-headline-md', size: '38px', weight: '400', leading: '1.42', usage: 'Category sections', sample: 'Strategia marki' },
+  { token: 'text-headline-sm', css: '--text-headline-sm', size: '30px', weight: '400', leading: '1.42', usage: 'Subheadings', sample: 'Dlaczego my?' },
+  { token: 'text-title-lg', css: '--text-title-lg', size: '24px', weight: '400', leading: '1.6', usage: 'CTA buttons, FAQ Q', sample: 'Zapytaj o referencje' },
+  { token: 'text-card-heading', css: '--text-card-heading', size: '24px', weight: '600', leading: '1.6', usage: 'Card headings', sample: 'Strategia brandingu' },
+  { token: 'text-title-md', css: '--text-title-md', size: '22px', weight: '400', leading: '1.6', usage: 'Offer headings', sample: 'Tomasz Stefanowski' },
+  { token: 'text-body-xl', css: '--text-body-xl', size: '40px', weight: '400', leading: '1.35', usage: 'Extra large body', sample: 'Budujemy marki' },
+  { token: 'text-body-lg', css: '--text-body-lg', size: '32px', weight: '400', leading: '1.42', usage: 'Large body', sample: 'Strategia i design w jednym miejscu' },
+  { token: 'text-body-md', css: '--text-body-md', size: '26px', weight: '400', leading: '1.42', usage: 'Medium body', sample: 'Laczymy strategie z designem tworzac systemy komunikacji.' },
+  { token: 'text-body', css: '--text-body', size: '20px', weight: '400', leading: '1.55', usage: 'Default body (Normal)', sample: 'Od ponad 15 lat pomagamy firmom w budowaniu silnej marki.' },
+  { token: 'text-body-sm', css: '--text-body-sm', size: '18px', weight: '400', leading: '1.6', usage: 'Secondary body, nav', sample: 'Uslugi  Realizacje  Poradniki  Kontakt' },
+  { token: 'text-label', css: '--text-label', size: '16px', weight: '400', leading: '1.6', usage: 'Descriptions (Small)', sample: 'Kierownik ds. rozwoju serwisu www' },
+  { token: 'text-label-sm', css: '--text-label-sm', size: '14px', weight: '400', leading: '1.6', usage: 'Legal copy', sample: 'Wszelkie prawa zastrzezone. Fuse Collective 2026.' },
+];
+
+const spacing = [
+  { token: '--spacing-tight', value: '8px', rem: '0.5rem', usage: 'Inline spacing, icon gaps' },
+  { token: '--spacing-compact', value: '16px', rem: '1rem', usage: 'Intra-component spacing' },
+  { token: '--spacing-standard', value: '24px', rem: '1.5rem', usage: 'Paragraph spacing' },
+  { token: '--spacing-relaxed', value: '32px', rem: '2rem', usage: 'Heading-to-body gap' },
+  { token: '--spacing-comfortable', value: '48px', rem: '3rem', usage: 'Card padding' },
+  { token: '--spacing-breathing', value: '55px', rem: '3.4375rem', usage: 'Page gutter (alt)' },
+  { token: '--spacing-monumental', value: '112px', rem: '7rem', usage: 'Section padding' },
+  { token: '--spacing-page-gutter', value: '8.25vw', rem: '~138px', usage: 'Full page L/R padding' },
+];
+---
+
+<PreviewLayout title="Tokens" current="/design-system/tokens/">
+
+  <!-- ===================== COLORS: SURFACES ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Kolory — Surfaces</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-compact">
+      {surfaces.map(({ token, hex, utility, role, textClass }) => (
+        <div class="flex flex-col">
+          <div
+            class:list={['w-full h-[96px] flex items-end p-compact border border-outline-light', textClass]}
+            style={`background-color: ${hex};`}
+          >
+            <span class="font-body text-label-sm">{hex}</span>
+          </div>
+          <div class="mt-tight">
+            <code class="font-mono text-label-sm text-on-surface-dark block">{utility}</code>
+            <p class="font-body text-label-sm text-text-muted">{role}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== COLORS: TEXT ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Kolory — Tekst</h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-compact">
+      {textColors.map(({ token, hex, utility, role }) => (
+        <div class="flex items-center gap-compact">
+          <div
+            class="w-[40px] h-[40px] shrink-0 rounded-full border border-outline-light"
+            style={`background-color: ${hex};`}
+          />
+          <div>
+            <code class="font-mono text-label-sm text-on-surface-dark block">{utility}</code>
+            <p class="font-body text-label-sm text-text-muted">{hex} &middot; {role}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== COLORS: BORDERS ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Kolory — Borders</h2>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-compact">
+      {borders.map(({ token, hex, utility, role }) => (
+        <div class="flex items-center gap-compact">
+          <div
+            class="w-[40px] h-[40px] shrink-0 border-2"
+            style={`border-color: ${hex}; background: ${hex === '#FFFFFF' ? '#1D1D1B' : '#FFFFFF'};`}
+          />
+          <div>
+            <code class="font-mono text-label-sm text-on-surface-dark block">{utility}</code>
+            <p class="font-body text-label-sm text-text-muted">{hex} &middot; {role}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== TYPOGRAPHY ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">Typografia</h2>
+    <p class="font-body text-label text-text-muted mb-relaxed">Poppins — 400 (normal), 600 (semibold: card headings), 700 (bold: prices)</p>
+
+    <div class="flex flex-col">
+      {typography.map(({ token, size, weight, leading, usage, sample }) => (
+        <div class="flex flex-col lg:flex-row lg:items-baseline gap-compact py-relaxed border-b border-outline-subtle">
+          <div class="shrink-0 lg:w-[200px]">
+            <code class="font-mono text-label-sm text-on-surface-dark block">{token}</code>
+            <p class="font-body text-label-sm text-text-muted">{size} / {weight} / {leading}</p>
+            <p class="font-body text-label-sm text-text-muted">{usage}</p>
+          </div>
+          <p
+            class="font-body text-on-surface-dark"
+            style={`font-size: var(${`--${token}`}); font-weight: ${weight}; line-height: ${leading};`}
+          >
+            {sample}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== SPECIMEN ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Specimen</h2>
+
+    <!-- Alphabet -->
+    <div class="mb-comfortable">
+      <p class="font-body text-label-sm text-text-muted mb-tight">Alfabet + cyfry — Poppins 400</p>
+      <p class="font-body text-body-lg leading-normal text-on-surface-dark">
+        Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz
+      </p>
+      <p class="font-body text-body-lg leading-normal text-on-surface-dark mt-tight">
+        0 1 2 3 4 5 6 7 8 9 ! @ # % & * ( ) — . , : ;
+      </p>
+    </div>
+
+    <!-- Polish characters -->
+    <div class="mb-comfortable">
+      <p class="font-body text-label-sm text-text-muted mb-tight">Polskie znaki diakrytyczne</p>
+      <p class="font-body text-body-lg leading-normal text-on-surface-dark">
+        Aa Cc Ee Ll Nn Oo Ss Zz Zz
+      </p>
+    </div>
+
+    <!-- Pangram -->
+    <div class="mb-comfortable">
+      <p class="font-body text-label-sm text-text-muted mb-tight">Pangram PL</p>
+      <p class="font-body text-headline-sm leading-normal text-on-surface-dark">
+        Pchnac w te lodz jeza lub osm skrzyn fig.
+      </p>
+    </div>
+
+    <!-- Weights -->
+    <div>
+      <p class="font-body text-label-sm text-text-muted mb-tight">Wagi</p>
+      <div class="flex flex-col gap-tight">
+        <div class="flex items-baseline gap-relaxed">
+          <span class="font-body text-body leading-relaxed text-on-surface-dark" style="font-weight: 400;">Regular 400 — Od ponad 15 lat pomagamy firmom</span>
+          <code class="font-mono text-label-sm text-text-muted">font-weight-normal</code>
+        </div>
+        <div class="flex items-baseline gap-relaxed">
+          <span class="font-body text-body leading-relaxed text-on-surface-dark" style="font-weight: 600;">Semibold 600 — Strategia brandingu</span>
+          <code class="font-mono text-label-sm text-text-muted">font-weight-semibold (card headings)</code>
+        </div>
+        <div class="flex items-baseline gap-relaxed">
+          <span class="font-body text-body leading-relaxed text-on-surface-dark" style="font-weight: 700;">Bold 700 — 12 500 zl netto</span>
+          <code class="font-mono text-label-sm text-text-muted">font-weight-bold (prices, inline emphasis)</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== HIERARCHY DEMO ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Hierarchia typograficzna</h2>
+
+    <!-- Light surface -->
+    <div class="max-w-[800px] mb-monumental">
+      <p class="font-body text-label-sm text-text-muted mb-compact">Na jasnym tle</p>
+      <h3 class="font-body text-display-lg leading-normal text-on-surface-dark font-normal">Klienci wybieraja nas i zostaja z nami na dluzej</h3>
+      <p class="font-body text-headline-sm leading-normal text-on-surface-dark font-normal mt-relaxed">Laczymy strategie marki z systemem komunikacji</p>
+      <p class="font-body text-body leading-relaxed text-on-surface-secondary mt-standard">
+        Od ponad 15 lat pomagamy firmom w budowaniu silnej marki i spojnej identyfikacji wizualnej. Kazdy projekt zaczynamy od <strong>doglebnej analizy</strong> — badamy rynek, konkurencje i potrzeby grupy docelowej.
+      </p>
+      <p class="font-body text-label text-text-muted mt-compact">Tomasz Stefanowski · Kierownik ds. rozwoju serwisu www</p>
+      <p class="font-body text-label-sm text-text-muted mt-tight">Wszelkie prawa zastrzezone. Fuse Collective 2026.</p>
+    </div>
+
+    <!-- Dark surface -->
+    <div class="bg-surface-dark p-comfortable max-w-[800px] mb-monumental">
+      <p class="font-body text-label-sm text-text-muted mb-compact">Na ciemnym tle</p>
+      <h3 class="font-body text-display-lg leading-normal text-on-surface-light font-normal">Poznaj nas</h3>
+      <p class="font-body text-headline-sm leading-normal text-on-surface-light font-normal mt-relaxed">Umow sie na bezplatna konsultacje</p>
+      <p class="font-body text-body leading-relaxed text-text-muted mt-standard">
+        Pomagamy firmom wyroznic sie na tle konkurencji poprzez strategiczny branding i spojny system komunikacji wizualnej.
+      </p>
+      <p class="font-body text-label text-text-muted mt-compact">kontakt@fusecollective.pl</p>
+    </div>
+
+    <!-- Accent surface -->
+    <div class="bg-surface-accent p-comfortable max-w-[800px]">
+      <p class="font-body text-label-sm text-on-surface-accent/60 mb-compact">Na zoltym tle</p>
+      <h3 class="font-body text-display-lg leading-normal text-on-surface-accent font-normal">Masz pomysl?</h3>
+      <p class="font-body text-body leading-relaxed text-on-surface-accent mt-standard">
+        Nie wiesz jak wcielic go w zycie? Nie wiesz od czego zaczac? Porozmawiaj z nami.
+      </p>
+    </div>
+  </div>
+
+  <!-- ===================== DO'S & DON'TS ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Zasady typografii</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-relaxed">
+      <div>
+        <p class="font-body text-label text-primary mb-compact">Tak</p>
+        <ul class="font-body text-body-sm leading-loose text-on-surface-dark list-none flex flex-col gap-tight">
+          <li>Headingi zawsze weight 400 (regular)</li>
+          <li>Bold (700) tylko w inline emphasis i cenach</li>
+          <li>Semibold (600) tylko w card headings</li>
+          <li>Hierarchia przez rozmiar i kolor, nie weight</li>
+          <li>Poppins jako jedyny font</li>
+          <li>Sentence case / title case</li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-body text-label mb-compact" style="color: #cc0000;">Nie</p>
+        <ul class="font-body text-body-sm leading-loose text-text-muted list-none flex flex-col gap-tight">
+          <li><s>Bold na headingach</s></li>
+          <li><s>text-transform: uppercase</s></li>
+          <li><s>Drugi font obok Poppins</s></li>
+          <li><s>Italics do hierarchii</s></li>
+          <li><s>Zolty tekst na jasnym tle</s></li>
+          <li><s>Redukcja weight dla secondary text</s></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SPACING ===================== -->
+  <div class="py-comfortable px-page-gutter">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-relaxed">Spacing</h2>
+    <div class="flex flex-col gap-tight">
+      {spacing.map(({ token, value, rem, usage }) => (
+        <div class="flex items-center gap-relaxed py-tight border-b border-outline-subtle">
+          <code class="font-mono text-label-sm text-on-surface-dark shrink-0 w-[200px]">{token}</code>
+          <div class="shrink-0 w-[200px]">
+            <div
+              class="h-[20px] bg-primary"
+              style={`width: ${token === '--spacing-page-gutter' ? '100%' : `var(${token})`};`}
+            />
+          </div>
+          <span class="font-mono text-label-sm text-text-muted shrink-0 w-[100px]">{value}</span>
+          <span class="font-body text-label-sm text-text-muted">{usage}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+</PreviewLayout>

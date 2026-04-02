@@ -1,0 +1,51 @@
+---
+/**
+ * Asymmetric Dialogue — 50/50 split header used across multiple sections.
+ * Left: headline. Right: optional indicator circle + body text.
+ */
+interface Props {
+  headline: string;
+  body?: string;
+  indicator?: boolean;
+  headlineSize?: 'display-lg' | 'display-md' | 'headline-lg';
+  as?: 'h1' | 'h2' | 'h3';
+}
+
+const { headline, body, indicator = false, headlineSize = 'display-lg', as: Tag = 'h2' } = Astro.props;
+
+const headlineClasses: Record<string, string> = {
+  'display-lg': 'text-display-lg leading-normal',
+  'display-md': 'text-display-md leading-normal',
+  'headline-lg': 'text-headline-lg leading-normal',
+};
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-relaxed">
+  <div>
+    {Tag === 'h1' ? (
+      <h1 class:list={['font-body font-normal text-on-surface-dark', headlineClasses[headlineSize]]}>{headline}</h1>
+    ) : Tag === 'h3' ? (
+      <h3 class:list={['font-body font-normal text-on-surface-dark', headlineClasses[headlineSize]]}>{headline}</h3>
+    ) : (
+      <h2 class:list={['font-body font-normal text-on-surface-dark', headlineClasses[headlineSize]]}>{headline}</h2>
+    )}
+  </div>
+  {(body || indicator) && (
+    <div class="flex flex-col gap-comfortable">
+      {indicator && (
+        <img
+          src="/icons/indicator-circle.svg"
+          alt=""
+          width="148"
+          height="148"
+          class="shrink-0 w-[120px] lg:w-[148px]"
+        />
+      )}
+      {body && (
+        <p class="font-body text-body-lg leading-normal text-on-surface-secondary">
+          {body}
+        </p>
+      )}
+    </div>
+  )}
+</div>

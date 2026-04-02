@@ -71,7 +71,7 @@ The lone accent color (warm golden yellow) enters like a confident handshake: fi
 | Token | Size | Weight | Line-Height | Tailwind Utility | Usage |
 |-------|------|--------|-------------|------------------|-------|
 | `--text-display-xl` | 4rem (64px) | 400 | 1.35 | `text-display-xl` | Featured project titles, footer large headings |
-| `--text-display-lg` | 3.25rem (52px) | 400 | 1.42 | `text-display-lg` | Section headlines, page H1 |
+| `--text-display-lg` | 3.5rem (56px) | 400 | 1.42 | `text-display-lg` | Section headlines, page H1 |
 | `--text-display-md` | 2.875rem (46px) | 400 | 1.42 | `text-display-md` | Subpage H1, CTA block headings |
 | `--text-price-display` | 3.25rem (52px) | 700 | 1.42 | `text-price-display` | Price numbers only |
 | `--text-headline-lg` | 2.75rem (44px) | 400 | 1.42 | `text-headline-lg` | Category headings, dark section headings |
@@ -80,9 +80,12 @@ The lone accent color (warm golden yellow) enters like a confident handshake: fi
 | `--text-title-lg` | 1.5rem (24px) | 400 | 1.6 | `text-title-lg` | CTA button text, FAQ questions, body lead |
 | `--text-card-heading` | 1.5rem (24px) | 600 | 1.6 | `text-card-heading` | Article listing card headings (only 600 weight) |
 | `--text-title-md` | 1.375rem (22px) | 400 | 1.6 | `text-title-md` | Offer card headings, testimonial names |
-| `--text-body-lg` | 1.25rem (20px) | 400 | 1.55 | `text-body-lg` | Default body text, paragraphs, FAQ answers |
-| `--text-body-md` | 1.125rem (18px) | 400 | 1.6 | `text-body-md` | Navigation links, secondary body |
-| `--text-label-md` | 1rem (16px) | 400 | 1.6 | `text-label-md` | Card descriptions, footer small text, form labels |
+| `--text-body-xl` | 2.5rem (40px) | 400 | 1.35 | `text-body-xl` | Extra large body text |
+| `--text-body-lg` | 2rem (32px) | 400 | 1.42 | `text-body-lg` | Large body text |
+| `--text-body-md` | 1.625rem (26px) | 400 | 1.42 | `text-body-md` | Medium body text |
+| `--text-body` | 1.25rem (20px) | 400 | 1.55 | `text-body` | Default body text, paragraphs, FAQ answers |
+| `--text-body-sm` | 1.125rem (18px) | 400 | 1.6 | `text-body-sm` | Navigation links, secondary body |
+| `--text-label` | 1rem (16px) | 400 | 1.6 | `text-label` | Card descriptions, footer small text, form labels |
 | `--text-label-sm` | 0.875rem (14px) | 400 | 1.6 | `text-label-sm` | Cookie banner, legal copy |
 
 ### Typography Rules
@@ -253,9 +256,9 @@ Single-column on grey surface. Borderless tonal separation.
 
 Yellow-filled circle (Variant B) inline-left + `text-headline-md` (38px). Flex, align-center, `gap-standard`.
 
-### 7.7 Offer Grid
+### 7.7 Services Grid
 
-2-column bordered grid. Border: 0.8–1px solid `border-outline-dark`. Padding: `p-comfortable`.
+3×2 bordered card grid on `bg-surface-light`. Each card: `p-comfortable`, border 0.8px `border-outline-dark`. Content: `text-card-heading` (24px/600) heading + brand icon (120px) + `text-label-md` description. Asymmetric Dialogue header above grid: headline left, indicator circle + body text right. Mobile: single-column stacked cards.
 
 ### 7.8 Pricing Grid
 
@@ -271,9 +274,9 @@ Yellow-filled circle (Variant B) inline-left + `text-headline-md` (38px). Flex, 
 - USP Grid: 3×2 on dark, `bg-surface-dark-card` cards, `border-outline-white`
 - Bonus Card Grid: 3-column on dark, `border-outline-white`
 
-### 7.12 Pain Point Checklist
+### 7.12 Pain Point Section
 
-Arrow-in-circle (Variant C) + heading, 2-column yellow-square bullet checklist. Markers: `text-primary` (■).
+Asymmetric Dialogue layout. Left: `text-display-lg` headline + long arrow (→ 218px) + `text-body-lg` body paragraph. Right: 3×2 grid of brand icons (144px) + `text-label-md` two-line descriptions. `bg-surface-light` surface. Mobile: stacks vertically — headline block above, then 2-col icon grid.
 
 ### 7.13–7.14 Methodology Grid / Testimonial Grid
 

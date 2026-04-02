@@ -1,0 +1,100 @@
+title: "Przykładowy raport"
+client: "Acme Corp"
+description: "Placeholder raport do testowania szablonów sekcji."
+sections:
+  - type: hero
+    headline: "Raport wizerunkowy Acme Corp"
+    description: "Kompleksowa analiza wizerunku marki Acme Corp w kontekście rynku B2B."
+    cta:
+      label: "Pobierz raport"
+      href: "#pobierz"
+    image:
+      src: "/images/hero-placeholder.jpg"
+      alt: "Acme Corp — analiza wizerunku"
+
+  - type: pain-points
+    headline: "Obserwujesz u siebie te problemy?"
+    body: "Od ponad 15 lat pomagamy firmom w budowaniu silnej marki i spójnej identyfikacji wizualnej."
+    items:
+      - icon: "wizerunek"
+        label: "Przestarzały wizerunek"
+      - icon: "niespojna"
+        label: "Niespójna komunikacja"
+      - icon: "brak-wyroznienia"
+        label: "Brak wyróżnienia na tle konkurencji"
+      - icon: "brak-wytycznych"
+        label: "Brak wytycznych brandingowych"
+      - icon: "brak-porzadku"
+        label: "Brak porządku w materiałach"
+      - icon: "zmiany-strategiczne"
+        label: "Zmiany strategiczne wymagające rebrandingu"
+
+  - type: services-grid
+    headline: "Klienci wybierają nas i zostają z nami na dłużej"
+    body: "Działając ofertę usług doradczych, łączymy strategię marki z systemem komunikacji i procesami."
+    services:
+      - title: "Tworzenie strategii marki i brandingu"
+        icon: "strategia"
+        description: "Budujemy fundamenty marki, które pozwalają wyróżnić się na rynku."
+      - title: "Projektowanie identyfikacji wizualnej"
+        icon: "identyfikacja"
+        description: "Tworzymy spójny system wizualny od logo po materiały marketingowe."
+      - title: "Budżetowanie systemu komunikacji"
+        icon: "komunikacja"
+        description: "Projektujemy system komunikacji dopasowany do grupy docelowej."
+      - title: "Wsparcie procesów brandingowych"
+        icon: "proces"
+        description: "Wspieramy wdrożenie i utrzymanie spójności marki w organizacji."
+      - title: "Realizujemy obsługę kreatywną"
+        icon: "lider"
+        description: "Zapewniamy ciągłe wsparcie kreatywne i operacyjne."
+      - title: "Doradztwo strategiczne"
+        icon: "spojrzenie"
+        description: "Pomagamy podejmować decyzje brandingowe oparte na danych."
+
+  - type: testimonials
+    headline: "Zapytaj naszych klientów dlaczego zostają z nami na dłużej"
+    body: "Każdy z naszych klientów miał unikalne wyzwanie. Sprawdź jak je rozwiązaliśmy."
+    cta:
+      label: "Zapytaj o referencje"
+      href: "#referencje"
+    testimonials:
+      - name: "Tomasz Stefanowski"
+        role: "Kierownik ds. rozwoju serwisu www"
+        logo: "/images/logos/castorama.svg"
+        href: "#"
+      - name: "Anna Kowalska"
+        role: "Marketing Director"
+        logo: "/images/logos/grenevia.svg"
+        href: "#"
+      - name: "Piotr Nowak"
+        role: "Brand Manager"
+        logo: "/images/logos/tdj.svg"
+        href: "#"
+
+  - type: project-type
+    projects:
+      - headline: "Chcesz odświeżyć wizerunek?"
+        cta:
+          label: "Zobacz portfolio"
+          href: "#portfolio-rebranding"
+        image:
+          src: "/images/project-rebranding.jpg"
+          alt: "Portfolio rebrandingowe"
+      - headline: "Tworzysz nową markę?"
+        cta:
+          label: "Zobacz portfolio"
+          href: "#portfolio-nowa-marka"
+        image:
+          src: "/images/project-new-brand.jpg"
+          alt: "Portfolio nowych marek"
+
+  - type: cta
+    headline: "Masz pomysł, ale nie wiesz jak wcielić go w życie? Nie wiesz od czego zacząć?"
+    buttons:
+      - label: "Porozmawiaj z nami"
+        href: "#kontakt"
+        variant: "primary"
+      - label: "Czytaj poradniki"
+        href: "#poradniki"
+        variant: "ghost"

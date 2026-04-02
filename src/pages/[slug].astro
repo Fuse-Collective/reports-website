@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionRenderer from '../components/sections/SectionRenderer.astro';
+
+export async function getStaticPaths() {
+  const reports = await getCollection('reports');
+  return reports.map((report) => ({
+    params: { slug: report.id },
+    props: { report },
+  }));
+}
+
+const { report } = Astro.props;
+const { title, description, sections } = report.data;
+---
+
+<BaseLayout title={title} description={description}>
+  {sections.map((section) => (
+    <SectionRenderer section={section} />
+  ))}
+</BaseLayout>

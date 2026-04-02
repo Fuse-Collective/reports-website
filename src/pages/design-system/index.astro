@@ -1,0 +1,22 @@
+---
+import PreviewLayout from '../../layouts/PreviewLayout.astro';
+---
+
+<PreviewLayout title="Overview" current="/design-system/">
+  <div class="py-monumental px-page-gutter">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-relaxed">
+      <a href="/design-system/tokens/" class="block p-comfortable border border-outline-light hover:border-on-surface-dark transition-colors duration-150">
+        <p class="font-body text-title-lg leading-loose text-on-surface-dark mb-tight">1. Tokens</p>
+        <p class="font-body text-label text-text-muted">Kolory, typografia, spacing — wizualna tabela wszystkich tokenow z @theme.</p>
+      </a>
+      <a href="/design-system/components/" class="block p-comfortable border border-outline-light hover:border-on-surface-dark transition-colors duration-150">
+        <p class="font-body text-title-lg leading-loose text-on-surface-dark mb-tight">2. UI Components</p>
+        <p class="font-body text-label text-text-muted">Button, Link Button, SectionHeader — konfiguracja + warianty.</p>
+      </a>
+      <a href="/design-system/sections/" class="block p-comfortable border border-outline-light hover:border-on-surface-dark transition-colors duration-150">
+        <p class="font-body text-title-lg leading-loose text-on-surface-dark mb-tight">3. Section Templates</p>
+        <p class="font-body text-label text-text-muted">Szablony sekcji — pojawia sie w miare budowy.</p>
+      </a>
+    </div>
+  </div>
+</PreviewLayout>

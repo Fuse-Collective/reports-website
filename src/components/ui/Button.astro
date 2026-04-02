@@ -1,0 +1,58 @@
+---
+interface Props {
+  variant: 'primary' | 'secondary' | 'text-link';
+  surface?: 'light' | 'accent' | 'dark';
+  href?: string;
+  class?: string;
+}
+
+const { variant, surface = 'light', href = '#', class: className } = Astro.props;
+
+const hasIcon = Astro.slots.has('icon');
+const isTextLink = variant === 'text-link';
+const base = 'inline-flex items-center font-body text-title-lg leading-loose font-normal transition-[background-color,color,border-color] duration-150 ease-in-out cursor-pointer';
+const iconGap = hasIcon && !isTextLink ? 'justify-between gap-relaxed' : isTextLink ? 'gap-compact' : 'justify-center';
+const pill = 'rounded-button px-comfortable py-[26px] border-[1.6px]';
+
+const styles: Record<string, Record<string, string>> = {
+  primary: {
+    light:  `${pill} bg-primary text-on-primary border-primary hover:bg-on-surface-dark hover:text-on-surface-light hover:border-on-surface-dark`,
+    accent: `${pill} bg-on-surface-dark text-on-surface-light border-on-surface-dark hover:bg-transparent hover:text-on-surface-dark hover:border-on-surface-dark`,
+    dark:   `${pill} bg-primary text-on-primary border-primary hover:bg-on-surface-light hover:text-on-surface-dark hover:border-on-surface-light`,
+  },
+  secondary: {
+    light:  `${pill} bg-transparent text-on-surface-dark border-on-surface-dark hover:bg-on-surface-dark hover:text-on-surface-light`,
+    accent: `${pill} bg-transparent text-on-surface-dark border-on-surface-dark hover:bg-on-surface-dark hover:text-on-surface-light`,
+    dark:   `${pill} bg-transparent text-on-surface-light border-on-surface-light hover:bg-on-surface-light hover:text-on-surface-dark hover:border-on-surface-light`,
+  },
+  'text-link': {
+    light:  'text-on-surface-dark text-link-hover',
+    accent: 'text-on-surface-dark text-link-hover',
+    dark:   'text-link-dark text-link-hover',
+  },
+};
+
+const iconSize = isTextLink ? 'w-[48px] h-[48px]' : 'w-[48px] h-[48px]';
+---
+
+<a href={href} class:list={[base, iconGap, styles[variant][surface], className]}>
+  {/* text-link: icon LEFT of label */}
+  {isTextLink && hasIcon && (
+    <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <slot name="icon" />
+    </span>
+  )}
+  <slot />
+  {/* text-link: arrow → with slide-in hover animation */}
+  {isTextLink && (
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" class="shrink-0 w-[32px] h-[32px]">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M30.7071 8.29292L30 7.58582L28.5858 9.00003L29.2929 9.70714L42.5858 23H3H2V25H3H42.5858L29.2929 38.2929L28.5858 39L30 40.4142L30.7071 39.7071L45.7071 24.7071L46.4142 24L45.7071 23.2929L30.7071 8.29292Z" fill="currentColor"/>
+    </svg>
+  )}
+  {/* primary/secondary: icon RIGHT of label */}
+  {!isTextLink && hasIcon && (
+    <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+      <slot name="icon" />
+    </span>
+  )}
+</a>

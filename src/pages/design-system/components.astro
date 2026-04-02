@@ -1,0 +1,162 @@
+---
+import PreviewLayout from '../../layouts/PreviewLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+---
+
+<PreviewLayout title="UI Components" current="/design-system/components/">
+
+  <!-- ===================== BUTTON ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light" id="button">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.1 Button</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-relaxed">src/components/ui/Button.astro</code>
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead>
+        <tr class="text-left border-b border-outline-light">
+          <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+          <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+          <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+          <th class="py-tight text-text-muted font-normal">Opis</th>
+        </tr>
+      </thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle">
+          <td class="py-tight pr-relaxed">variant</td>
+          <td class="py-tight pr-relaxed text-text-muted">"primary" | "secondary"</td>
+          <td class="py-tight pr-relaxed text-text-muted">—</td>
+          <td class="py-tight font-body text-text-muted">Filled (primary) lub outline (secondary)</td>
+        </tr>
+        <tr class="border-b border-outline-subtle">
+          <td class="py-tight pr-relaxed">surface</td>
+          <td class="py-tight pr-relaxed text-text-muted">"light" | "accent" | "dark"</td>
+          <td class="py-tight pr-relaxed text-text-muted">"light"</td>
+          <td class="py-tight font-body text-text-muted">Tlo na ktorym stoi button</td>
+        </tr>
+        <tr class="border-b border-outline-subtle">
+          <td class="py-tight pr-relaxed">href</td>
+          <td class="py-tight pr-relaxed text-text-muted">string</td>
+          <td class="py-tight pr-relaxed text-text-muted">"#"</td>
+          <td class="py-tight font-body text-text-muted">URL</td>
+        </tr>
+        <tr>
+          <td class="py-tight pr-relaxed">slot="icon"</td>
+          <td class="py-tight pr-relaxed text-text-muted">SVG</td>
+          <td class="py-tight pr-relaxed text-text-muted">—</td>
+          <td class="py-tight font-body text-text-muted">Ikona po prawej (48x48)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Primary -->
+    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Primary</h3>
+    <div class="flex flex-wrap gap-relaxed items-end mb-comfortable">
+      <div class="flex flex-col gap-tight items-start">
+        <div class="p-relaxed"><Button variant="primary">Tekst buttona</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="light"</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <div class="bg-surface-accent p-relaxed"><Button variant="primary" surface="accent">Tekst buttona</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="accent"</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <div class="bg-surface-dark p-relaxed"><Button variant="primary" surface="dark">Tekst buttona</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="dark"</code>
+      </div>
+    </div>
+
+    <!-- Secondary -->
+    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Secondary</h3>
+    <div class="flex flex-wrap gap-relaxed items-end mb-comfortable">
+      <div class="flex flex-col gap-tight items-start">
+        <div class="p-relaxed"><Button variant="secondary">Tekst buttona</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="light"</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <div class="bg-surface-accent p-relaxed"><Button variant="secondary" surface="accent">Tekst buttona</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="accent"</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <div class="bg-surface-dark p-relaxed"><Button variant="secondary" surface="dark">Tekst buttona</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="dark"</code>
+      </div>
+    </div>
+
+    <!-- With icon -->
+    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Z ikona</h3>
+    <div class="flex flex-wrap gap-relaxed items-end">
+      <div class="flex flex-col gap-tight items-start">
+        <Button variant="primary">
+          Najnowsze realizacje
+          <svg slot="icon" viewBox="0 0 67 64" fill="none"><path d="M20.97 16.97L49.25 16.97V45.25" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18.14 48.08L47.48 18.75" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/></svg>
+        </Button>
+        <code class="font-mono text-label-sm text-text-muted">primary + arrow</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <Button variant="secondary">
+          Zobacz portfolio
+          <svg slot="icon" viewBox="0 0 67 64" fill="none"><path d="M20.97 16.97L49.25 16.97V45.25" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18.14 48.08L47.48 18.75" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/></svg>
+        </Button>
+        <code class="font-mono text-label-sm text-text-muted">secondary + arrow</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== LINK BUTTON ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light" id="link-button">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.2 Link Button</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">variant="text-link"</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Strzalka zawsze po prawej. Ikona opcjonalnie po lewej. Hover: underline wjezdza od lewej.</p>
+
+    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Bez ikony</h3>
+    <div class="flex flex-wrap gap-comfortable items-end mb-comfortable">
+      <div class="flex flex-col gap-tight items-start">
+        <div class="p-relaxed"><Button variant="text-link">Tekst linka</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="light"</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <div class="bg-surface-accent p-relaxed"><Button variant="text-link" surface="accent">Tekst linka</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="accent"</code>
+      </div>
+      <div class="flex flex-col gap-tight items-start">
+        <div class="bg-surface-dark p-relaxed"><Button variant="text-link" surface="dark">Tekst linka</Button></div>
+        <code class="font-mono text-label-sm text-text-muted">surface="dark"</code>
+      </div>
+    </div>
+
+    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Z ikona</h3>
+    <div class="flex flex-wrap gap-comfortable items-end">
+      <div class="flex flex-col gap-tight items-start">
+        <Button variant="text-link">
+          Wiecej o rebrandingu
+          <svg slot="icon" viewBox="0 0 64 64" fill="none"><path d="M32 22.31C32 20.26 32.82 18.29 34.27 16.83C35.72 15.38 37.69 14.56 39.75 14.56H55.25C55.76 14.56 56.26 14.77 56.62 15.13C56.98 15.49 57.19 15.99 57.19 16.5V47.5C57.19 48.01 56.98 48.51 56.62 48.87C56.26 49.23 55.76 49.44 55.25 49.44H39.75C37.69 49.44 35.72 50.25 34.27 51.71C32.82 53.16 32 55.13 32 57.19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.81 47.5C6.81 48.01 7.02 48.51 7.38 48.87C7.74 49.23 8.24 49.44 8.75 49.44H24.25C26.31 49.44 28.28 50.25 29.73 51.71C31.18 53.16 32 55.13 32 57.19V22.31C32 20.26 31.18 18.29 29.73 16.83C28.28 15.38 26.31 14.56 24.25 14.56H8.75C8.24 14.56 7.74 14.77 7.38 15.13C7.02 15.49 6.81 15.99 6.81 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </Button>
+        <code class="font-mono text-label-sm text-text-muted">+ book icon (left)</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SECTION HEADER ===================== -->
+  <div class="py-comfortable px-page-gutter" id="section-header">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.3 SectionHeader</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/SectionHeader.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Asymmetric Dialogue 50/50. Props: headline, body?, indicator?, headlineSize?</p>
+
+    <div class="mb-comfortable">
+      <code class="font-mono text-label-sm text-text-muted block mb-compact">&lt;SectionHeader headline="..." body="..." /&gt;</code>
+      <SectionHeader
+        headline="Obserwujesz u siebie te problemy?"
+        body="Od ponad 15 lat pomagamy firmom w budowaniu silnej marki i spojnej identyfikacji wizualnej."
+      />
+    </div>
+
+    <div>
+      <code class="font-mono text-label-sm text-text-muted block mb-compact">&lt;SectionHeader headline="..." body="..." indicator /&gt;</code>
+      <SectionHeader
+        headline="Klienci wybieraja nas i zostaja z nami na dluzej"
+        body="Dzialajac oferte uslug doradczych, laczymy strategie marki z systemem komunikacji i procesami."
+        indicator
+      />
+    </div>
+  </div>
+
+</PreviewLayout>
