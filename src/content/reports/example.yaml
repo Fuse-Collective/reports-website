@@ -2,15 +2,23 @@ title: "Przykładowy raport"
 client: "Acme Corp"
 description: "Placeholder raport do testowania szablonów sekcji."
 sections:
-  - type: hero
-    headline: "Raport wizerunkowy Acme Corp"
-    description: "Kompleksowa analiza wizerunku marki Acme Corp w kontekście rynku B2B."
-    cta:
-      label: "Pobierz raport"
-      href: "#pobierz"
-    image:
-      src: "/images/hero-placeholder.jpg"
-      alt: "Acme Corp — analiza wizerunku"
+  - type: offer-cards
+    as: h1
+    headline: "Specjalizujemy się w kompleksowych projektach z dwóch obszarów"
+    description: "Pracujemy z liderami lub pretendentami bardzo różnych branż nad rozwiązaniem złożonych problemów brandingowych."
+    cards:
+      - headline: "Rebranding i odświeżanie wizerunku"
+        icon: "rebranding"
+        body: "Przeprowadzamy klientów przez skomplikowane <strong>procesy zmiany wizerunku</strong>. Czasem przyjmują one formę ewolucyjnego liftingu, a czasem rewolucyjnego rebrandingu. Doradzamy odpowiedni kierunek tworząc strategię marki, która <strong>przełoży się na skuteczną komunikację oraz autentyczną identyfikacją wizualną.</strong>"
+        link:
+          label: "Więcej o rebrandingu"
+          href: "#rebranding"
+      - headline: "Tworzymy nowe marki"
+        icon: "nowa-marka"
+        body: "Pomagamy klientom od początku <strong>świadomie podejść do budowy marki</strong>, aby dać jej lepszy start. Wspólnie przechodzimy przez proces krystalizowania wizji i strategii. <strong>Definiujemy</strong> o czym ma być marka, oraz jak ma być postrzegana i czym się wyróżnii."
+        link:
+          label: "Więcej o budowaniu marki"
+          href: "#budowa-marki"
 
   - type: pain-points
     headline: "Obserwujesz u siebie te problemy?"
@@ -31,26 +39,27 @@ sections:
 
   - type: services-grid
     headline: "Klienci wybierają nas i zostają z nami na dłużej"
-    body: "Działając ofertę usług doradczych, łączymy strategię marki z systemem komunikacji i procesami."
+    body: "Widząc efekty rozumieją, że jesteśmy inni niż agencje, z którymi wcześniej pracowali."
+    surface: dark
     services:
-      - title: "Tworzenie strategii marki i brandingu"
+      - heading: "Tworzymy strategie marek i doradzamy"
         icon: "strategia"
-        description: "Budujemy fundamenty marki, które pozwalają wyróżnić się na rynku."
-      - title: "Projektowanie identyfikacji wizualnej"
+        description: "Nie musisz znać się na wizerunku, to nasza specjalizacja. Wystarczy, że znasz swój biznes."
+      - heading: "Projektujemy identyfikacje wizualne i komunikację"
         icon: "identyfikacja"
-        description: "Tworzymy spójny system wizualny od logo po materiały marketingowe."
-      - title: "Budżetowanie systemu komunikacji"
+        description: "Rozbudowane systemy identyfikacji wizualnej oraz materiały marketingowe to namacalne efekty naszej pracy."
+      - heading: "Budujemy systemy komunikacji"
         icon: "komunikacja"
-        description: "Projektujemy system komunikacji dopasowany do grupy docelowej."
-      - title: "Wsparcie procesów brandingowych"
+        description: "Odpowiednio dobrane słowa i treści pomagają budować zaufanie oraz w zrozumiały sposób opowiadają o marce."
+      - heading: "Dopasowujemy autorski proces do kontekstu"
         icon: "proces"
-        description: "Wspieramy wdrożenie i utrzymanie spójności marki w organizacji."
-      - title: "Realizujemy obsługę kreatywną"
+        description: "Przez 10 lat wypracowaliśmy powtarzalne podejście tworzenia, badania i ulepszania rozwiązań, aby skutecznie realizowały cele biznesowe i wizerunkowe."
+      - heading: "Realizujemy złożone projekty dla liderów"
         icon: "lider"
-        description: "Zapewniamy ciągłe wsparcie kreatywne i operacyjne."
-      - title: "Doradztwo strategiczne"
+        description: "Pracujemy z liderami lub pretendentami nad złożonymi problemami, lub gdy marka wymaga głębszych zmian."
+      - heading: "Dajemy świeże spojrzenie"
         icon: "spojrzenie"
-        description: "Pomagamy podejmować decyzje brandingowe oparte na danych."
+        description: "Synergia doświadczeń z różnych branż zapewnia świeżość, a przywiązanie do detalu wysoką jakość oraz estetykę."
 
   - type: testimonials
     headline: "Zapytaj naszych klientów dlaczego zostają z nami na dłużej"

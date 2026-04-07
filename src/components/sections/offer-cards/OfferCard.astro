@@ -1,0 +1,53 @@
+---
+/**
+ * OfferCard — Bordered card with icon, headline, body slot, and text-link.
+ * Colocated with OfferCardsSection (single parent).
+ *
+ * Surface-aware via on-dark:/on-accent: custom variants.
+ * No surface prop needed — inherits from parent's data-surface attribute.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { Icon } from 'astro-icon/components';
+import Button from '../../ui/Button.astro';
+
+interface Props extends HTMLAttributes<'div'> {
+  headline: string;
+  icon: string;
+  link: { label: string; href: string };
+  as?: 'h2' | 'h3';
+}
+
+const { headline, icon, link, as: Tag = 'h3', class: className, ...rest } = Astro.props;
+---
+
+<div
+  class:list={[
+    "border-t border-l p-[clamp(1rem,3vw,3rem)] grid gap-compact lg:gap-standard lg:[grid-row:span_3] lg:[grid-template-rows:subgrid]",
+    "border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent",
+    className
+  ]}
+  {...rest}
+>
+  <div class="flex items-start gap-[clamp(1rem,3vw,3rem)]">
+    <Icon
+      name={`brand/${icon}`}
+      is:inline
+      class="shrink-0 w-[100px] h-[80px] lg:w-[150px] lg:h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent"
+    />
+    <Tag class="font-body font-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent text-headline-sm leading-normal lg:text-headline-lg lg:leading-normal">
+      {headline}
+    </Tag>
+  </div>
+
+  <div class="font-body text-label leading-loose lg:text-body lg:leading-relaxed text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+    <slot />
+  </div>
+
+  <Button variant="text-link" href={link.href}>
+    <svg slot="icon" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+      <path d="M32 22.3125C32 20.2571 32.8165 18.2858 34.2699 16.8324C35.7233 15.379 37.6946 14.5625 39.75 14.5625H55.25C55.7639 14.5625 56.2567 14.7666 56.62 15.13C56.9834 15.4933 57.1875 15.9861 57.1875 16.5V47.5C57.1875 48.0139 56.9834 48.5067 56.62 48.87C56.2567 49.2334 55.7639 49.4375 55.25 49.4375H39.75C37.6946 49.4375 35.7233 50.254 34.2699 51.7074C32.8165 53.1608 32 55.1321 32 57.1875" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M6.8125 47.5C6.8125 48.0139 7.01663 48.5067 7.37998 48.87C7.74333 49.2334 8.23614 49.4375 8.75 49.4375H24.25C26.3054 49.4375 28.2767 50.254 29.7301 51.7074C31.1835 53.1608 32 55.1321 32 57.1875V22.3125C32 20.2571 31.1835 18.2858 29.7301 16.8324C28.2767 15.379 26.3054 14.5625 24.25 14.5625H8.75C8.23614 14.5625 7.74333 14.7666 7.37998 15.13C7.01663 15.4933 6.8125 15.9861 6.8125 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    {link.label}
+  </Button>
+</div>

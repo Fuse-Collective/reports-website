@@ -1,0 +1,40 @@
+---
+/**
+ * ServiceCard — Bordered card with heading, brand icon, and description.
+ * Colocated with ServicesSection (single parent).
+ *
+ * Surface-aware via on-dark:/on-accent: — inherits from parent data-surface.
+ * Icon uses astro-icon is:inline for currentColor inheritance.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { Icon } from 'astro-icon/components';
+
+interface Props extends HTMLAttributes<'div'> {
+  heading: string;
+  icon: string;
+  description: string;
+}
+
+const { heading, icon, description, class: className, ...rest } = Astro.props;
+---
+
+<div
+  class:list={[
+    "border-t border-l p-[clamp(1rem,3vw,3rem)] grid gap-standard md:[grid-row:span_3] md:[grid-template-rows:subgrid]",
+    "border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent",
+    className
+  ]}
+  {...rest}
+>
+  <h3 class="font-body font-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent text-headline-sm leading-normal lg:text-body-lg lg:leading-normal">
+    {heading}
+  </h3>
+  <Icon
+    name={`brand/${icon}`}
+    is:inline
+    class="shrink-0 w-[80px] h-[80px] lg:w-[120px] lg:h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent"
+  />
+  <p class="font-body text-label leading-loose lg:text-body lg:leading-relaxed text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+    {description}
+  </p>
+</div>

@@ -1,0 +1,65 @@
+---
+/**
+ * ServicesSection — SectionIntro header + 3×2 grid of bordered service cards.
+ *
+ * Figma sources:
+ *   Desktop: 912:17979 (1920px, bg-surface-dark)
+ *   Mobile:  1253:34937 (360px, single column)
+ *
+ * Surface variants via data-surface attribute.
+ */
+import SectionIntro from '../../ui/SectionIntro.astro';
+import ServiceCard from './ServiceCard.astro';
+
+interface Service {
+  heading: string;
+  icon: string;
+  description: string;
+}
+
+type Surface = 'light' | 'muted' | 'dark' | 'accent';
+
+interface Props {
+  headline: string;
+  body: string;
+  services: Service[];
+  as?: 'h1' | 'h2';
+  surface?: Surface;
+}
+
+const { headline, body, services, as: headingTag = 'h2', surface = 'dark' } = Astro.props;
+
+const bgMap: Record<Surface, string> = {
+  light: 'bg-surface-light',
+  muted: 'bg-surface-muted',
+  dark: 'bg-surface-dark',
+  accent: 'bg-surface-accent',
+};
+---
+
+<section
+  class:list={[bgMap[surface], "py-comfortable lg:py-monumental"]}
+  data-surface={surface}
+  data-section-type="services"
+>
+  <div class="px-page-gutter">
+
+    <SectionIntro
+      headline={headline}
+      body={body}
+      indicator
+      as={headingTag}
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:[grid-template-rows:repeat(6,auto)] lg:[grid-template-rows:repeat(6,auto)] mt-[72px] border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent">
+      {services.map((service) => (
+        <ServiceCard
+          heading={service.heading}
+          icon={service.icon}
+          description={service.description}
+        />
+      ))}
+    </div>
+
+  </div>
+</section>

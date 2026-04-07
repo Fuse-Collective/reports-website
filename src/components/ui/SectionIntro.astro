@@ -1,0 +1,41 @@
+---
+/**
+ * SectionIntro — 50/50 intro header reused across sections.
+ * Left: headline + optional extra (slot). Right: optional indicator + body.
+ *
+ * Surface-aware via on-dark:/on-accent: — inherits from parent data-surface.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import { Icon } from 'astro-icon/components';
+
+interface Props extends HTMLAttributes<'div'> {
+  headline: string;
+  body: string;
+  indicator?: boolean;
+  as?: 'h1' | 'h2';
+}
+
+const { headline, body, indicator = false, as: Tag = 'h2', class: className, ...rest } = Astro.props;
+const hasLeftExtra = Astro.slots.has('left-extra');
+---
+
+<div class:list={["grid grid-cols-1 lg:grid-cols-2 gap-relaxed", className]} {...rest}>
+  <div class:list={["flex flex-col", hasLeftExtra && "gap-comfortable"]}>
+    <Tag class="font-body font-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent text-headline-sm leading-normal lg:text-display-lg lg:leading-normal">
+      {headline}
+    </Tag>
+    {hasLeftExtra && <slot name="left-extra" />}
+  </div>
+  <div class="flex flex-col gap-comfortable">
+    {indicator && (
+      <Icon
+        name="indicator-circle"
+        size={120}
+        class="shrink-0 w-[80px] h-[80px] lg:w-[120px] lg:h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent"
+      />
+    )}
+    <p class="font-body text-body leading-relaxed lg:text-body-lg lg:leading-normal text-on-surface-secondary on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+      {body}
+    </p>
+  </div>
+</div>

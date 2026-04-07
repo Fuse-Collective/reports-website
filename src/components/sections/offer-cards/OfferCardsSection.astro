@@ -1,0 +1,67 @@
+---
+/**
+ * OfferCardsSection — SectionIntro header + grid of bordered offer cards.
+ *
+ * Figma sources:
+ *   Desktop: 1406:41511 (1920px)
+ *   Mobile:  1406:41882 (360px)
+ *
+ * Surface variants via data-surface attribute.
+ */
+import SectionIntro from '../../ui/SectionIntro.astro';
+import OfferCard from './OfferCard.astro';
+
+interface Card {
+  headline: string;
+  icon: string;
+  body: string;
+  link: { label: string; href: string };
+}
+
+type Surface = 'light' | 'muted' | 'dark' | 'accent';
+
+interface Props {
+  headline: string;
+  description: string;
+  cards?: Card[];
+  as?: 'h1' | 'h2';
+  surface?: Surface;
+}
+
+const { headline, description, cards, as: headingTag = 'h2', surface = 'muted' } = Astro.props;
+const hasCards = cards && cards.length > 0;
+
+const bgMap: Record<Surface, string> = {
+  light: 'bg-surface-light',
+  muted: 'bg-surface-muted',
+  dark: 'bg-surface-dark',
+  accent: 'bg-surface-accent',
+};
+---
+
+<section
+  class:list={[bgMap[surface], "py-comfortable lg:py-monumental"]}
+  data-surface={surface}
+  data-section-type="offer-cards"
+>
+  <div class="px-page-gutter">
+
+    <SectionIntro
+      headline={headline}
+      body={description}
+      indicator
+      as={headingTag}
+    />
+
+    {hasCards && (
+      <div class="grid grid-cols-1 lg:grid-cols-2 lg:[grid-template-rows:repeat(3,auto)] mt-[72px] border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent">
+        {cards.map((card) => (
+          <OfferCard headline={card.headline} icon={card.icon} link={card.link}>
+            <Fragment set:html={card.body} />
+          </OfferCard>
+        ))}
+      </div>
+    )}
+
+  </div>
+</section>

@@ -1,9 +1,106 @@
 ---
 import PreviewLayout from '../../layouts/PreviewLayout.astro';
+import OfferCardsSection from '../../components/sections/offer-cards/OfferCardsSection.astro';
+import ServicesSection from '../../components/sections/services/ServicesSection.astro';
+
+const offerCards = [
+  {
+    headline: "Rebranding i odświeżanie wizerunku",
+    icon: "rebranding",
+    body: 'Przeprowadzamy klientów przez skomplikowane <strong>procesy zmiany wizerunku</strong>. Czasem przyjmują one formę ewolucyjnego liftingu, a czasem rewolucyjnego rebrandingu.',
+    link: { label: "Więcej o rebrandingu", href: "#rebranding" },
+  },
+  {
+    headline: "Tworzymy nowe marki",
+    icon: "nowa-marka",
+    body: 'Pomagamy klientom od początku <strong>świadomie podejść do budowy marki</strong>, aby dać jej lepszy start.',
+    link: { label: "Więcej o budowaniu marki", href: "#budowa-marki" },
+  },
+];
+
+const services = [
+  { heading: "Tworzymy strategie marek i doradzamy", icon: "strategia", description: "Nie musisz znać się na wizerunku, to nasza specjalizacja. Wystarczy, że znasz swój biznes." },
+  { heading: "Projektujemy identyfikacje wizualne i komunikację", icon: "identyfikacja", description: "Rozbudowane systemy identyfikacji wizualnej oraz materiały marketingowe to namacalne efekty naszej pracy." },
+  { heading: "Budujemy systemy komunikacji", icon: "komunikacja", description: "Odpowiednio dobrane słowa i treści pomagają budować zaufanie oraz w zrozumiały sposób opowiadają o marce." },
+  { heading: "Dopasowujemy autorski proces do kontekstu", icon: "proces", description: "Przez 10 lat wypracowaliśmy powtarzalne podejście tworzenia, badania i ulepszania rozwiązań." },
+  { heading: "Realizujemy złożone projekty dla liderów", icon: "lider", description: "Pracujemy z liderami lub pretendentami nad złożonymi problemami, lub gdy marka wymaga głębszych zmian." },
+  { heading: "Dajemy świeże spojrzenie", icon: "spojrzenie", description: "Synergia doświadczeń z różnych branż zapewnia świeżość, a przywiązanie do detalu wysoką jakość oraz estetykę." },
+];
 ---
 
 <PreviewLayout title="Section Templates" current="/design-system/sections/">
-  <div class="py-monumental px-page-gutter">
-    <p class="font-body text-body text-text-muted">Sekcje pojawia sie tu w miare budowy — jedna po drugiej.</p>
+
+  {/* OfferCardsSection */}
+  <div class="surface-preview" data-default-surface="muted">
+    <div class="flex items-center gap-compact px-page-gutter pt-comfortable pb-compact">
+      <h2 class="font-body text-headline-sm text-on-surface-dark">OfferCardsSection</h2>
+      <div class="flex gap-tight ml-auto surface-buttons">
+        <button data-surface-target="light" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">light</button>
+        <button data-surface-target="muted" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer bg-on-surface-dark text-on-surface-light">muted</button>
+        <button data-surface-target="dark" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">dark</button>
+        <button data-surface-target="accent" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">accent</button>
+      </div>
+    </div>
+    <OfferCardsSection
+      headline="Specjalizujemy się w kompleksowych projektach z dwóch obszarów"
+      description="Pracujemy z liderami lub pretendentami bardzo różnych branż nad rozwiązaniem złożonych problemów brandingowych."
+      cards={offerCards}
+      as="h1"
+    />
   </div>
+
+  {/* ServicesSection */}
+  <div class="surface-preview" data-default-surface="dark">
+    <div class="flex items-center gap-compact px-page-gutter pt-comfortable pb-compact">
+      <h2 class="font-body text-headline-sm text-on-surface-dark">ServicesSection</h2>
+      <div class="flex gap-tight ml-auto surface-buttons">
+        <button data-surface-target="light" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">light</button>
+        <button data-surface-target="muted" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">muted</button>
+        <button data-surface-target="dark" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer bg-on-surface-dark text-on-surface-light">dark</button>
+        <button data-surface-target="accent" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">accent</button>
+      </div>
+    </div>
+    <ServicesSection
+      headline="Klienci wybierają nas i zostają z nami na dłużej"
+      body="Widząc efekty rozumieją, że jesteśmy inni niż agencje, z którymi wcześniej pracowali."
+      services={services}
+    />
+  </div>
+
 </PreviewLayout>
+
+<script>
+  const bgMap: Record<string, string> = {
+    light: 'bg-surface-light',
+    muted: 'bg-surface-muted',
+    dark: 'bg-surface-dark',
+    accent: 'bg-surface-accent',
+  };
+  const allBgClasses = Object.values(bgMap);
+  const activeBtn = 'bg-on-surface-dark text-on-surface-light';
+  const inactiveBtn = 'hover:bg-surface-muted';
+
+  document.querySelectorAll('.surface-preview').forEach((preview) => {
+    const section = preview.querySelector('section[data-surface]') as HTMLElement;
+    if (!section) return;
+
+    preview.querySelectorAll('[data-surface-target]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const surface = (btn as HTMLElement).dataset.surfaceTarget!;
+
+        // Update section
+        section.dataset.surface = surface;
+        section.classList.remove(...allBgClasses);
+        section.classList.add(bgMap[surface]);
+
+        // Update active button state
+        preview.querySelectorAll('[data-surface-target]').forEach((b) => {
+          b.classList.remove(...activeBtn.split(' '));
+          b.classList.add(...inactiveBtn.split(' '));
+        });
+        btn.classList.remove(...inactiveBtn.split(' '));
+        btn.classList.add(...activeBtn.split(' '));
+      });
+    });
+  });
+</script>

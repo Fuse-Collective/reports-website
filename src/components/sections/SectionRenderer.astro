@@ -1,9 +1,10 @@
 ---
 /**
  * Dispatcher — renders the correct section template based on section.type.
- * Placeholder: renders section type + headline as debug output.
- * Will be replaced with actual template imports in Faza 3.
+ * Built sections get their own component; unbuilt ones show a placeholder.
  */
+import OfferCardsSection from './offer-cards/OfferCardsSection.astro';
+import ServicesSection from './services/ServicesSection.astro';
 
 interface Props {
   section: Record<string, unknown>;
@@ -14,8 +15,14 @@ const type = section.type as string;
 const headline = (section as Record<string, unknown>).headline as string | undefined;
 ---
 
-<section class="py-monumental px-page-gutter bg-surface-light" data-section-type={type}>
-  <p class="text-label-sm text-text-muted font-body">[{type}]</p>
-  {headline && <h2 class="text-display-lg text-on-surface-dark font-body">{headline}</h2>}
-  <p class="text-body-sm text-text-muted font-body mt-compact">Placeholder — template not yet built.</p>
-</section>
+{type === 'offer-cards' ? (
+  <OfferCardsSection {...section as any} />
+) : type === 'services-grid' ? (
+  <ServicesSection {...section as any} />
+) : (
+  <section class="py-monumental px-page-gutter bg-surface-light" data-section-type={type}>
+    <p class="text-label-sm text-text-muted font-body">[{type}]</p>
+    {headline && <h2 class="text-display-lg text-on-surface-dark font-body">{headline}</h2>}
+    <p class="text-body-sm text-text-muted font-body mt-compact">Placeholder — template not yet built.</p>
+  </section>
+)}

@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import icon from 'astro-icon';
 
 export default defineConfig({
   site: 'https://reports-website.com',
@@ -9,6 +10,9 @@ export default defineConfig({
 
   integrations: [
     sitemap(),
+    icon({
+      iconDir: 'src/icons',
+    }),
   ],
 
   vite: {

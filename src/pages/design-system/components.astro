@@ -1,7 +1,6 @@
 ---
 import PreviewLayout from '../../layouts/PreviewLayout.astro';
 import Button from '../../components/ui/Button.astro';
-import SectionHeader from '../../components/ui/SectionHeader.astro';
 ---
 
 <PreviewLayout title="UI Components" current="/design-system/components/">
@@ -37,6 +36,12 @@ import SectionHeader from '../../components/ui/SectionHeader.astro';
           <td class="py-tight pr-relaxed text-text-muted">string</td>
           <td class="py-tight pr-relaxed text-text-muted">"#"</td>
           <td class="py-tight font-body text-text-muted">URL</td>
+        </tr>
+        <tr class="border-b border-outline-subtle">
+          <td class="py-tight pr-relaxed">...rest</td>
+          <td class="py-tight pr-relaxed text-text-muted">HTMLAttributes&lt;'a'&gt;</td>
+          <td class="py-tight pr-relaxed text-text-muted">—</td>
+          <td class="py-tight font-body text-text-muted">aria-label, target, rel, data-* itp.</td>
         </tr>
         <tr>
           <td class="py-tight pr-relaxed">slot="icon"</td>
@@ -102,7 +107,7 @@ import SectionHeader from '../../components/ui/SectionHeader.astro';
   </div>
 
   <!-- ===================== LINK BUTTON ===================== -->
-  <div class="py-comfortable px-page-gutter border-b border-outline-light" id="link-button">
+  <div class="py-comfortable px-page-gutter" id="link-button">
     <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.2 Link Button</h2>
     <code class="font-mono text-label text-on-surface-dark block mb-compact">variant="text-link"</code>
     <p class="font-body text-label-sm text-text-muted mb-relaxed">Strzalka zawsze po prawej. Ikona opcjonalnie po lewej. Hover: underline wjezdza od lewej.</p>
@@ -132,30 +137,6 @@ import SectionHeader from '../../components/ui/SectionHeader.astro';
         </Button>
         <code class="font-mono text-label-sm text-text-muted">+ book icon (left)</code>
       </div>
-    </div>
-  </div>
-
-  <!-- ===================== SECTION HEADER ===================== -->
-  <div class="py-comfortable px-page-gutter" id="section-header">
-    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.3 SectionHeader</h2>
-    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/SectionHeader.astro</code>
-    <p class="font-body text-label-sm text-text-muted mb-relaxed">Asymmetric Dialogue 50/50. Props: headline, body?, indicator?, headlineSize?</p>
-
-    <div class="mb-comfortable">
-      <code class="font-mono text-label-sm text-text-muted block mb-compact">&lt;SectionHeader headline="..." body="..." /&gt;</code>
-      <SectionHeader
-        headline="Obserwujesz u siebie te problemy?"
-        body="Od ponad 15 lat pomagamy firmom w budowaniu silnej marki i spojnej identyfikacji wizualnej."
-      />
-    </div>
-
-    <div>
-      <code class="font-mono text-label-sm text-text-muted block mb-compact">&lt;SectionHeader headline="..." body="..." indicator /&gt;</code>
-      <SectionHeader
-        headline="Klienci wybieraja nas i zostaja z nami na dluzej"
-        body="Dzialajac oferte uslug doradczych, laczymy strategie marki z systemem komunikacji i procesami."
-        indicator
-      />
     </div>
   </div>
 

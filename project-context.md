@@ -28,5 +28,33 @@ None
 - playwright_vrt: true
 - figma_export: true
 
+## Responsive Strategy
+```yaml
+responsive_strategy:
+  decided_at: "Build-Figma - HeroSection"
+  container:
+    model: fluid-max-width
+    max_width: 1575px
+    padding: clamp(1rem, 5vw, 8.25vw)  # single fluid token, no breakpoint needed
+  breakpoints:
+    primary: lg
+  typography:
+    approach: fixed
+    applies_to: [H1, body, CTA-link]
+  spacing:
+    approach: fixed
+    applies_to: section-padding
+    fixed_elements: [component-gaps]
+  layout_transitions:
+    - section: HeroSection
+      pattern: "1-col → 2-col (Asymmetric Dialogue + cards side-by-side)"
+      breakpoint: lg
+    - section: Nav
+      pattern: "hamburger → full menu"
+      breakpoint: lg
+  full_bleed_sections: []
+  section_overrides: {}
+```
+
 ## Session State
-2026-04-01 — Session saved. Design complete. Next: register sections → /web:build.
+2026-04-03 — 2/8 sections built (OfferCards + Services). Surface system, SectionIntro, collapsed borders, subgrid, astro-icon, preview switcher. Next: PainPointSection or TestimonialSection.

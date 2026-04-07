@@ -1,16 +1,17 @@
 ---
-interface Props {
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> {
   variant: 'primary' | 'secondary' | 'text-link';
   surface?: 'light' | 'accent' | 'dark';
   href?: string;
-  class?: string;
 }
 
-const { variant, surface = 'light', href = '#', class: className } = Astro.props;
+const { variant, surface = 'light', href = '#', class: className, ...rest } = Astro.props;
 
 const hasIcon = Astro.slots.has('icon');
 const isTextLink = variant === 'text-link';
-const base = 'inline-flex items-center font-body text-title-lg leading-loose font-normal transition-[background-color,color,border-color] duration-150 ease-in-out cursor-pointer';
+const base = 'inline-flex items-center font-body text-title-lg leading-loose font-normal transition-[background-color,color,border-color] duration-150 ease-in-out cursor-pointer self-start justify-self-start';
 const iconGap = hasIcon && !isTextLink ? 'justify-between gap-relaxed' : isTextLink ? 'gap-compact' : 'justify-center';
 const pill = 'rounded-button px-comfortable py-[26px] border-[1.6px]';
 
@@ -32,10 +33,10 @@ const styles: Record<string, Record<string, string>> = {
   },
 };
 
-const iconSize = isTextLink ? 'w-[48px] h-[48px]' : 'w-[48px] h-[48px]';
+const iconSize = 'w-[48px] h-[48px]';
 ---
 
-<a href={href} class:list={[base, iconGap, styles[variant][surface], className]}>
+<a href={href} class:list={[base, iconGap, styles[variant][surface], className]} {...rest}>
   {/* text-link: icon LEFT of label */}
   {isTextLink && hasIcon && (
     <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>

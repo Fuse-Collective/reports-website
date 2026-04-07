@@ -132,7 +132,7 @@ Depth exclusively through tonal layering — surface color shifts — not shadow
 | `--spacing-comfortable` | 48px | 3rem | `gap-comfortable`, `p-comfortable` | Card internal padding, button padding |
 | `--spacing-breathing` | 55px | 3.4375rem | `px-breathing` | Page horizontal gutter |
 | `--spacing-monumental` | 112px | 7rem | `py-monumental` | Section vertical padding |
-| `--spacing-page-gutter` | 8.25vw | 8.25vw | `px-page-gutter` | Full page-level left/right padding |
+| `--spacing-page-gutter` | clamp(1rem, 5vw, 8.25vw) | — | `px-page-gutter` | Full page-level left/right padding (fluid) |
 
 ### Vertical Rhythm Rule
 
@@ -158,7 +158,7 @@ Depth exclusively through tonal layering — surface color shifts — not shadow
 
 ### Container & Grid
 
-- **Page gutter:** `--spacing-page-gutter` (8.25vw, ~138px on 1670px viewport)
+- **Page gutter:** `--spacing-page-gutter` — `clamp(1rem, 5vw, 8.25vw)`, fluid from 16px (mobile) to ~158px (1920px)
 - **Content width:** Fluid, ~1260–1378px on 1440–1670px viewport
 - **Blog body:** Centered ~700px column
 - **No explicit `max-width`** — containers fill gutter-constrained parent
@@ -188,118 +188,7 @@ All multi-column layouts stack to single column on mobile.
 
 ## 7. Components
 
-### 7.1 Navigation
-
-Horizontal top bar. Logo left, text links right. Static (not sticky), transparent background.
-
-- Links: `text-body-md` (18px), weight 400, `text-on-surface-dark`, no decoration
-- Active: thin underline (`text-underline-offset: 4px`)
-- Height: 112px
-- Max 7 links. Hamburger on mobile.
-
-**Rule:** Never has its own background. Never sticky. Never bold. Active = simple underline.
-
-### 7.2 Buttons
-
-**Variant A: Primary CTA (Yellow Pill)**
-- Background: `bg-primary` | Text: `text-on-primary` | Border: 1.6px solid `border-primary`
-- Border-radius: `rounded-button` (80px) | Font: `text-title-lg` (24px), weight 400
-- Padding: 26px 48px
-
-**Variant B: Dark CTA (Dark Pill)**
-- Background: `bg-on-surface-dark` | Text: `text-on-surface-light`
-- Used on yellow surfaces. Same dimensions as Primary.
-
-**Variant C: Ghost Button (Outline Pill)**
-- Background: transparent | Border: 1.6px solid matching text color
-- On light: `border-on-surface-dark`. On dark: `border-on-surface-light`.
-
-**Variant D: Text Link with Arrow**
-- Inline text + right-arrow (→). No text-decoration.
-- On light: `text-on-surface-dark`. On dark: `text-link-dark`.
-
-**One CTA Rule:** Max one yellow pill per section. Product heroes: yellow pill + ghost vertically (24px gap). Dark CTA only on yellow surfaces. Text links are default navigation — never use filled button where text-link suffices.
-
-### 7.3 Section Decorator — Arrow-in-Circle (Fuse Brand Icon)
-
-SVG circle (~100px) with diagonal arrow (↘).
-
-- **Variant A: Outline Circle** — thin 1px stroke, transparent fill. Heroes, section intros.
-- **Variant B: Yellow-Filled Circle** — filled `bg-primary`, dark arrow. FAQ headers, category headings.
-- **Variant C: Inline Heading Decorator** — outline, inline-left of heading with `gap-standard`.
-
-**Filled Circle Exception:** Yellow-filled variant reserved for category labels and deep-page anchor headings. Heroes use outline exclusively.
-
-### 7.4 Hero Section
-
-- **Variant A: Homepage** — 50/50 split: project image with dark overlay left, muted bg with title + CTA right
-- **Variant B: Subpage** — text-only Asymmetric Dialogue on `bg-surface-muted`
-- **Variant C: Product Page** — dual CTA (yellow pill + ghost, 24px gap)
-- **Variant D: Listing Page** — Asymmetric Dialogue, no CTAs
-- **Variant E: Case Study** — project name left, description right
-
-**Rule:** Homepage = image hero. Subpages = text-only. Never image hero or gradient on subpages.
-
-### 7.5 Article Listing Card
-
-Single-column on grey surface. Borderless tonal separation.
-
-- Background: `bg-surface-light` on `bg-surface-muted` page
-- Padding: `p-comfortable` (48px). No border, no radius, no shadow.
-- Heading: `text-card-heading` (24px, weight 600)
-- Description: `text-label-md` (16px)
-- Arrow: large SVG (→), ~60–80px. Card width: ~1008px, centered.
-
-**Borderless Card Rule:** Never borders, radius, or shadows. Tonal contrast only.
-
-### 7.6 Category Section Heading
-
-Yellow-filled circle (Variant B) inline-left + `text-headline-md` (38px). Flex, align-center, `gap-standard`.
-
-### 7.7 Services Grid
-
-3×2 bordered card grid on `bg-surface-light`. Each card: `p-comfortable`, border 0.8px `border-outline-dark`. Content: `text-card-heading` (24px/600) heading + brand icon (120px) + `text-label-md` description. Asymmetric Dialogue header above grid: headline left, indicator circle + body text right. Mobile: single-column stacked cards.
-
-### 7.8 Pricing Grid
-
-- **Variant A: Dark Surface** — `bg-surface-dark`, white text, yellow pill CTAs
-- **Variant B: Yellow Surface** — `bg-surface-accent`, white card interiors, dark pill CTAs
-- Price: `text-price-display` (52px, bold 700)
-
-**Price Anchoring Rule:** Left = value, right = cost. Dark surface → yellow CTAs; yellow surface → dark CTAs.
-
-### 7.9–7.11 Icon Grid / USP Grid / Bonus Card Grid
-
-- Icon Grid: 3×2 on dark, geometric icons (black + grey + yellow)
-- USP Grid: 3×2 on dark, `bg-surface-dark-card` cards, `border-outline-white`
-- Bonus Card Grid: 3-column on dark, `border-outline-white`
-
-### 7.12 Pain Point Section
-
-Asymmetric Dialogue layout. Left: `text-display-lg` headline + long arrow (→ 218px) + `text-body-lg` body paragraph. Right: 3×2 grid of brand icons (144px) + `text-label-md` two-line descriptions. `bg-surface-light` surface. Mobile: stacks vertically — headline block above, then 2-col icon grid.
-
-### 7.13–7.14 Methodology Grid / Testimonial Grid
-
-- Methodology: 2-column bordered, same as Offer Grid. Left = what, right = how.
-- Testimonial: 3×3, `border-outline-subtle` horizontal rules. Monochrome black client logos. LinkedIn link per card.
-
-### 7.15 CTA Accent Section (Yellow Band)
-
-- **Variant A: CTA** — page bottom, `text-display-lg` + dark pill + ghost
-- **Variant B: Statement** — mid-page, heading + body, no buttons
-
-**Rule:** No buttons in statement sections. No missing buttons in CTA sections. Max one yellow section per page.
-
-### 7.16–7.24 Remaining Components
-
-- **Pricing/Pathway Cards:** 3-column bordered. Dark path = advisory, Yellow path = transformation.
-- **Project Type Selection:** 2-column with portfolio images + circular yellow overlay CTA.
-- **FAQ Section:** `bg-surface-muted`, yellow-filled circle + `text-display-lg` heading. Q: `text-title-lg`, A: `text-body-lg`. Dot separators (· · ·).
-- **Author Box:** Name `text-title-md`, role `text-label-md`.
-- **Blog Post Body:** Centered ~700px. Pullquote: `bg-surface-muted`, no border, `p-comfortable`.
-- **Forms:** Bottom-border-only inputs. Full-width `bg-primary` submit button, `rounded-button`.
-- **Horizontal Rule:** 0.8px solid `border-outline-light`, margin `my-monumental`.
-- **Footer:** `bg-surface-dark`, 50/50 grid. Yellow links (`text-link-dark`). `text-display-xl` large heading. Social icons: outlined/white monochrome.
+Section removed — components are built from Figma source, not from pre-extracted descriptions. Component-level rules preserved in §12 Do's and Don'ts.
 
 ---
 
@@ -379,6 +268,13 @@ Minimal. Transitions only:
 - Keep all headings weight 400 (except price-display 700, card-heading 600)
 - Use `<details>/<summary>` for FAQ accordion (CSS-only, no JS)
 - Use Poppins exclusively across all text
+
+### Component Rules (extracted from §7, verified)
+- **One CTA Rule:** Max one yellow pill per section. Dark CTA only on yellow surfaces. Text links are default navigation — never use filled button where text-link suffices.
+- **Indicator Circle:** Heroes use outline variant exclusively. Yellow-filled reserved for category labels and deep-page anchor headings.
+- **Borderless Card Rule:** Listing cards never have borders, radius, or shadows. Tonal contrast only.
+- **CTA Section:** Max one yellow accent section per page. No buttons in statement variant. No missing buttons in CTA variant.
+- **Navigation:** Never sticky. Never bold. Never has its own background color.
 
 ### Don'ts
 - Never add `box-shadow` to any element

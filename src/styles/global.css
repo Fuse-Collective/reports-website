@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* === SURFACE VARIANTS === */
+/* Sections set data-surface on root element. Children use on-dark:/on-accent: to adapt. */
+@custom-variant on-dark (&:is([data-surface="dark"] *));
+@custom-variant on-accent (&:is([data-surface="accent"] *));
+
 @theme {
   /* === COLOR TOKENS === */
   --color-surface-light: #FFFFFF;
@@ -63,7 +68,7 @@
   --spacing-comfortable: 3rem;     /* 48px */
   --spacing-breathing: 3.4375rem;  /* 55px */
   --spacing-monumental: 7rem;      /* 112px */
-  --spacing-page-gutter: 8.25vw;   /* ~138px on 1670px */
+  --spacing-page-gutter: clamp(1rem, 5vw, 8.25vw);   /* 16px → ~96px@1920 → ~158px@1920 */
 
   /* === BORDER RADIUS TOKENS === */
   --radius-button: 80px;
@@ -74,6 +79,14 @@
   /* === UNMAPPED TOKENS (no @theme namespace) === */
   --overlay: rgba(29, 29, 27, 0.9);
   --transition-button: 0.15s ease-in-out;
+}
+
+/* Brand icon colors: yellow accents → white on accent surface */
+[data-surface="accent"] [data-icon] :is(path, circle, ellipse)[fill]:not([fill="none"]):not([fill="currentColor"]) {
+  fill: white;
+}
+[data-surface="accent"] [data-icon] :is(path, circle, ellipse)[stroke]:not([stroke="none"]):not([stroke="currentColor"]) {
+  stroke: white;
 }
 
 /* Text-link underline: slides in from left on hover */
