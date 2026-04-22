@@ -24,6 +24,7 @@
   --color-outline-light: #D8D8D8;
   --color-outline-dark: #191919;
   --color-outline-white: #FFFFFF;
+  --color-outline-dark-subtle: #3A3A38;
   --color-link-dark: #FECD36;
   --color-text-muted: #808080;
 
@@ -68,7 +69,10 @@
   --spacing-comfortable: 3rem;     /* 48px */
   --spacing-breathing: 3.4375rem;  /* 55px */
   --spacing-monumental: 7rem;      /* 112px */
+  --spacing-hero-top: 11rem;       /* 176px — first section top padding (clears absolute NavBar 112px + 64px breathing) */
   --spacing-page-gutter: clamp(1rem, 5vw, 8.25vw);   /* 16px → ~96px@1920 → ~158px@1920 */
+  --spacing-content-max: 98.75rem;                   /* 1580px — content max-width on wide desktops */
+  --spacing-content-half: 49.375rem;                 /* 790px — half-bleed column content (color-split sections) */
 
   /* === BORDER RADIUS TOKENS === */
   --radius-button: 80px;

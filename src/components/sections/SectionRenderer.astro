@@ -3,6 +3,11 @@
  * Dispatcher — renders the correct section template based on section.type.
  * Built sections get their own component; unbuilt ones show a placeholder.
  */
+import ReportCoverSection from './report-cover/ReportCoverSection.astro';
+import ChapterTitleSection from './chapter-title/ChapterTitleSection.astro';
+import PainBlockSection from './pain-block/PainBlockSection.astro';
+import OverviewSection from './overview/OverviewSection.astro';
+import AnalysisSection from './analysis/AnalysisSection.astro';
 import OfferCardsSection from './offer-cards/OfferCardsSection.astro';
 import ServicesSection from './services/ServicesSection.astro';
 
@@ -15,7 +20,17 @@ const type = section.type as string;
 const headline = (section as Record<string, unknown>).headline as string | undefined;
 ---
 
-{type === 'offer-cards' ? (
+{type === 'report-cover' ? (
+  <ReportCoverSection {...section as any} />
+) : type === 'chapter-title' ? (
+  <ChapterTitleSection {...section as any} />
+) : type === 'pain-block' ? (
+  <PainBlockSection {...section as any} />
+) : type === 'overview' ? (
+  <OverviewSection {...section as any} />
+) : type === 'analysis' ? (
+  <AnalysisSection {...section as any} />
+) : type === 'offer-cards' ? (
   <OfferCardsSection {...section as any} />
 ) : type === 'services-grid' ? (
   <ServicesSection {...section as any} />

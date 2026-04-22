@@ -1,0 +1,35 @@
+---
+/**
+ * ChapterTitleSection — dark chapter divider using SectionIntro.
+ * Source: wireframes/brand24-raport_raport.md §Chapter
+ * Left: chapter label + headline. Right: indicator circle + subtitle.
+ */
+import SectionIntro from '../../ui/SectionIntro.astro';
+
+interface Props {
+  headline: string;
+  subtitle?: string;
+  chapterLabel?: string;
+}
+
+const { headline, subtitle = '', chapterLabel } = Astro.props;
+---
+
+<section
+  class="bg-surface-dark py-comfortable lg:py-monumental px-page-gutter"
+  data-surface="dark"
+  data-section-type="chapter-title"
+>
+  <div class="mx-auto max-w-content-max">
+    <SectionIntro headline={headline} body={subtitle} indicator="left">
+      {chapterLabel && (
+        <span
+          slot="left-extra"
+          class="inline-block font-body text-label-sm uppercase tracking-wide text-primary border border-primary px-compact py-tight self-start order-first"
+        >
+          {chapterLabel}
+        </span>
+      )}
+    </SectionIntro>
+  </div>
+</section>

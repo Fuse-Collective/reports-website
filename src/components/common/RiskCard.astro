@@ -1,0 +1,33 @@
+---
+/**
+ * RiskCard — muted-background card for the "Gdzie leży ryzyko?" block.
+ *
+ * Figma 3644:21487 — "Border" frame, 546×470 w/ 60px padding, 48px gap,
+ * large bare icon (84×84), title H4, body paragraph.
+ */
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  icon: string;
+  title: string;
+  body: string;
+  class?: string;
+}
+
+const { icon, title, body, class: className } = Astro.props;
+---
+
+<div class:list={['flex flex-col gap-comfortable p-[60px] bg-surface-muted rounded-[4px]', className]}>
+
+  <div class="flex flex-col gap-standard">
+    <Badge icon={icon} size="lg" variant="naked" surface="muted" />
+    <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+      {title}
+    </h3>
+  </div>
+
+  <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+    {body}
+  </p>
+
+</div>

@@ -1,0 +1,56 @@
+---
+/**
+ * Logo — Fuse Collective brand mark.
+ *
+ * Source: Figma 1249:36768 / I1249:36768;202:1955 (LOGO BADGE)
+ * Stored as astro-icon at src/icons/brand/fuse-logo.svg with currentColor.
+ *
+ * Variants:
+ *   dark    → black logo (text-on-surface-dark) — use on light/accent surfaces
+ *   light   → white logo (text-on-surface-light) — use on dark surface
+ *   accent  → yellow logo (text-primary)        — special use
+ *
+ * The "fuse" letterform inside the circle is a transparent hole (even-odd fill);
+ * page background shows through automatically, providing contrast.
+ */
+import { Icon } from 'astro-icon/components';
+
+type Variant = 'dark' | 'light' | 'accent';
+
+interface Props {
+  variant?: Variant;
+  size?: number;
+  href?: string;
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  variant = 'dark',
+  size = 56,
+  href,
+  ariaLabel = 'Fuse Collective',
+  class: className = '',
+} = Astro.props;
+
+// Logo SVG has TWO sterowane kolory:
+//   currentColor → outer circle (controlled by Tailwind text-*)
+//   --logo-mark  → wordmark "fuse" overlay (set via inline CSS variable)
+const colorMap: Record<Variant, { color: string; mark: string }> = {
+  dark:   { color: 'text-on-surface-dark',  mark: 'var(--color-on-surface-light)' },
+  light:  { color: 'text-on-surface-light', mark: 'var(--color-on-surface-dark)' },
+  accent: { color: 'text-primary',          mark: 'var(--color-on-surface-dark)' },
+};
+
+const { color, mark } = colorMap[variant];
+const iconClass = `${color} ${className}`.trim();
+const iconStyle = `--logo-mark: ${mark}`;
+---
+
+{href ? (
+  <a href={href} aria-label={ariaLabel} class="shrink-0 inline-flex">
+    <Icon name="brand/fuse-logo" is:inline size={size} class={iconClass} style={iconStyle} />
+  </a>
+) : (
+  <Icon name="brand/fuse-logo" is:inline size={size} class={iconClass} style={iconStyle} aria-label={ariaLabel} />
+)}

@@ -4,8 +4,18 @@
     {
       "name": "dev",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["astro", "dev"],
-      "port": 4321
+      "runtimeArgs": ["astro", "dev", "--port", "4325"],
+      "port": 4325,
+      "autoPort": false,
+      "initialPath": "/badanie-przewag-brand24"
+    },
+    {
+      "name": "design-system",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["astro", "dev", "--port", "4322"],
+      "port": 4322,
+      "autoPort": false,
+      "initialPath": "/design-system/components/"
     }
   ]
 }

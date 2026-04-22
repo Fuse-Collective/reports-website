@@ -42,6 +42,7 @@ The lone accent color (warm golden yellow) enters like a confident handshake: fi
 | `--color-outline-light` | #D8D8D8 | `border-outline-light` | Horizontal rules, sub-section separators |
 | `--color-outline-dark` | #191919 | `border-outline-dark` | Card borders on light surfaces (offer/pricing) |
 | `--color-outline-white` | #FFFFFF | `border-outline-white` | Card borders on dark surfaces |
+| `--color-outline-dark-subtle` | #3A3A38 | `border-outline-dark-subtle` | Subtle separators on dark surfaces (table rows, list dividers) |
 | `--color-link-dark` | #FECD36 | `text-link-dark` | Links on dark backgrounds |
 | `--color-text-muted` | #808080 | `text-text-muted` | Tertiary/disabled text, meta text |
 
@@ -158,10 +159,11 @@ Depth exclusively through tonal layering — surface color shifts — not shadow
 
 ### Container & Grid
 
-- **Page gutter:** `--spacing-page-gutter` — `clamp(1rem, 5vw, 8.25vw)`, fluid from 16px (mobile) to ~158px (1920px)
-- **Content width:** Fluid, ~1260–1378px on 1440–1670px viewport
+- **Page gutter:** `--spacing-page-gutter` — `clamp(1rem, 5vw, 8.25vw)`, fluid from 16px (mobile) to ~96px (@1920)
+- **Content max-width:** `--spacing-content-max` — `1580px` (`98.75rem`). Wraps section content via `mx-auto max-w-content-max px-page-gutter`. Below this width: gutter-constrained, fluid. Above: auto margins center content, gives ~170px effective margin per side @1920.
+- **Full-bleed sections:** background colors stay on outermost `<section>` element. Content wrapper inside applies max-width.
 - **Blog body:** Centered ~700px column
-- **No explicit `max-width`** — containers fill gutter-constrained parent
+- **Half-bleed columns (color-split sections):** outer grid is full-bleed, each column flex-aligns its inner content wrapper to the divider edge. Content wrapper width = `max-w-[calc(var(--spacing-content-max)/2)]`.
 
 ### Primary Layout: Asymmetric Dialogue
 

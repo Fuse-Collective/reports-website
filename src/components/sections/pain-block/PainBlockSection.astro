@@ -1,0 +1,87 @@
+---
+/**
+ * PainBlockSection — S2: Problem / Pain Block
+ * Reference: Figma node 912:17939 (Fuse Collective — lifting-strony)
+ *
+ * Layout: 2fr:3fr grid. Left column is SectionIntro (layout=stacked-left,
+ * indicator=arrow) with optional body paragraph + optional "co to oznacza
+ * w liczbach" label and bulleted consequences list rendered in the
+ * left-extra slot. Right column is the 5-item symptom icon grid.
+ */
+import { Icon } from 'astro-icon/components';
+import SectionIntro from '../../ui/SectionIntro.astro';
+
+interface Symptom {
+  iconName: string;
+  text: string;
+}
+
+interface Consequence {
+  text: string;
+}
+
+interface Props {
+  headline: string;
+  body?: string;
+  consequenceLabel?: string;
+  consequences?: Consequence[];
+  symptoms: Symptom[];
+}
+
+const { headline, body, consequenceLabel, consequences, symptoms } = Astro.props;
+const hasList = Array.isArray(consequences) && consequences.length > 0;
+---
+
+<section
+  class="bg-surface-light py-comfortable lg:py-monumental px-page-gutter"
+  data-surface="light"
+  data-section-type="pain-block"
+>
+  <div class="mx-auto max-w-content-max grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-comfortable lg:gap-monumental">
+
+    <SectionIntro
+      headline={headline}
+      body={body}
+      layout="stacked-left"
+      indicator="arrow"
+    >
+      {hasList && (
+        <div slot="left-extra" class="flex flex-col gap-compact">
+          {consequenceLabel && (
+            <p class="font-body font-semibold text-body leading-relaxed text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
+              {consequenceLabel}
+            </p>
+          )}
+          <ul class="flex flex-col gap-standard list-none p-0 m-0">
+            {consequences!.map((c) => (
+              <li class="flex items-start gap-standard">
+                <span
+                  class="mt-[0.55em] w-2 h-2 bg-primary rounded-full shrink-0"
+                  aria-hidden="true"
+                />
+                <p class="font-body text-body leading-relaxed text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
+                  {c.text}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </SectionIntro>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-comfortable">
+      {symptoms.map((s) => (
+        <div class="flex flex-col gap-standard">
+          <Icon
+            name={s.iconName}
+            class="w-[144px] h-[144px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent shrink-0"
+          />
+          <p class="font-body text-body-sm leading-relaxed text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent max-w-[28ch] m-0">
+            {s.text}
+          </p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

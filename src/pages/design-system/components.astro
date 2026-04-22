@@ -1,6 +1,24 @@
 ---
 import PreviewLayout from '../../layouts/PreviewLayout.astro';
 import Button from '../../components/ui/Button.astro';
+import SectionIntro from '../../components/ui/SectionIntro.astro';
+import Logo from '../../components/ui/Logo.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Table from '../../components/ui/Table.astro';
+import { Icon } from 'astro-icon/components';
+
+const surfaces = ['light', 'muted', 'dark', 'accent'] as const;
+const icons = ['none', 'arrow', 'padlock', 'book'] as const;
+const btnSurface = (s: string) => s === 'muted' ? 'light' : s as 'light' | 'dark' | 'accent';
+
+const problemIcons = [
+  'problems/wizerunek',
+  'problems/niespojnosc',
+  'problems/brak-wyroznienia',
+  'problems/brak-wytycznych',
+  'problems/brak-porzadku',
+  'problems/zmiany-strategiczne',
+] as const;
 ---
 
 <PreviewLayout title="UI Components" current="/design-system/components/">
@@ -8,136 +26,485 @@ import Button from '../../components/ui/Button.astro';
   <!-- ===================== BUTTON ===================== -->
   <div class="py-comfortable px-page-gutter border-b border-outline-light" id="button">
     <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.1 Button</h2>
-    <code class="font-mono text-label text-on-surface-dark block mb-relaxed">src/components/ui/Button.astro</code>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/Button.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Variants: <code class="font-mono">primary</code>, <code class="font-mono">secondary</code>, <code class="font-mono">text-link</code>. Icon slot: right (pill) or left (text-link).</p>
+
     <table class="font-body text-label w-full mb-comfortable">
-      <thead>
-        <tr class="text-left border-b border-outline-light">
-          <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
-          <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
-          <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
-          <th class="py-tight text-text-muted font-normal">Opis</th>
-        </tr>
-      </thead>
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
       <tbody class="font-mono text-label-sm">
-        <tr class="border-b border-outline-subtle">
-          <td class="py-tight pr-relaxed">variant</td>
-          <td class="py-tight pr-relaxed text-text-muted">"primary" | "secondary"</td>
-          <td class="py-tight pr-relaxed text-text-muted">—</td>
-          <td class="py-tight font-body text-text-muted">Filled (primary) lub outline (secondary)</td>
-        </tr>
-        <tr class="border-b border-outline-subtle">
-          <td class="py-tight pr-relaxed">surface</td>
-          <td class="py-tight pr-relaxed text-text-muted">"light" | "accent" | "dark"</td>
-          <td class="py-tight pr-relaxed text-text-muted">"light"</td>
-          <td class="py-tight font-body text-text-muted">Tlo na ktorym stoi button</td>
-        </tr>
-        <tr class="border-b border-outline-subtle">
-          <td class="py-tight pr-relaxed">href</td>
-          <td class="py-tight pr-relaxed text-text-muted">string</td>
-          <td class="py-tight pr-relaxed text-text-muted">"#"</td>
-          <td class="py-tight font-body text-text-muted">URL</td>
-        </tr>
-        <tr class="border-b border-outline-subtle">
-          <td class="py-tight pr-relaxed">...rest</td>
-          <td class="py-tight pr-relaxed text-text-muted">HTMLAttributes&lt;'a'&gt;</td>
-          <td class="py-tight pr-relaxed text-text-muted">—</td>
-          <td class="py-tight font-body text-text-muted">aria-label, target, rel, data-* itp.</td>
-        </tr>
-        <tr>
-          <td class="py-tight pr-relaxed">slot="icon"</td>
-          <td class="py-tight pr-relaxed text-text-muted">SVG</td>
-          <td class="py-tight pr-relaxed text-text-muted">—</td>
-          <td class="py-tight font-body text-text-muted">Ikona po prawej (48x48)</td>
-        </tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">variant</td><td class="py-tight pr-relaxed text-text-muted">"primary" | "secondary" | "text-link"</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Filled, outline, or inline link</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">surface</td><td class="py-tight pr-relaxed text-text-muted">"light" | "accent" | "dark"</td><td class="py-tight pr-relaxed text-text-muted">"light"</td><td class="py-tight font-body text-text-muted">Background context</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">href</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">"#"</td><td class="py-tight font-body text-text-muted">URL</td></tr>
+        <tr><td class="py-tight pr-relaxed">slot="icon"</td><td class="py-tight pr-relaxed text-text-muted">SVG</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Icon right (pill) / left (text-link)</td></tr>
       </tbody>
     </table>
 
-    <!-- Primary -->
-    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Primary</h3>
-    <div class="flex flex-wrap gap-relaxed items-end mb-comfortable">
-      <div class="flex flex-col gap-tight items-start">
-        <div class="p-relaxed"><Button variant="primary">Tekst buttona</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="light"</code>
+    <div class="ds-component" data-active-surface="light" data-active-icon="none">
+      {/* Switcher row */}
+      <div class="flex flex-wrap gap-relaxed mb-compact items-center">
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Surface</span>
+          {surfaces.map((s, i) => (
+            <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+          ))}
+        </div>
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Icon</span>
+          {icons.map((ic, i) => (
+            <button data-dim="icon" data-value={ic} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{ic}</button>
+          ))}
+        </div>
       </div>
-      <div class="flex flex-col gap-tight items-start">
-        <div class="bg-surface-accent p-relaxed"><Button variant="primary" surface="accent">Tekst buttona</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="accent"</code>
-      </div>
-      <div class="flex flex-col gap-tight items-start">
-        <div class="bg-surface-dark p-relaxed"><Button variant="primary" surface="dark">Tekst buttona</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="dark"</code>
-      </div>
-    </div>
 
-    <!-- Secondary -->
-    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Secondary</h3>
-    <div class="flex flex-wrap gap-relaxed items-end mb-comfortable">
-      <div class="flex flex-col gap-tight items-start">
-        <div class="p-relaxed"><Button variant="secondary">Tekst buttona</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="light"</code>
-      </div>
-      <div class="flex flex-col gap-tight items-start">
-        <div class="bg-surface-accent p-relaxed"><Button variant="secondary" surface="accent">Tekst buttona</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="accent"</code>
-      </div>
-      <div class="flex flex-col gap-tight items-start">
-        <div class="bg-surface-dark p-relaxed"><Button variant="secondary" surface="dark">Tekst buttona</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="dark"</code>
-      </div>
-    </div>
+      {/* Panels — one per surface × one row per icon */}
+      {surfaces.map((s) => (
+        <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
 
-    <!-- With icon -->
-    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Z ikona</h3>
-    <div class="flex flex-wrap gap-relaxed items-end">
-      <div class="flex flex-col gap-tight items-start">
-        <Button variant="primary">
-          Najnowsze realizacje
-          <svg slot="icon" viewBox="0 0 67 64" fill="none"><path d="M20.97 16.97L49.25 16.97V45.25" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18.14 48.08L47.48 18.75" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/></svg>
-        </Button>
-        <code class="font-mono text-label-sm text-text-muted">primary + arrow</code>
-      </div>
-      <div class="flex flex-col gap-tight items-start">
-        <Button variant="secondary">
-          Zobacz portfolio
-          <svg slot="icon" viewBox="0 0 67 64" fill="none"><path d="M20.97 16.97L49.25 16.97V45.25" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18.14 48.08L47.48 18.75" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/></svg>
-        </Button>
-        <code class="font-mono text-label-sm text-text-muted">secondary + arrow</code>
-      </div>
+          {/* Column headers */}
+          <div class="grid grid-cols-3 gap-comfortable mb-compact">
+            <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">Primary</p>
+            <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">Secondary</p>
+            <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">Text-link</p>
+          </div>
+
+          {/* Row: no icon */}
+          <div class="grid grid-cols-3 gap-comfortable items-start" data-row-icon="none">
+            <div><Button variant="primary" surface={btnSurface(s)}>Tekst buttona</Button></div>
+            <div><Button variant="secondary" surface={btnSurface(s)}>Tekst buttona</Button></div>
+            <div><Button variant="text-link" surface={btnSurface(s)}>Tekst linka</Button></div>
+          </div>
+
+          {/* Row: arrow */}
+          <div class="grid grid-cols-3 gap-comfortable items-start hidden" data-row-icon="arrow">
+            <div>
+              <Button variant="primary" surface={btnSurface(s)}>
+                Realizacje
+                <svg slot="icon" viewBox="0 0 67 64" fill="none"><path d="M20.97 16.97L49.25 16.97V45.25" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18.14 48.08L47.48 18.75" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/></svg>
+              </Button>
+            </div>
+            <div>
+              <Button variant="secondary" surface={btnSurface(s)}>
+                Portfolio
+                <svg slot="icon" viewBox="0 0 67 64" fill="none"><path d="M20.97 16.97L49.25 16.97V45.25" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><path d="M18.14 48.08L47.48 18.75" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"/></svg>
+              </Button>
+            </div>
+            <div>
+              <Button variant="text-link" surface={btnSurface(s)}>
+                Rebranding
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><path d="M32 22.31C32 20.26 32.82 18.29 34.27 16.83C35.72 15.38 37.69 14.56 39.75 14.56H55.25C55.76 14.56 56.26 14.77 56.62 15.13C56.98 15.49 57.19 15.99 57.19 16.5V47.5C57.19 48.01 56.98 48.51 56.62 48.87C56.26 49.23 55.76 49.44 55.25 49.44H39.75C37.69 49.44 35.72 50.25 34.27 51.71C32.82 53.16 32 55.13 32 57.19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.81 47.5C6.81 48.01 7.02 48.51 7.38 48.87C7.74 49.23 8.24 49.44 8.75 49.44H24.25C26.31 49.44 28.28 50.25 29.73 51.71C31.18 53.16 32 55.13 32 57.19V22.31C32 20.26 31.18 18.29 29.73 16.83C28.28 15.38 26.31 14.56 24.25 14.56H8.75C8.24 14.56 7.74 14.77 7.38 15.13C7.02 15.49 6.81 15.99 6.81 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </Button>
+            </div>
+          </div>
+
+          {/* Row: padlock */}
+          <div class="grid grid-cols-3 gap-comfortable items-start hidden" data-row-icon="padlock">
+            <div>
+              <Button variant="primary" surface={btnSurface(s)}>
+                Odblokuj
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><rect x="14" y="32" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2"/><path d="M22 32V22C22 14.268 27.268 9 34 9V9C40.732 9 46 14.268 46 22V32" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><circle cx="32" cy="44" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              </Button>
+            </div>
+            <div>
+              <Button variant="secondary" surface={btnSurface(s)}>
+                Odblokuj
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><rect x="14" y="32" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2"/><path d="M22 32V22C22 14.268 27.268 9 34 9V9C40.732 9 46 14.268 46 22V32" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><circle cx="32" cy="44" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              </Button>
+            </div>
+            <div>
+              <Button variant="text-link" surface={btnSurface(s)}>
+                Odblokuj
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><rect x="14" y="32" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2"/><path d="M22 32V22C22 14.268 27.268 9 34 9V9C40.732 9 46 14.268 46 22V32" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><circle cx="32" cy="44" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              </Button>
+            </div>
+          </div>
+
+          {/* Row: book */}
+          <div class="grid grid-cols-3 gap-comfortable items-start hidden" data-row-icon="book">
+            <div>
+              <Button variant="primary" surface={btnSurface(s)}>
+                Rebranding
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><path d="M32 22.31C32 20.26 32.82 18.29 34.27 16.83C35.72 15.38 37.69 14.56 39.75 14.56H55.25C55.76 14.56 56.26 14.77 56.62 15.13C56.98 15.49 57.19 15.99 57.19 16.5V47.5C57.19 48.01 56.98 48.51 56.62 48.87C56.26 49.23 55.76 49.44 55.25 49.44H39.75C37.69 49.44 35.72 50.25 34.27 51.71C32.82 53.16 32 55.13 32 57.19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.81 47.5C6.81 48.01 7.02 48.51 7.38 48.87C7.74 49.23 8.24 49.44 8.75 49.44H24.25C26.31 49.44 28.28 50.25 29.73 51.71C31.18 53.16 32 55.13 32 57.19V22.31C32 20.26 31.18 18.29 29.73 16.83C28.28 15.38 26.31 14.56 24.25 14.56H8.75C8.24 14.56 7.74 14.77 7.38 15.13C7.02 15.49 6.81 15.99 6.81 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </Button>
+            </div>
+            <div>
+              <Button variant="secondary" surface={btnSurface(s)}>
+                Rebranding
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><path d="M32 22.31C32 20.26 32.82 18.29 34.27 16.83C35.72 15.38 37.69 14.56 39.75 14.56H55.25C55.76 14.56 56.26 14.77 56.62 15.13C56.98 15.49 57.19 15.99 57.19 16.5V47.5C57.19 48.01 56.98 48.51 56.62 48.87C56.26 49.23 55.76 49.44 55.25 49.44H39.75C37.69 49.44 35.72 50.25 34.27 51.71C32.82 53.16 32 55.13 32 57.19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.81 47.5C6.81 48.01 7.02 48.51 7.38 48.87C7.74 49.23 8.24 49.44 8.75 49.44H24.25C26.31 49.44 28.28 50.25 29.73 51.71C31.18 53.16 32 55.13 32 57.19V22.31C32 20.26 31.18 18.29 29.73 16.83C28.28 15.38 26.31 14.56 24.25 14.56H8.75C8.24 14.56 7.74 14.77 7.38 15.13C7.02 15.49 6.81 15.99 6.81 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </Button>
+            </div>
+            <div>
+              <Button variant="text-link" surface={btnSurface(s)}>
+                Rebranding
+                <svg slot="icon" viewBox="0 0 64 64" fill="none"><path d="M32 22.31C32 20.26 32.82 18.29 34.27 16.83C35.72 15.38 37.69 14.56 39.75 14.56H55.25C55.76 14.56 56.26 14.77 56.62 15.13C56.98 15.49 57.19 15.99 57.19 16.5V47.5C57.19 48.01 56.98 48.51 56.62 48.87C56.26 49.23 55.76 49.44 55.25 49.44H39.75C37.69 49.44 35.72 50.25 34.27 51.71C32.82 53.16 32 55.13 32 57.19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.81 47.5C6.81 48.01 7.02 48.51 7.38 48.87C7.74 49.23 8.24 49.44 8.75 49.44H24.25C26.31 49.44 28.28 50.25 29.73 51.71C31.18 53.16 32 55.13 32 57.19V22.31C32 20.26 31.18 18.29 29.73 16.83C28.28 15.38 26.31 14.56 24.25 14.56H8.75C8.24 14.56 7.74 14.77 7.38 15.13C7.02 15.49 6.81 15.99 6.81 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </Button>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 
-  <!-- ===================== LINK BUTTON ===================== -->
-  <div class="py-comfortable px-page-gutter" id="link-button">
-    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.2 Link Button</h2>
-    <code class="font-mono text-label text-on-surface-dark block mb-compact">variant="text-link"</code>
-    <p class="font-body text-label-sm text-text-muted mb-relaxed">Strzalka zawsze po prawej. Ikona opcjonalnie po lewej. Hover: underline wjezdza od lewej.</p>
+  <!-- ===================== SECTION INTRO ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light" id="section-intro">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.2 SectionIntro</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/SectionIntro.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">50/50 header. Left: headline. Right: optional indicator + body.</p>
 
-    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Bez ikony</h3>
-    <div class="flex flex-wrap gap-comfortable items-end mb-comfortable">
-      <div class="flex flex-col gap-tight items-start">
-        <div class="p-relaxed"><Button variant="text-link">Tekst linka</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="light"</code>
+    <div class="ds-component" data-active-surface="light" data-active-indicator="right">
+      <div class="flex flex-wrap gap-relaxed mb-compact items-center">
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Surface</span>
+          {surfaces.map((s, i) => (
+            <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+          ))}
+        </div>
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Indicator</span>
+          {['right', 'left', 'none'].map((v, i) => (
+            <button data-dim="indicator" data-value={v} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{v}</button>
+          ))}
+        </div>
       </div>
-      <div class="flex flex-col gap-tight items-start">
-        <div class="bg-surface-accent p-relaxed"><Button variant="text-link" surface="accent">Tekst linka</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="accent"</code>
-      </div>
-      <div class="flex flex-col gap-tight items-start">
-        <div class="bg-surface-dark p-relaxed"><Button variant="text-link" surface="dark">Tekst linka</Button></div>
-        <code class="font-mono text-label-sm text-text-muted">surface="dark"</code>
-      </div>
+
+      {surfaces.map((s) => (
+        <section class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+          <div data-row-indicator="right">
+            <SectionIntro
+              headline="Specjalizujemy się w kompleksowych projektach"
+              body="Pracujemy z liderami lub pretendentami bardzo różnych branż nad rozwiązaniem złożonych problemów brandingowych."
+              indicator="right"
+            />
+          </div>
+          <div class="hidden" data-row-indicator="left">
+            <SectionIntro
+              headline="Specjalizujemy się w kompleksowych projektach"
+              body="Pracujemy z liderami lub pretendentami bardzo różnych branż nad rozwiązaniem złożonych problemów brandingowych."
+              indicator="left"
+            />
+          </div>
+          <div class="hidden" data-row-indicator="none">
+            <SectionIntro
+              headline="Specjalizujemy się w kompleksowych projektach"
+              body="Pracujemy z liderami lub pretendentami bardzo różnych branż nad rozwiązaniem złożonych problemów brandingowych."
+            />
+          </div>
+        </section>
+      ))}
     </div>
+  </div>
 
-    <h3 class="font-body text-title-lg leading-loose text-on-surface-dark mb-relaxed">Z ikona</h3>
-    <div class="flex flex-wrap gap-comfortable items-end">
-      <div class="flex flex-col gap-tight items-start">
-        <Button variant="text-link">
-          Wiecej o rebrandingu
-          <svg slot="icon" viewBox="0 0 64 64" fill="none"><path d="M32 22.31C32 20.26 32.82 18.29 34.27 16.83C35.72 15.38 37.69 14.56 39.75 14.56H55.25C55.76 14.56 56.26 14.77 56.62 15.13C56.98 15.49 57.19 15.99 57.19 16.5V47.5C57.19 48.01 56.98 48.51 56.62 48.87C56.26 49.23 55.76 49.44 55.25 49.44H39.75C37.69 49.44 35.72 50.25 34.27 51.71C32.82 53.16 32 55.13 32 57.19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.81 47.5C6.81 48.01 7.02 48.51 7.38 48.87C7.74 49.23 8.24 49.44 8.75 49.44H24.25C26.31 49.44 28.28 50.25 29.73 51.71C31.18 53.16 32 55.13 32 57.19V22.31C32 20.26 31.18 18.29 29.73 16.83C28.28 15.38 26.31 14.56 24.25 14.56H8.75C8.24 14.56 7.74 14.77 7.38 15.13C7.02 15.49 6.81 15.99 6.81 16.5V47.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </Button>
-        <code class="font-mono text-label-sm text-text-muted">+ book icon (left)</code>
+  <!-- ===================== SECTION INTRO (stacked-left) ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light" id="section-intro-stacked">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.3 SectionIntro — stacked-left</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/SectionIntro.astro · layout="stacked-left"</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Renders only the stacked intro block (headline + optional indicator + body). The host wraps it in its own grid and places sibling content next to it — so the host controls column ratio and composition.</p>
+
+    <div class="ds-component" data-active-surface="light" data-active-indicator="arrow">
+      <div class="flex flex-wrap gap-relaxed mb-compact items-center">
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Surface</span>
+          {surfaces.map((s, i) => (
+            <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+          ))}
+        </div>
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Indicator</span>
+          {['arrow', 'left', 'none'].map((v, i) => (
+            <button data-dim="indicator" data-value={v} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{v}</button>
+          ))}
+        </div>
+      </div>
+
+      {surfaces.map((s) => (
+        <section class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+
+          <p class="font-body text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">
+            Standalone (host-wraps into grid):
+          </p>
+
+          <div data-row-indicator="arrow">
+            <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-comfortable lg:gap-monumental mb-comfortable">
+              <SectionIntro
+                headline="Obserwujesz u siebie te problemy?"
+                body="Od ponad 10 lat pomagamy je rozwiązywać, tworząc skuteczne strategie marek oraz wyróżniające identyfikacje wizualne."
+                layout="stacked-left"
+                indicator="arrow"
+              />
+              <div class="flex items-center justify-center border border-dashed border-outline-light on-dark:border-on-surface-light/30 on-accent:border-on-surface-dark/30 p-relaxed">
+                <span class="font-body text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">host content (grid/cards/etc.)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hidden" data-row-indicator="left">
+            <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-comfortable lg:gap-monumental mb-comfortable">
+              <SectionIntro
+                headline="Obserwujesz u siebie te problemy?"
+                body="Od ponad 10 lat pomagamy je rozwiązywać, tworząc skuteczne strategie marek oraz wyróżniające identyfikacje wizualne."
+                layout="stacked-left"
+                indicator="left"
+              />
+              <div class="flex items-center justify-center border border-dashed border-outline-light on-dark:border-on-surface-light/30 on-accent:border-on-surface-dark/30 p-relaxed">
+                <span class="font-body text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">host content</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hidden" data-row-indicator="none">
+            <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-comfortable lg:gap-monumental mb-comfortable">
+              <SectionIntro
+                headline="Obserwujesz u siebie te problemy?"
+                body="Od ponad 10 lat pomagamy je rozwiązywać, tworząc skuteczne strategie marek oraz wyróżniające identyfikacje wizualne."
+                layout="stacked-left"
+              />
+              <div class="flex items-center justify-center border border-dashed border-outline-light on-dark:border-on-surface-light/30 on-accent:border-on-surface-dark/30 p-relaxed">
+                <span class="font-body text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">host content</span>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== ICONS ===================== -->
+  <div class="py-comfortable px-page-gutter border-b border-outline-light" id="icons">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.4 Icons</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/icons/ · &lt;Icon name="..." /&gt;</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Custom SVG icons rendered via astro-icon. <code class="font-mono">currentColor</code> strokes adapt to surface text color; yellow fills stay as brand accent.</p>
+
+    <div class="ds-component" data-active-surface="light">
+      <div class="flex items-center gap-tight mb-compact">
+        <span class="font-body text-label-sm text-text-muted">Surface</span>
+        {surfaces.map((s, i) => (
+          <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+        ))}
+      </div>
+
+      {surfaces.map((s) => (
+        <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+
+          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Arrows</p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable mb-relaxed">
+            <div class="flex flex-col gap-tight items-start">
+              <Icon name="arrow-right-long" class="w-[160px] h-auto text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+              <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">arrow-right-long</code>
+            </div>
+            <div class="flex flex-col gap-tight items-start">
+              <Icon name="indicator-circle" class="w-[80px] h-[80px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+              <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">indicator-circle</code>
+            </div>
+            <div class="flex flex-col gap-tight items-start">
+              <Icon name="padlock" class="w-[64px] h-[64px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+              <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">padlock</code>
+            </div>
+          </div>
+
+          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Problems</p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable">
+            {problemIcons.map((name) => (
+              <div class="flex flex-col gap-tight items-start">
+                <Icon name={name} class="w-[120px] h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">{name}</code>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== LOGO ===================== -->
+  <div class="py-comfortable px-page-gutter" id="logo">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.5 Logo</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/Logo.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Monochromatic SVG. "Fuse" center is a hole — background shows through.</p>
+
+    <div class="ds-component" data-active-surface="light">
+      <div class="flex items-center gap-tight mb-compact">
+        <span class="font-body text-label-sm text-text-muted">Surface</span>
+        {surfaces.map((s, i) => (
+          <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+        ))}
+      </div>
+
+      {surfaces.map((s) => {
+        const v = (s === 'dark' ? 'light' : 'dark') as 'dark' | 'light' | 'accent';
+        return (
+          <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s}>
+            <div class="flex flex-wrap gap-relaxed items-end">
+              {[40, 56, 80, 120].map((size) => (
+                <div class="flex flex-col gap-tight items-start">
+                  <Logo variant={v} size={size} />
+                  <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">{size}px</code>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- ===================== BADGE ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="badge">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.6 Badge</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/Badge.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Circular icon container. Variants: <code class="font-mono">filled</code>, <code class="font-mono">outlined</code>, <code class="font-mono">naked</code>. Sizes: sm 24 · md 56 · lg 84 · xl 148. Surface drives fill/border/icon color.</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">icon</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">astro-icon name</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">size</td><td class="py-tight pr-relaxed text-text-muted">"sm" | "md" | "lg" | "xl"</td><td class="py-tight pr-relaxed text-text-muted">"md"</td><td class="py-tight font-body text-text-muted">24 · 56 · 84 · 148</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">variant</td><td class="py-tight pr-relaxed text-text-muted">"filled" | "outlined" | "naked"</td><td class="py-tight pr-relaxed text-text-muted">"filled"</td><td class="py-tight font-body text-text-muted">Container style</td></tr>
+        <tr><td class="py-tight pr-relaxed">surface</td><td class="py-tight pr-relaxed text-text-muted">"light" | "muted" | "accent" | "dark"</td><td class="py-tight pr-relaxed text-text-muted">"light"</td><td class="py-tight font-body text-text-muted">Color context</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ds-component" data-active-surface="light">
+      <div class="flex items-center gap-tight mb-compact">
+        <span class="font-body text-label-sm text-text-muted">Surface</span>
+        {surfaces.map((s, i) => (
+          <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+        ))}
+      </div>
+
+      {surfaces.map((s) => (
+        <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+
+          {/* Column headers */}
+          <div class="grid grid-cols-3 gap-comfortable mb-compact">
+            <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">Filled</p>
+            <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">Outlined</p>
+            <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">Naked</p>
+          </div>
+
+          {/* Rows: one per size */}
+          {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+            <div class="grid grid-cols-3 gap-comfortable items-center mb-standard">
+              <div class="flex flex-col gap-tight items-start">
+                <Badge icon="ads-click" size={size} variant="filled" surface={s} />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">size={size}</code>
+              </div>
+              <div class="flex flex-col gap-tight items-start">
+                <Badge icon="ads-click" size={size} variant="outlined" surface={s} />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">size={size}</code>
+              </div>
+              <div class="flex flex-col gap-tight items-start">
+                <Badge icon="ads-click" size={size} variant="naked" surface={s} />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50">size={size}</code>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== TABLE ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="table">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.7 Table</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/Table.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Comparison table. First column is the row-label (muted label style). Optional column highlight (yellow).</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">columns</td><td class="py-tight pr-relaxed text-text-muted">string[]</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Column headers (1st = row-label column)</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">rows</td><td class="py-tight pr-relaxed text-text-muted">string[][]</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Data rows (cells per row match columns)</td></tr>
+        <tr><td class="py-tight pr-relaxed">highlightedColumnIndex</td><td class="py-tight pr-relaxed text-text-muted">number</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Column to highlight yellow (excl. first)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ds-component space-y-comfortable">
+      {/* Example 1: highlighted column */}
+      <div class="p-comfortable bg-surface-light">
+        <p class="font-body text-label-sm uppercase tracking-wide text-text-muted mb-compact">With highlighted column</p>
+        <Table
+          columns={['ASPEKT', 'Brandwatch', 'Meltwater', 'Brand24']}
+          rows={[
+            ['Wdrożenie', 'Dedykowane wdrożenie', 'Guided demo', 'Konfiguracja w minuty'],
+            ['Wnioski', 'Panele danych', 'Panele danych', 'AI generuje gotowe'],
+            ['Cennik', 'Brak publicznego', 'Brak publicznego', 'Publiczny'],
+            ['Cena miesięczna', 'Indywidualna wycena', 'Indywidualna wycena', '$199/mies. (locale)'],
+          ]}
+          highlightedColumnIndex={3}
+        />
+      </div>
+
+      {/* Example 2: no highlight */}
+      <div class="p-comfortable bg-surface-light">
+        <p class="font-body text-label-sm uppercase tracking-wide text-text-muted mb-compact">Without highlight</p>
+        <Table
+          columns={['METRYKA', 'Q1', 'Q2', 'Q3', 'Q4']}
+          rows={[
+            ['MRR', '120k', '180k', '240k', '310k'],
+            ['ARPU', '$180', '$195', '$220', '$264'],
+            ['NPS', '42', '48', '51', '56'],
+          ]}
+        />
       </div>
     </div>
   </div>
 
 </PreviewLayout>
+
+<script>
+  const bgMap: Record<string, string> = {
+    light: 'bg-surface-light', muted: 'bg-surface-muted',
+    dark: 'bg-surface-dark', accent: 'bg-surface-accent',
+  };
+  const allBg = Object.values(bgMap);
+  const on = 'bg-on-surface-dark text-on-surface-light';
+  const off = 'hover:bg-surface-muted';
+
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('[data-dim]') as HTMLElement;
+    if (!btn) return;
+    const comp = btn.closest('.ds-component') as HTMLElement;
+    if (!comp) return;
+
+    const dim = btn.dataset.dim!;   // "surface", "icon", "indicator"
+    const val = btn.dataset.value!;  // "light", "arrow", "with", etc.
+
+    // Update active state on switcher buttons for this dimension
+    comp.querySelectorAll(`[data-dim="${dim}"]`).forEach((b) => {
+      b.classList.remove(...on.split(' '));
+      b.classList.add(...off.split(' '));
+    });
+    btn.classList.remove(...off.split(' '));
+    btn.classList.add(...on.split(' '));
+
+    if (dim === 'surface') {
+      // Show matching panel, hide others
+      comp.querySelectorAll('.ds-panel').forEach((panel) => {
+        const el = panel as HTMLElement;
+        el.classList.toggle('hidden', el.dataset.panelSurface !== val);
+      });
+    } else {
+      // Toggle rows by data-row-{dim}
+      comp.querySelectorAll(`[data-row-${dim}]`).forEach((row) => {
+        const el = row as HTMLElement;
+        el.classList.toggle('hidden', el.getAttribute(`data-row-${dim}`) !== val);
+      });
+    }
+  });
+</script>

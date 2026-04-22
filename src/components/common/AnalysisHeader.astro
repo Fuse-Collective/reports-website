@@ -1,0 +1,57 @@
+---
+/**
+ * AnalysisHeader — header for area-analysis sections.
+ *
+ * Visual: twin overlapping circles (dark-outlined + yellow-filled) with a
+ * centre icon, paired with H1 title + intro paragraph.
+ *
+ * Figma 3644:21487 — "Heading 3" frame. Fixed motif across areas 01–06;
+ * only the `icon` changes per area.
+ */
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  icon: string;
+  title: string;
+  intro: string;
+  class?: string;
+}
+
+const { icon, title, intro, class: className } = Astro.props;
+
+// Split title on the first ":" so we can render the lead bold and the rest
+// on a new line (without the colon). Titles without ":" render as one line.
+const colonIdx = title.indexOf(':');
+const titleLead = colonIdx >= 0 ? title.slice(0, colonIdx).trim() : title.trim();
+const titleRest = colonIdx >= 0 ? title.slice(colonIdx + 1).trim() : '';
+---
+
+<header class:list={['flex flex-col gap-standard', className]}>
+
+  <div class="grid gap-standard lg:grid-cols-[258px_1fr] lg:gap-relaxed lg:items-start">
+
+    {/* Twin overlapping circles with center icon */}
+    <div class="relative w-[258px] h-[149px] shrink-0">
+      {/* Back: yellow filled circle (right) */}
+      <span class="absolute right-0 top-[2px] w-[145px] h-[145px] rounded-full bg-primary" aria-hidden="true"></span>
+      {/* Front: dark outlined circle (left) */}
+      <span class="absolute left-0 top-0 w-[148px] h-[148px] rounded-full border-[1.98px] border-on-surface-dark bg-surface-light" aria-hidden="true"></span>
+      {/* Centre icon — inside the outlined (front) circle */}
+      <span class="absolute left-[45px] top-[46px] w-[57px] h-[57px] text-on-surface-dark">
+        <Icon name={icon} class="w-full h-full" />
+      </span>
+    </div>
+
+    {/* Title — lead (bold) on first line, rest on a new line if ":" splits it */}
+    <h2 class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-dark m-0 flex flex-col">
+      <span class="font-bold">{titleLead}</span>
+      {titleRest && <span>{titleRest}</span>}
+    </h2>
+  </div>
+
+  {/* Intro paragraph — full width under both columns */}
+  <p class="font-body text-body-md font-normal leading-normal text-on-surface-dark m-0">
+    {intro}
+  </p>
+
+</header>

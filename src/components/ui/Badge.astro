@@ -1,0 +1,65 @@
+---
+/**
+ * Badge — circular icon container.
+ *
+ * Sizes: sm 24px, md 56px, lg 84px, xl 148px.
+ * Variants: filled (solid bg), outlined (border only), naked (no container).
+ * Surfaces: light, muted, accent, dark — drive bg and icon color for filled variant.
+ *
+ * For outlined variant: bg is transparent, border + icon pick up `currentColor`
+ * from the parent surface context (use `text-…` classes or let surface variants drive).
+ */
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  icon: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'filled' | 'outlined' | 'naked';
+  surface?: 'light' | 'muted' | 'accent' | 'dark';
+  class?: string;
+  iconClass?: string;
+}
+
+const {
+  icon,
+  size = 'md',
+  variant = 'filled',
+  surface = 'light',
+  class: className,
+  iconClass,
+} = Astro.props;
+
+const sizeMap = {
+  sm: { box: 'w-6 h-6', icon: 'w-4 h-4' },          // 24/16
+  md: { box: 'w-14 h-14', icon: 'w-8 h-8' },        // 56/32
+  lg: { box: 'w-[84px] h-[84px]', icon: 'w-[64px] h-[64px]' },  // 84/64
+  xl: { box: 'w-[148px] h-[148px]', icon: 'w-[64px] h-[64px]' }, // 148/64
+} as const;
+
+const fillMap = {
+  light: 'bg-surface-light text-on-surface-dark',
+  muted: 'bg-surface-muted text-on-surface-dark',
+  accent: 'bg-primary text-on-surface-dark',
+  dark: 'bg-surface-dark text-on-surface-light',
+} as const;
+
+const outlineMap = {
+  light: 'border-on-surface-dark text-on-surface-dark',
+  muted: 'border-on-surface-dark text-on-surface-dark',
+  accent: 'border-on-surface-dark text-on-surface-dark',
+  dark: 'border-on-surface-light text-on-surface-light',
+} as const;
+
+const variantClass =
+  variant === 'filled'
+    ? fillMap[surface]
+    : variant === 'outlined'
+    ? `bg-transparent border-[1.6px] ${outlineMap[surface]}`
+    : '';
+
+const { box, icon: iconSize } = sizeMap[size];
+---
+
+<span class:list={['inline-flex items-center justify-center rounded-full shrink-0', box, variantClass, className]}>
+  <Icon name={icon} class:list={[iconSize, iconClass]} />
+</span>

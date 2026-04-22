@@ -1,0 +1,177 @@
+---
+/**
+ * ReportCoverSection — hero section for report pages.
+ * Source: wireframes/brand24-raport_raport.md §S1
+ * Two-column layout: left = research narrative + CTA, right = subject profile + metrics.
+ */
+
+import Button from '../../ui/Button.astro';
+import { Icon } from 'astro-icon/components';
+
+interface Metric {
+  label: string;
+  value: string;
+  note?: string;
+}
+
+interface Profile {
+  items: Metric[];
+}
+
+interface Author {
+  name: string;
+  role: string;
+  photoUrl?: string;
+}
+
+interface Cta {
+  primary: { label: string; href: string };
+  secondary: { label: string; href: string };
+}
+
+interface Props {
+  headline: string;
+  subtitle: string;
+  profileLabel: string;
+  profile: Profile;
+  metricsLabel: string;
+  metrics: Metric[];
+  disclaimer: string;
+  authorHeadline: string;
+  authorBody: string;
+  author: Author;
+  cta: Cta;
+  gateNote: string;
+}
+
+const {
+  headline,
+  subtitle,
+  profileLabel,
+  profile,
+  metricsLabel,
+  metrics,
+  disclaimer,
+  authorHeadline,
+  authorBody,
+  author,
+  cta,
+  gateNote,
+} = Astro.props;
+---
+
+<section
+  class="bg-surface-muted"
+  data-surface="muted"
+  data-section-type="report-cover"
+>
+
+  {/* Outer gutter + inner max-width — content text lands ~170px from viewport edge @1920 */}
+  <div class="px-page-gutter py-comfortable lg:pt-hero-top lg:pb-monumental">
+  <div class="mx-auto max-w-content-max">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-comfortable lg:gap-monumental items-stretch">
+
+    {/* LEFT — research narrative */}
+    <div class="flex flex-col gap-comfortable">
+      <h1 class="font-body font-normal text-on-surface-dark text-headline-md lg:text-display-xl leading-tight">
+        {headline}
+      </h1>
+
+      {/* Author byline */}
+      <div class="flex items-center gap-compact">
+        {author.photoUrl ? (
+          <img
+            src={author.photoUrl}
+            alt={author.name}
+            width="72"
+            height="72"
+            class="w-[72px] h-[72px] rounded-full object-cover shrink-0 bg-surface-accent"
+          />
+        ) : (
+          <div
+            class="w-[72px] h-[72px] rounded-full bg-surface-accent flex items-center justify-center shrink-0 text-label-sm text-on-surface-dark"
+            aria-label="Placeholder for author photo"
+          >
+            foto
+          </div>
+        )}
+        <div class="flex flex-col">
+          <span class="font-body text-body-sm font-semibold text-on-surface-dark">{author.name}</span>
+          <span class="font-body text-label-sm text-on-surface-dark">{author.role}</span>
+        </div>
+      </div>
+
+      {/* Methodology block */}
+      <div class="flex flex-col gap-standard">
+        <h2 class="font-body font-normal text-title-lg leading-normal text-on-surface-dark">
+          {authorHeadline}
+        </h2>
+        <p class="font-body text-body-sm leading-relaxed text-on-surface-dark">
+          {authorBody}
+        </p>
+      </div>
+
+      {/* CTA */}
+      <div class="flex flex-col gap-standard">
+        <div class="flex flex-wrap gap-standard">
+          <Button variant="primary" surface="light" href={cta.primary.href}>
+            {cta.primary.label}
+          </Button>
+          <Button variant="text-link" surface="light" href={cta.secondary.href}>
+            {cta.secondary.label}
+            <svg slot="icon" viewBox="0 0 64 64" fill="none"><rect x="14" y="32" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2"/><path d="M22 32V22C22 14.268 27.268 9 34 9V9C40.732 9 46 14.268 46 22V32" stroke="currentColor" stroke-width="2" stroke-linecap="square"/><circle cx="32" cy="44" r="3" stroke="currentColor" stroke-width="2"/></svg>
+          </Button>
+        </div>
+        <p class="font-body text-label-sm leading-loose text-on-surface-dark">
+          {gateNote}
+        </p>
+      </div>
+    </div>
+
+    {/* RIGHT — Brand24 subject on same accent */}
+    <div class="flex flex-col gap-relaxed">
+      <Icon
+        name="indicator-circle"
+        size={120}
+        class="shrink-0 w-[80px] h-[80px] lg:w-[120px] lg:h-[120px] text-on-surface-dark"
+      />
+      <p class="font-body text-body lg:text-body-lg leading-relaxed text-on-surface-dark">
+        {subtitle}
+      </p>
+
+      {/* Combined Profile + Metrics — single table */}
+      <div>
+      <p class="font-body text-label-sm uppercase tracking-wide text-on-surface-dark mb-standard">
+        Brand24 w liczbach
+      </p>
+      <table class="w-full border-collapse table-fixed">
+        <tbody>
+          {profile.items.map((row) => (
+            <tr class="border-b border-outline-dark">
+              <td class="font-body text-body-sm text-on-surface-dark py-tight pr-compact w-2/5">{row.label}</td>
+              <td class="font-body text-body-sm text-on-surface-dark py-tight text-left">{row.value}</td>
+            </tr>
+          ))}
+          {metrics.map((m, i) => (
+            <tr class:list={[i < metrics.length - 1 && "border-b border-outline-dark"]}>
+              <td class="font-body text-body-sm text-on-surface-dark py-tight pr-compact w-2/5">{m.label}</td>
+              <td class="font-body text-body-sm text-on-surface-dark py-tight text-left">
+                <span>{m.value}</span>{m.note && <span> ({m.note})</span>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+
+      {/* Disclaimer — under data frame */}
+      <p class="font-body text-label-sm leading-loose text-on-surface-dark">
+        {disclaimer}
+      </p>
+    </div>
+
+  </div>
+  </div>
+  </div>
+
+</section>

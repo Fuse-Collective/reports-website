@@ -1,0 +1,99 @@
+---
+/**
+ * AnalysisSection — per-area deep-dive analysis section (01–06).
+ *
+ * Composes DS primitives + blocks:
+ *   AnalysisHeader  — twin circles + title + intro
+ *   InsightRow[]    — key findings list
+ *   Table           — competitor comparison
+ *   RiskCard[]      — risks grid
+ *
+ * Figma: 3644:21487 (area 01 Bolączki kategorii). Same shape for 02–06.
+ */
+import AnalysisHeader from '../../common/AnalysisHeader.astro';
+import InsightRow from '../../common/InsightRow.astro';
+import RiskCard from '../../common/RiskCard.astro';
+import Table from '../../ui/Table.astro';
+
+interface Insight { title: string; description: string; }
+interface Comparison {
+  columns: string[];
+  rows: string[][];
+  highlightedColumnIndex?: number;
+}
+interface Risk { icon: string; title: string; body: string; }
+
+interface Props {
+  number: string;
+  title: string;
+  intro: string;
+  headerIcon: string;
+  insightsHeading: string;
+  insights: Insight[];
+  comparisonHeading: string;
+  comparison: Comparison;
+  risksHeading: string;
+  risks: Risk[];
+}
+
+const {
+  number,
+  title,
+  intro,
+  headerIcon,
+  insightsHeading,
+  insights,
+  comparisonHeading,
+  comparison,
+  risksHeading,
+  risks,
+} = Astro.props;
+---
+
+<section
+  class="bg-surface-light py-monumental px-page-gutter"
+  data-section-type="analysis"
+  data-analysis-number={number}
+>
+  <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
+
+    <AnalysisHeader icon={headerIcon} title={title} intro={intro} />
+
+    {/* Insights */}
+    <div class="flex flex-col gap-standard">
+      <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+        {insightsHeading}
+      </h3>
+      <div class="flex flex-col">
+        {insights.map((insight) => (
+          <InsightRow title={insight.title} description={insight.description} />
+        ))}
+      </div>
+    </div>
+
+    {/* Comparison */}
+    <div class="flex flex-col gap-standard">
+      <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+        {comparisonHeading}
+      </h3>
+      <Table
+        columns={comparison.columns}
+        rows={comparison.rows}
+        highlightedColumnIndex={comparison.highlightedColumnIndex}
+      />
+    </div>
+
+    {/* Risks */}
+    <div class="flex flex-col gap-standard">
+      <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+        {risksHeading}
+      </h3>
+      <div class="grid gap-standard lg:grid-cols-2 lg:gap-relaxed">
+        {risks.map((risk) => (
+          <RiskCard icon={risk.icon} title={risk.title} body={risk.body} />
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

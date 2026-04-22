@@ -1,0 +1,98 @@
+---
+/**
+ * ReportAreasMenu — shared markup for the 6-areas TOC menu.
+ * Used inline inside OverviewSection and wrapped for sticky/drawer behavior
+ * inside ReportSideNav.
+ *
+ * Color tokens use `on-surface-dark` so this block renders correctly on both
+ * the accent (yellow) surface and the light (white) surface — `on-surface-dark`
+ * and `on-surface-accent` both resolve to `#191919`.
+ *
+ * Scroll-spy: each `<li>` carries `data-area-number`. The page-level script
+ * in [slug].astro watches `[data-section-type="analysis"]` elements and sets
+ * `data-current="true"` on the `<li>` whose number matches the active section.
+ * Both visual variants (current + inactive) are rendered per item; CSS
+ * shows one or the other based on `data-current`.
+ */
+import { Icon } from 'astro-icon/components';
+
+interface Area {
+  number: string;
+  label: string;
+  state: 'done' | 'current';
+  href?: string;
+}
+
+interface SectionPill {
+  label: string;
+  state: 'locked';
+}
+
+interface Props {
+  areasLabel: string;
+  areas: Area[];
+  sectionPills?: SectionPill[];
+  class?: string;
+}
+
+const { areasLabel, areas, sectionPills = [], class: className } = Astro.props;
+---
+
+<div class:list={["flex flex-col gap-relaxed", className]}>
+
+  {/* Areas label pill */}
+  <div class="inline-flex items-center gap-tight self-start rounded-full bg-surface-muted pl-tight pr-[10px] py-tight">
+    <Icon name="areas-indicator" class="w-6 h-6 shrink-0 text-on-surface-dark" />
+    <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
+      {areasLabel}
+    </span>
+  </div>
+
+  {/* 6-area list */}
+  <ul class="flex flex-col gap-compact m-0 p-0 list-none">
+    {areas.map((area) => (
+      <li
+        data-area-number={area.number}
+        data-current={area.state === 'current' ? 'true' : 'false'}
+        class="group"
+      >
+        {/* Current state — shown only when data-current="true" */}
+        <div class="hidden group-data-[current=true]:inline-flex items-center gap-standard">
+          <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-surface-dark text-on-surface-light font-body text-label-sm font-normal leading-none tabular-nums">
+            {area.number}
+          </span>
+          <span class="font-body text-label font-semibold text-on-surface-dark">
+            {area.label}
+          </span>
+        </div>
+
+        {/* Inactive state — default; hidden when data-current="true" */}
+        <div class="inline-flex items-center gap-standard pl-[4px] group-data-[current=true]:hidden">
+          <span class="font-body text-label-sm font-normal text-on-surface-dark tabular-nums inline-block w-6 text-center">
+            {area.number}
+          </span>
+          <span class="font-body text-label-sm font-normal text-on-surface-dark">
+            {area.label}
+          </span>
+        </div>
+      </li>
+    ))}
+  </ul>
+
+  {/* Section pills (locked) */}
+  {sectionPills.length > 0 && (
+    <div class="flex flex-col items-start gap-compact mt-standard">
+      {sectionPills.map((pill) => (
+        <div class="inline-flex items-center gap-tight rounded-full bg-surface-muted pl-tight pr-[10px] py-tight">
+          <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
+            <Icon name="padlock-mini" class="w-6 h-6" />
+          </span>
+          <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
+            {pill.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  )}
+
+</div>

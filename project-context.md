@@ -10,6 +10,12 @@
 - Styling: Tailwind CSS v4 (@theme tokens)
 - Verification: Playwright
 
+## Sources
+- Wireframes (MD + HTML + JPG): `d:/Dev/Fuse-Collective/MKT-Report-Brand24/UX-Report-Brand24-Wireframe/projects/Brand24-raport-przewag/wireframes/`
+  - `brand24-raport_raport.md` — sections §S1, §S2, etc.
+  - `brand24-raport_raport.html` — HTML prototype #s1, #s2, etc.
+- Figma: node IDs per section in sections-registry.md
+
 ## Design System
 → design.md (Tier 1 — single source of truth)
 
@@ -34,8 +40,9 @@ responsive_strategy:
   decided_at: "Build-Figma - HeroSection"
   container:
     model: fluid-max-width
-    max_width: 1575px
+    max_width: 1580px                  # --spacing-content-max (98.75rem)
     padding: clamp(1rem, 5vw, 8.25vw)  # single fluid token, no breakpoint needed
+    applied_via: "mx-auto max-w-content-max px-page-gutter on inner content wrapper"
   breakpoints:
     primary: lg
   typography:
@@ -57,4 +64,4 @@ responsive_strategy:
 ```
 
 ## Session State
-2026-04-03 — 2/8 sections built (OfferCards + Services). Surface system, SectionIntro, collapsed borders, subgrid, astro-icon, preview switcher. Next: PainPointSection or TestimonialSection.
+2026-04-14 — 4/13 sections built (ReportCover, ChapterTitle, PainBlock skeleton, + prior OfferCards/Services). Full wireframe (11 sections S1–S11) registered. DS components page with multi-dimension switchers. SectionIntro indicator=left variant. Button min-h fix. Next: S2 art direction, S3 build.

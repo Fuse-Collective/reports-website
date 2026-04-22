@@ -29,15 +29,30 @@ const painPointsSection = z.object({
   })),
 });
 
+const painBlockSection = z.object({
+  type: z.literal('pain-block'),
+  headline: z.string(),
+  body: z.string().optional(),
+  consequenceLabel: z.string().optional(),
+  consequences: z.array(z.object({
+    text: z.string(),
+  })).optional(),
+  symptoms: z.array(z.object({
+    iconName: z.string(),
+    text: z.string(),
+  })),
+});
+
 const servicesGridSection = z.object({
   type: z.literal('services-grid'),
   headline: z.string(),
   body: z.string(),
   as: z.enum(['h1', 'h2']).optional(),
   surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
+  numbered: z.boolean().optional(),
   services: z.array(z.object({
     heading: z.string(),
-    icon: z.string(),
+    icon: z.string().optional(),
     description: z.string(),
   })),
 });
@@ -74,7 +89,99 @@ const ctaSection = z.object({
   })),
 });
 
+const reportCoverMetric = z.object({
+  label: z.string(),
+  value: z.string(),
+  note: z.string().optional(),
+});
+
+const reportCoverSection = z.object({
+  type: z.literal('report-cover'),
+  headline: z.string(),
+  subtitle: z.string(),
+  profileLabel: z.string(),
+  profile: z.object({
+    items: z.array(reportCoverMetric),
+  }),
+  metricsLabel: z.string(),
+  metrics: z.array(reportCoverMetric),
+  disclaimer: z.string(),
+  authorHeadline: z.string(),
+  authorBody: z.string(),
+  author: z.object({
+    name: z.string(),
+    role: z.string(),
+    photoUrl: z.string().optional(),
+  }),
+  cta: z.object({
+    primary: z.object({ label: z.string(), href: z.string() }),
+    secondary: z.object({ label: z.string(), href: z.string() }),
+  }),
+  gateNote: z.string(),
+});
+
+const chapterTitleSection = z.object({
+  type: z.literal('chapter-title'),
+  headline: z.string(),
+  subtitle: z.string().optional(),
+  chapterLabel: z.string().optional(),
+});
+
+const analysisSection = z.object({
+  type: z.literal('analysis'),
+  number: z.string(),
+  title: z.string(),
+  intro: z.string(),
+  headerIcon: z.string(),
+  insightsHeading: z.string(),
+  insights: z.array(z.object({
+    title: z.string(),
+    description: z.string(),
+  })),
+  comparisonHeading: z.string(),
+  comparison: z.object({
+    columns: z.array(z.string()),
+    rows: z.array(z.array(z.string())),
+    highlightedColumnIndex: z.number().optional(),
+  }),
+  risksHeading: z.string(),
+  risks: z.array(z.object({
+    icon: z.string(),
+    title: z.string(),
+    body: z.string(),
+  })),
+});
+
+const overviewSection = z.object({
+  type: z.literal('overview'),
+  headline: z.string(),
+  subtitle: z.string(),
+  insightLabel: z.string(),
+  insight: z.string(),
+  areasLabel: z.string(),
+  areas: z.array(z.object({
+    number: z.string(),
+    label: z.string(),
+    state: z.enum(['done', 'current']),
+    href: z.string().optional(),
+  })),
+  sectionPills: z.array(z.object({
+    label: z.string(),
+    state: z.enum(['locked']),
+  })).optional(),
+  cta: z.object({
+    label: z.string(),
+    href: z.string(),
+  }),
+});
+
+
 const section = z.discriminatedUnion('type', [
+  reportCoverSection,
+  chapterTitleSection,
+  painBlockSection,
+  overviewSection,
+  analysisSection,
   offerCardsSection,
   painPointsSection,
   servicesGridSection,

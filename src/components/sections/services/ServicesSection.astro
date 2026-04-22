@@ -13,7 +13,7 @@ import ServiceCard from './ServiceCard.astro';
 
 interface Service {
   heading: string;
-  icon: string;
+  icon?: string;
   description: string;
 }
 
@@ -25,9 +25,10 @@ interface Props {
   services: Service[];
   as?: 'h1' | 'h2';
   surface?: Surface;
+  numbered?: boolean;
 }
 
-const { headline, body, services, as: headingTag = 'h2', surface = 'dark' } = Astro.props;
+const { headline, body, services, as: headingTag = 'h2', surface = 'dark', numbered = false } = Astro.props;
 
 const bgMap: Record<Surface, string> = {
   light: 'bg-surface-light',
@@ -42,7 +43,7 @@ const bgMap: Record<Surface, string> = {
   data-surface={surface}
   data-section-type="services"
 >
-  <div class="px-page-gutter">
+  <div class="px-page-gutter"><div class="mx-auto max-w-content-max">
 
     <SectionIntro
       headline={headline}
@@ -52,14 +53,15 @@ const bgMap: Record<Surface, string> = {
     />
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:[grid-template-rows:repeat(6,auto)] lg:[grid-template-rows:repeat(6,auto)] mt-[72px] border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent">
-      {services.map((service) => (
+      {services.map((service, i) => (
         <ServiceCard
           heading={service.heading}
           icon={service.icon}
+          label={numbered ? String(i + 1).padStart(2, '0') : undefined}
           description={service.description}
         />
       ))}
     </div>
 
-  </div>
+  </div></div>
 </section>

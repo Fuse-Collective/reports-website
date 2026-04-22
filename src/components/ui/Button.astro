@@ -13,7 +13,7 @@ const hasIcon = Astro.slots.has('icon');
 const isTextLink = variant === 'text-link';
 const base = 'inline-flex items-center font-body text-title-lg leading-loose font-normal transition-[background-color,color,border-color] duration-150 ease-in-out cursor-pointer self-start justify-self-start';
 const iconGap = hasIcon && !isTextLink ? 'justify-between gap-relaxed' : isTextLink ? 'gap-compact' : 'justify-center';
-const pill = 'rounded-button px-comfortable py-[26px] border-[1.6px]';
+const pill = 'rounded-button px-comfortable py-[26px] border-[1.6px] min-h-[103px]';
 
 const styles: Record<string, Record<string, string>> = {
   primary: {

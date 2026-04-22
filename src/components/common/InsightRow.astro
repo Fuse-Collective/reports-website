@@ -1,0 +1,44 @@
+---
+/**
+ * InsightRow — a single "Główne wnioski" row:
+ *   title (left) | decorative vertical pill (centre) | description (right)
+ *
+ * The vertical pill is purely decorative per Figma (3644:21487 — dark-outlined
+ * capsule 40×116 with a yellow 24×24 circle pinned at the top). No props drive it.
+ *
+ * Bottom border divides rows when stacked.
+ */
+
+interface Props {
+  title: string;
+  description: string;
+  class?: string;
+}
+
+const { title, description, class: className } = Astro.props;
+---
+
+<div class:list={['grid gap-relaxed lg:grid-cols-[minmax(0,360fr)_40px_minmax(0,532fr)] lg:gap-comfortable p-relaxed', className]}>
+
+  {/* Title — right-aligned at lg+ per Figma (textH:RIGHT, fs:26, fw:400).
+      Column proportions 360:40:532 match Figma Border frame (1028px inner
+      content area = 360 + 48 + 40 + 48 + 532). The narrower left column
+      makes the title wrap onto ~2 lines as intended. */}
+  <h3 class="font-body text-body-md font-normal leading-normal text-on-surface-dark m-0 lg:text-right">
+    {title}
+  </h3>
+
+  {/* Decorative accent pill */}
+  <span
+    class="hidden lg:flex w-10 h-[116px] items-start justify-center pt-tight rounded-full border-[1.6px] border-on-surface-dark"
+    aria-hidden="true"
+  >
+    <span class="w-6 h-6 rounded-full bg-primary"></span>
+  </span>
+
+  {/* Description */}
+  <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+    {description}
+  </p>
+
+</div>

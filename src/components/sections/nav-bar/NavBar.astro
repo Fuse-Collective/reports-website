@@ -1,0 +1,93 @@
+---
+/**
+ * NavBar — top navigation bar with logo + menu links.
+ *
+ * Source: Figma 1249:36768 (NAVIGATION/TOP MENU, 1748×112)
+ *
+ * Logo: placeholder (dark circle with "fuse" text) — replace with real SVG
+ *       at /images/logo/fuse-logo.svg when available.
+ * Menu items: configurable via props.
+ * No language switcher per project decision.
+ */
+
+import Logo from '../../ui/Logo.astro';
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+type Surface = 'light' | 'dark' | 'accent';
+
+interface Props {
+  links?: NavLink[];
+  logoHref?: string;
+  surface?: Surface;
+}
+
+const defaultLinks: NavLink[] = [
+  { label: 'Realizacje',            href: 'https://www.fusecollective.com/rodzaj-projektu/wybrane/' },
+  { label: 'Oferta',                href: 'https://www.fusecollective.com/oferta/' },
+  { label: 'Proces',                href: 'https://www.fusecollective.com/proces-brandingu/' },
+  { label: 'Podcast i poradniki',   href: 'https://www.fusecollective.com/poradniki/' },
+  { label: 'Anatomia decyzji B2B',  href: 'https://www.fusecollective.com/pobierz-anatomia-decyzji-b2b/' },
+  { label: 'Kontakt',               href: 'https://www.fusecollective.com/kontakt/' },
+];
+
+const { links = defaultLinks, logoHref = '/', surface = 'light' } = Astro.props;
+
+const textColor: Record<Surface, string> = {
+  light: 'text-on-surface-dark',
+  dark: 'text-on-surface-light',
+  accent: 'text-on-surface-accent',
+};
+
+---
+
+<nav
+  class="absolute top-0 left-0 right-0 z-10"
+  data-section-type="nav-bar"
+  data-surface={surface}
+  aria-label="Główna nawigacja"
+>
+  <div class="px-page-gutter">
+    <div class:list={["mx-auto max-w-content-max h-monumental flex items-center justify-between gap-comfortable", textColor[surface]]}>
+
+      {/* Logo — always dark on this page (forced via prop on call site if needed) */}
+      <Logo
+        variant="dark"
+        size={80}
+        href={logoHref}
+        ariaLabel="Fuse Collective — strona główna"
+      />
+
+      {/* Menu links — desktop */}
+      <ul class="hidden lg:flex items-center gap-comfortable">
+        {links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="font-body text-body-sm leading-loose text-link-hover"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mobile hamburger placeholder */}
+      <button
+        type="button"
+        class="lg:hidden flex items-center justify-center w-[48px] h-[48px]"
+        aria-label="Otwórz menu"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
+    </div>
+  </div>
+</nav>

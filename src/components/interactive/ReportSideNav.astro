@@ -1,0 +1,124 @@
+---
+/**
+ * ReportSideNav — drawer variant of the report areas menu (below xl).
+ *
+ * xl+ (>=1280px): the menu sits inline inside the menu-scope wrapper in
+ * [slug].astro as a sticky right column. This component renders NOTHING.
+ * Below xl: floating "Spis treści" pill trigger (bottom-right) opens a native
+ * <dialog> drawer that slides up from the bottom. Trigger appears after the
+ * user scrolls past OverviewSection.
+ */
+import { Icon } from 'astro-icon/components';
+import ReportAreasMenu from '../common/ReportAreasMenu.astro';
+
+interface Area {
+  number: string;
+  label: string;
+  state: 'done' | 'current';
+  href?: string;
+}
+
+interface SectionPill {
+  label: string;
+  state: 'locked';
+}
+
+interface Props {
+  areasLabel: string;
+  areas: Area[];
+  sectionPills?: SectionPill[];
+}
+
+const { areasLabel, areas, sectionPills = [] } = Astro.props;
+---
+
+{/* Mobile: floating trigger button */}
+<button
+  type="button"
+  class="xl:hidden fixed bottom-[20px] right-[20px] z-40 inline-flex items-center gap-compact rounded-full bg-surface-dark pl-tight pr-standard py-tight shadow-[0_8px_24px_rgba(29,29,27,0.24)] opacity-0 pointer-events-none transition-opacity duration-300"
+  data-sidenav-trigger
+  aria-expanded="false"
+  aria-controls="report-sidenav-drawer"
+  aria-label="Otwórz spis treści"
+>
+  <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
+    <Icon name="areas-indicator" class="w-6 h-6" />
+  </span>
+  <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-light">
+    Spis treści
+  </span>
+</button>
+
+{/* Mobile: dialog drawer */}
+<dialog
+  id="report-sidenav-drawer"
+  class="xl:hidden fixed inset-x-0 bottom-0 top-auto w-full max-w-full m-0 p-0 bg-surface-accent rounded-t-[24px] backdrop:bg-[rgba(29,29,27,0.5)]"
+  data-sidenav-drawer
+>
+  <div class="flex flex-col gap-relaxed p-relaxed" data-surface="accent">
+
+    {/* Drawer header — drag handle + close button */}
+    <div class="flex items-center justify-between">
+      <span class="inline-block w-12 h-1 rounded-full bg-on-surface-accent/30" aria-hidden="true"></span>
+      <button
+        type="button"
+        class="shrink-0 w-10 h-10 inline-flex items-center justify-center text-on-surface-accent"
+        data-sidenav-close
+        aria-label="Zamknij spis treści"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+    </div>
+
+    <ReportAreasMenu
+      areasLabel={areasLabel}
+      areas={areas}
+      sectionPills={sectionPills}
+    />
+
+  </div>
+</dialog>
+
+<script>
+  const trigger = document.querySelector<HTMLButtonElement>('[data-sidenav-trigger]');
+  const drawer = document.querySelector<HTMLDialogElement>('[data-sidenav-drawer]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-sidenav-close]');
+  const overview = document.querySelector<HTMLElement>('[data-section-type="overview"]');
+
+  const setVisible = (el: HTMLElement | null, visible: boolean) => {
+    if (!el) return;
+    el.classList.toggle('opacity-0', !visible);
+    el.classList.toggle('pointer-events-none', !visible);
+  };
+
+  if (overview) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Show the mobile trigger only after the user has scrolled past
+        // OverviewSection — the TOC is forward-looking, covering sections below.
+        const pastOverview = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+        setVisible(trigger, pastOverview);
+        if (!pastOverview && drawer?.open) drawer.close();
+      },
+      { threshold: 0 },
+    );
+    observer.observe(overview);
+  }
+
+  trigger?.addEventListener('click', () => {
+    drawer?.showModal();
+    trigger.setAttribute('aria-expanded', 'true');
+  });
+
+  closeBtn?.addEventListener('click', () => drawer?.close());
+
+  drawer?.addEventListener('click', (event) => {
+    if (event.target === drawer) drawer.close();
+  });
+
+  drawer?.addEventListener('close', () => {
+    trigger?.setAttribute('aria-expanded', 'false');
+  });
+</script>

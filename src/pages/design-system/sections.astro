@@ -2,6 +2,15 @@
 import PreviewLayout from '../../layouts/PreviewLayout.astro';
 import OfferCardsSection from '../../components/sections/offer-cards/OfferCardsSection.astro';
 import ServicesSection from '../../components/sections/services/ServicesSection.astro';
+import PainBlockSection from '../../components/sections/pain-block/PainBlockSection.astro';
+
+const painSymptoms = [
+  { iconName: "problems/brak-wyroznienia", text: "Klienci porównują Was z konkurencją i wybierają najtańszą opcję" },
+  { iconName: "problems/niespojnosc", text: "Każda rozmowa sprzedażowa zaczyna się od tłumaczenia, kim jesteście" },
+  { iconName: "problems/zmiany-strategiczne", text: "Rośniecie wolniej niż moglibyście, mimo że robicie „wszystko dobrze”" },
+  { iconName: "problems/wizerunek", text: "Szukacie wyróżnika, ale wszystko, co wymyślicie, konkurencja też może powiedzieć" },
+  { iconName: "problems/brak-wytycznych", text: "Zespół sprzedaży narzeka na ceny, bo nie ma innych argumentów" },
+];
 
 const offerCards = [
   {
@@ -64,6 +73,30 @@ const services = [
       headline="Klienci wybierają nas i zostają z nami na dłużej"
       body="Widząc efekty rozumieją, że jesteśmy inni niż agencje, z którymi wcześniej pracowali."
       services={services}
+    />
+  </div>
+
+  {/* PainBlockSection */}
+  <div class="surface-preview" data-default-surface="light">
+    <div class="flex items-center gap-compact px-page-gutter pt-comfortable pb-compact">
+      <h2 class="font-body text-headline-sm text-on-surface-dark">PainBlockSection</h2>
+      <div class="flex gap-tight ml-auto surface-buttons">
+        <button data-surface-target="light" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer bg-on-surface-dark text-on-surface-light">light</button>
+        <button data-surface-target="muted" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">muted</button>
+        <button data-surface-target="dark" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">dark</button>
+        <button data-surface-target="accent" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">accent</button>
+      </div>
+    </div>
+    <PainBlockSection
+      headline="5 sygnałów problemu z wyróżnieniem"
+      consequenceLabel="Co to oznacza w liczbach"
+      consequences={[
+        { text: "Wyższe koszty pozyskania klienta" },
+        { text: "Dłuższa sprzedaż, niższe zaufanie" },
+        { text: "Brak premii cenowej" },
+        { text: "Łatwość substytucji" },
+      ]}
+      symptoms={painSymptoms}
     />
   </div>
 

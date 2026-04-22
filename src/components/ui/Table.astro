@@ -1,0 +1,70 @@
+---
+/**
+ * Table — generic comparison/data table.
+ *
+ * Props:
+ *   columns         — array of column headers (first column is the row-label column)
+ *   rows            — 2D array: rows[i] = [col0, col1, ...] strings matching columns order
+ *   highlightedColumnIndex? — index of column to highlight (yellow bg)
+ *
+ * Figma reference: report analysis sections, comparison table pattern.
+ */
+
+interface Props {
+  columns: string[];
+  rows: string[][];
+  highlightedColumnIndex?: number;
+  class?: string;
+}
+
+const { columns, rows, highlightedColumnIndex, class: className } = Astro.props;
+---
+
+<div class:list={['w-full overflow-x-auto', className]}>
+  <table class="w-full border-collapse font-body text-left">
+    <thead>
+      <tr>
+        {columns.map((col, i) => {
+          const isFirst = i === 0;
+          const isHighlighted = i === highlightedColumnIndex;
+          return (
+            <th
+              class:list={[
+                'align-top px-compact pt-standard pb-compact font-semibold',
+                isFirst
+                  ? 'text-label-sm leading-loose uppercase text-on-surface-secondary'
+                  : 'text-body leading-normal text-on-surface-dark',
+                isHighlighted && !isFirst && 'bg-primary',
+              ]}
+            >
+              {col}
+            </th>
+          );
+        })}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          {row.map((cell, i) => {
+            const isFirst = i === 0;
+            const isHighlighted = i === highlightedColumnIndex;
+            return (
+              <td
+                class:list={[
+                  'align-middle px-compact py-compact border-t border-outline-light font-body',
+                  isFirst
+                    ? 'text-label-sm leading-loose font-semibold uppercase text-on-surface-secondary'
+                    : 'text-label leading-loose font-normal text-on-surface-dark',
+                  isHighlighted && !isFirst && 'bg-primary',
+                ]}
+              >
+                {cell}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
