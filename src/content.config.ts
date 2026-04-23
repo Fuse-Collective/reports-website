@@ -158,6 +158,7 @@ const overviewSection = z.object({
   subtitle: z.string(),
   insightLabel: z.string(),
   insight: z.string(),
+  insightPoints: z.array(z.string()).optional(),
   areasLabel: z.string(),
   areas: z.array(z.object({
     number: z.string(),
@@ -172,6 +173,7 @@ const overviewSection = z.object({
   cta: z.object({
     label: z.string(),
     href: z.string(),
+    note: z.string().optional(),
   }),
 });
 

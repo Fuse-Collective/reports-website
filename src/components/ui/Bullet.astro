@@ -1,0 +1,43 @@
+---
+/**
+ * Bullet — 4×4 square marker for unordered lists.
+ *
+ * Surface-adaptive fill via `on-dark:` / `on-accent:` prefixes. The mapping
+ * intentionally differs from the text-color convention — on accent (yellow),
+ * bullets are WHITE for contrast (confirmed against Figma 2026-04-23), NOT
+ * `on-surface-accent` (#191919) like body text uses:
+ *
+ *   - `light` / `muted`  →  `bg-on-surface-dark`   (#191919)
+ *   - `dark`             →  `bg-on-surface-light`  (#FFFFFF)
+ *   - `accent`           →  `bg-on-surface-light`  (#FFFFFF)  ← divergent
+ *
+ * If a future section needs a different color, add a `variant` prop rather
+ * than inlining overrides.
+ *
+ * Intended usage — wrap each list item in a flex row with the bullet + text:
+ *
+ *   <ul class="flex flex-col gap-compact m-0 p-0 list-none">
+ *     <li class="flex gap-standard items-start">
+ *       <Bullet class="mt-[0.45em]" />
+ *       <span>List item text</span>
+ *     </li>
+ *   </ul>
+ *
+ * The `mt-[0.45em]` on the bullet aligns it with the cap height of the
+ * first text line. Adjust if used with a different text size.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    'inline-block w-[4px] h-[4px] shrink-0',
+    'bg-on-surface-dark on-dark:bg-on-surface-light on-accent:bg-on-surface-light',
+    className,
+  ]}
+  aria-hidden="true"
+></span>

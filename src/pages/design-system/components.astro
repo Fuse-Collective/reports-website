@@ -4,7 +4,12 @@ import Button from '../../components/ui/Button.astro';
 import SectionIntro from '../../components/ui/SectionIntro.astro';
 import Logo from '../../components/ui/Logo.astro';
 import Badge from '../../components/ui/Badge.astro';
+import Bullet from '../../components/ui/Bullet.astro';
 import Table from '../../components/ui/Table.astro';
+import AnalysisHeader from '../../components/common/AnalysisHeader.astro';
+import InsightRow from '../../components/common/InsightRow.astro';
+import RiskCard from '../../components/common/RiskCard.astro';
+import ReportAreasMenu from '../../components/common/ReportAreasMenu.astro';
 import { Icon } from 'astro-icon/components';
 
 const surfaces = ['light', 'muted', 'dark', 'accent'] as const;
@@ -18,6 +23,15 @@ const problemIcons = [
   'problems/brak-wytycznych',
   'problems/brak-porzadku',
   'problems/zmiany-strategiczne',
+] as const;
+
+const areaIcons = [
+  'areas/target-click',
+  'areas/eye-scan',
+  'areas/dna-helix',
+  'areas/shopping-bag',
+  'areas/magic-wand',
+  'areas/robot',
 ] as const;
 ---
 
@@ -307,10 +321,20 @@ const problemIcons = [
           </div>
 
           <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Problems</p>
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable mb-relaxed">
             {problemIcons.map((name) => (
               <div class="flex flex-col gap-tight items-start">
                 <Icon name={name} class="w-[120px] h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">{name}</code>
+              </div>
+            ))}
+          </div>
+
+          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Area headers (full composition: dashed circle + yellow dot + Material Symbol)</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-comfortable">
+            {areaIcons.map((name) => (
+              <div class="flex flex-col gap-tight items-start">
+                <Icon name={name} class="w-[258px] h-[149px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
                 <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">{name}</code>
               </div>
             ))}
@@ -465,6 +489,233 @@ const problemIcons = [
     </div>
   </div>
 
+  <!-- ===================== BULLET ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="bullet">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.8 Bullet</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/Bullet.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">12×12 square marker for unordered lists. Fill inherits the parent section's <code class="font-mono">data-surface</code> via <code class="font-mono">on-dark:</code> / <code class="font-mono">on-accent:</code> prefixes. Pair with text in a <code class="font-mono">flex gap-standard items-start</code> row and align the bullet to cap height (e.g. <code class="font-mono">mt-[0.45em]</code>).</p>
+
+    <div class="ds-component" data-active-surface="light">
+      <div class="flex items-center gap-tight mb-compact">
+        <span class="font-body text-label-sm text-text-muted">Surface</span>
+        {surfaces.map((s, i) => (
+          <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+        ))}
+      </div>
+
+      {surfaces.map((s) => (
+        <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+          <ul class="flex flex-col gap-compact m-0 p-0 list-none max-w-[720px]">
+            <li class="flex gap-standard items-start">
+              <Bullet class="mt-[0.45em]" />
+              <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                Pierwszy punkt — bullet dziedziczy kolor z otaczającej sekcji.
+              </span>
+            </li>
+            <li class="flex gap-standard items-start">
+              <Bullet class="mt-[0.45em]" />
+              <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                <strong>Drugi punkt:</strong> bold fragment to wzorzec z YAML (rich text przez <code class="font-mono">set:html</code>).
+              </span>
+            </li>
+            <li class="flex gap-standard items-start">
+              <Bullet class="mt-[0.45em]" />
+              <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                Trzeci punkt — dłuższy tekst, żeby pokazać jak bullet wygląda obok wiersza, który się zawija na dwie linie przy węższym kontenerze.
+              </span>
+            </li>
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== ANALYSIS HEADER ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="analysis-header">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.9 AnalysisHeader</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/AnalysisHeader.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Area-analysis header: twin overlapping circles (dark outline + yellow fill) with a center icon, paired with H1 title + intro paragraph. Title splits on the first <code class="font-mono">:</code> — lead bold on line 1, rest on line 2 (colon dropped).</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">icon</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">astro-icon name (center badge)</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">title</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">First <code class="font-mono">:</code> splits into bold lead + rest</td></tr>
+        <tr><td class="py-tight pr-relaxed">intro</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Intro paragraph under header</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ds-component" data-active-title="split">
+      <div class="flex flex-wrap gap-relaxed mb-compact items-center">
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Title</span>
+          {(['split', 'single'] as const).map((v, i) => (
+            <button data-dim="title" data-value={v} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{v}</button>
+          ))}
+        </div>
+      </div>
+
+      <div class="p-comfortable bg-surface-light">
+        <div data-row-title="split">
+          <AnalysisHeader
+            icon="areas/target-click"
+            title="Bolączki kategorii: AI zamiast ręcznej analizy"
+            intro="Kategoria social listening ma chroniczne problemy: narzędzia zbierają tysiące wzmianek, ale użytkownik sam musi wydobyć wnioski. Konfiguracja trwa tygodnie. Analiza sentymentu jest niedokładna."
+          />
+        </div>
+        <div class="hidden" data-row-title="single">
+          <AnalysisHeader
+            icon="areas/eye-scan"
+            title="Łamanie schematów kategorii"
+            intro="Brand24 rozbija niepisane reguły branży: publiczny cennik, trial bez karty, miesięczne subskrypcje — w kategorii, która to wszystko ukrywa za formularzem „Request a demo”."
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== INSIGHT ROW ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="insight-row">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.10 InsightRow</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/InsightRow.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Single "Główne wnioski" row. Asymmetric grid <code class="font-mono">360fr / 40px / 532fr</code> per Figma. Title right-aligned at lg+. Decorative vertical pill (dark-outlined capsule 40×116 with yellow circle) between columns.</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">title</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Short headline (wraps ~2 lines in narrow column)</td></tr>
+        <tr><td class="py-tight pr-relaxed">description</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Body paragraph</td></tr>
+      </tbody>
+    </table>
+
+    <div class="p-comfortable bg-surface-light">
+      <p class="font-body text-label-sm uppercase tracking-wide text-text-muted mb-compact">3 stacked rows</p>
+      <div class="flex flex-col">
+        <InsightRow
+          title="AI zamiast surowych danych"
+          description="Konkurencja daje panele danych. Brand24 daje odpowiedzi. AI Brand Assistant pozwala zadać pytanie w języku naturalnym i dostać gotowy wniosek. AI Insights generuje automatyczne raporty z trendami."
+        />
+        <InsightRow
+          title="Sentyment z 95% skutecznością"
+          description={"AI Sentiment Analysis osiąga 95% F1 score na próbie 50 tys. wzmianek. Konkurencja? \"Niedokładny sentyment\" to stały motyw w recenzjach Brandwatch i Meltwater."}
+        />
+        <InsightRow
+          title="Konfiguracja w minuty"
+          description="Ocena łatwości obsługi: 4,7/5 na bazie 250+ recenzji. Brandwatch wymaga dedykowanego wdrożenia. Meltwater prowadzi przez demo. Brand24? Wpisujesz słowo kluczowe i zaczynasz."
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== RISK CARD ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="risk-card">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.11 RiskCard</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/RiskCard.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Muted-background card for "Gdzie leży ryzyko?". Fixed internal <code class="font-mono">bg-surface-muted</code>, 60px padding, 48px gap. Icon rendered via <code class="font-mono">Badge</code> (size <code class="font-mono">lg</code>, variant <code class="font-mono">naked</code>).</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">icon</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">astro-icon name</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">title</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Risk name</td></tr>
+        <tr><td class="py-tight pr-relaxed">body</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Risk description</td></tr>
+      </tbody>
+    </table>
+
+    <div class="p-comfortable bg-surface-light">
+      <p class="font-body text-label-sm uppercase tracking-wide text-text-muted mb-compact">2-column grid (how they appear in AnalysisSection)</p>
+      <div class="grid gap-standard lg:grid-cols-2 lg:gap-relaxed">
+        <RiskCard
+          icon="control-point-duplicate"
+          title="Kopiowalność"
+          body="Trudna w krótkim terminie. Wymaga połączenia danych (25 mln źródeł), UX, AI osadzonego w przepływie pracy i tempa wydawania nowych wersji. Kopiowalna w średnim terminie przez duże platformy, jeśli uznają segment MŚP za strategiczny."
+        />
+        <RiskCard
+          icon="visibility-lock"
+          title="Ograniczenie kategorii"
+          body="Niedokładny sentyment to systemowa wada całej branży, nie specyficzny problem Brand24. Żadne narzędzie social listening nie rozwiązało tego w pełni. Szum w wynikach występuje u wszystkich graczy."
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== REPORT AREAS MENU ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="report-areas-menu">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.12 ReportAreasMenu</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/ReportAreasMenu.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">6-area TOC menu used inline in OverviewSection and in the page-level sticky overlay. Each <code class="font-mono">&lt;li&gt;</code> carries <code class="font-mono">data-area-number</code>; page-level scroll-spy toggles <code class="font-mono">data-current="true"</code> on the matching item. Both visual variants (current = dark circle + bold / inactive = small number + label) are rendered per item; CSS shows one or the other via <code class="font-mono">group-data-[current=true]:</code>.</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">areasLabel</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Pill label above the list</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">areas</td><td class="py-tight pr-relaxed text-text-muted">Area[]</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">number, label, state, optional href</td></tr>
+        <tr><td class="py-tight pr-relaxed">sectionPills</td><td class="py-tight pr-relaxed text-text-muted">SectionPill[]</td><td class="py-tight pr-relaxed text-text-muted">[]</td><td class="py-tight font-body text-text-muted">Locked-section chips below the list</td></tr>
+      </tbody>
+    </table>
+
+    <div class="ds-component" data-active-surface="accent" data-active-current="none">
+      {/* Switchers */}
+      <div class="flex flex-wrap gap-relaxed mb-compact items-center">
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Surface</span>
+          {surfaces.map((s, i) => (
+            <button data-dim="surface" data-value={s} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", s === 'accent' ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{s}</button>
+          ))}
+        </div>
+        <div class="flex items-center gap-tight">
+          <span class="font-body text-label-sm text-text-muted">Active area</span>
+          {(['none', '01', '02', '03', '04', '05', '06'] as const).map((n, i) => (
+            <button data-dim="current" data-value={n} class:list={["px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer", i === 0 ? "bg-on-surface-dark text-on-surface-light" : "hover:bg-surface-muted"]}>{n}</button>
+          ))}
+        </div>
+      </div>
+
+      {/* Panels — one per surface, menu rendered identically in each */}
+      {surfaces.map((s) => (
+        <div class:list={["ds-panel p-comfortable", s !== 'accent' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+          <div class="max-w-[320px]">
+            <ReportAreasMenu
+              areasLabel="6 obszarów przewagi"
+              areas={[
+                { number: '01', label: 'Bolączki kategorii', state: 'done' },
+                { number: '02', label: 'Łamanie schematów', state: 'done' },
+                { number: '03', label: 'DNA firmy', state: 'done' },
+                { number: '04', label: 'Demokratyzacja', state: 'done' },
+                { number: '05', label: 'Kombinacje wartości', state: 'done' },
+                { number: '06', label: 'Nowa podkategoria', state: 'done' },
+              ]}
+              sectionPills={[
+                { label: 'Konstelacje przewag', state: 'locked' },
+                { label: 'Ocena strategiczna', state: 'locked' },
+              ]}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
 </PreviewLayout>
 
 <script>
@@ -498,6 +749,12 @@ const problemIcons = [
       comp.querySelectorAll('.ds-panel').forEach((panel) => {
         const el = panel as HTMLElement;
         el.classList.toggle('hidden', el.dataset.panelSurface !== val);
+      });
+    } else if (dim === 'current') {
+      // ReportAreasMenu: flip data-current on matching <li data-area-number="N">
+      comp.querySelectorAll('[data-area-number]').forEach((li) => {
+        const el = li as HTMLElement;
+        el.dataset.current = el.dataset.areaNumber === val ? 'true' : 'false';
       });
     } else {
       // Toggle rows by data-row-{dim}

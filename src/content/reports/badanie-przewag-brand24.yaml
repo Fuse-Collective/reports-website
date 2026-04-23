@@ -39,7 +39,7 @@ sections:
       secondary:
         label: "Odblokuj pełną wersję"
         href: "#gate"
-    gateNote: "Część wyników jest otwarta. Pełną wersję z konstelacjami przewag odblokujesz podając maila."
+    gateNote: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
   - type: chapter-title
     headline: "Jak szukamy przewagi konkurencyjnej?"
@@ -93,7 +93,10 @@ sections:
     headline: "Co znaleźliśmy w Brand24"
     subtitle: "Przeanalizowaliśmy Brand24 w 6 obszarach. W kilku wyniki są wyjątkowo silne."
     insightLabel: "Kluczowy wniosek"
-    insight: "Brand24 ma realne przewagi konkurencyjne w branży social listening. Najsilniejsza: łamanie schematów kategorii. Publiczny cennik, trial bez karty, miesięczne subskrypcje w branży, która to wszystko ukrywa. Nie wszystkie przewagi są jednakowo silne. Ale te najsilniejsze są najtrudniejsze do skopiowania."
+    insight: "Brand24 ma realne przewagi konkurencyjne w branży social listening."
+    insightPoints:
+      - "<strong>Najsilniejsza: łamanie schematów kategorii</strong> — publiczny cennik, trial bez karty, miesięczne subskrypcje w branży, która to wszystko ukrywa."
+      - "Nie wszystkie są jednakowo silne, ale te najsilniejsze są najtrudniejsze do skopiowania."
     areasLabel: "6 obszarów przewagi"
     areas:
       - number: "01"
@@ -120,14 +123,15 @@ sections:
       - label: "Ocena strategiczna"
         state: locked
     cta:
-      label: "Odblokuj pełny raport"
+      label: "Odblokuj pełną wersję"
       href: "#gate"
+      note: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
   - type: analysis
     number: "01"
     title: "Bolączki kategorii: AI zamiast ręcznej analizy"
     intro: "Kategoria social listening ma chroniczne problemy: narzędzia zbierają tysiące wzmianek, ale użytkownik sam musi wydobyć wnioski. Konfiguracja trwa tygodnie. Analiza sentymentu jest niedokładna."
-    headerIcon: "ads-click"
+    headerIcon: "areas/target-click"
     insightsHeading: "Główne wnioski"
     insights:
       - title: "AI zamiast surowych danych"

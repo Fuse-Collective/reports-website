@@ -3,6 +3,10 @@ import PreviewLayout from '../../layouts/PreviewLayout.astro';
 import OfferCardsSection from '../../components/sections/offer-cards/OfferCardsSection.astro';
 import ServicesSection from '../../components/sections/services/ServicesSection.astro';
 import PainBlockSection from '../../components/sections/pain-block/PainBlockSection.astro';
+import ReportCoverSection from '../../components/sections/report-cover/ReportCoverSection.astro';
+import ChapterTitleSection from '../../components/sections/chapter-title/ChapterTitleSection.astro';
+import OverviewSection from '../../components/sections/overview/OverviewSection.astro';
+import AnalysisSection from '../../components/sections/analysis/AnalysisSection.astro';
 
 const painSymptoms = [
   { iconName: "problems/brak-wyroznienia", text: "Klienci porównują Was z konkurencją i wybierają najtańszą opcję" },
@@ -35,6 +39,81 @@ const services = [
   { heading: "Realizujemy złożone projekty dla liderów", icon: "lider", description: "Pracujemy z liderami lub pretendentami nad złożonymi problemami, lub gdy marka wymaga głębszych zmian." },
   { heading: "Dajemy świeże spojrzenie", icon: "spojrzenie", description: "Synergia doświadczeń z różnych branż zapewnia świeżość, a przywiązanie do detalu wysoką jakość oraz estetykę." },
 ];
+
+const reportCover = {
+  headline: "Co wyróżnia Brand24?",
+  subtitle: "Brand24 to polska spółka SaaS, która od 14 lat rośnie dwucyfrowo.",
+  profileLabel: "Profil firmy",
+  profile: {
+    items: [
+      { label: "Kategoria", value: "SaaS, social listening + AI" },
+      { label: "Zasięg", value: "154 kraje, 4 000+ klientów" },
+    ],
+  },
+  metricsLabel: "Kluczowe metryki",
+  metrics: [
+    { label: "Przychody 2024", value: "35,28 mln zł", note: "+27% r/r" },
+    { label: "MRR Q4 2025", value: "973 tys. USD", note: "+34% r/r" },
+    { label: "ARPU Q4 2025", value: "264 USD", note: "+38% r/r" },
+    { label: "Wzrost MRR", value: "16 kw. dynamicznego wzrostu z rzędu" },
+  ],
+  disclaimer: "W 2024 Semrush (przez Prowly) przejął ~57,6% akcji Brand24. W 2025 Adobe ogłosiło przejęcie Semrush za ~1,9 mld USD (zamknięcie oczekiwane H1 2026).",
+  authorHeadline: "To nie jest artykuł o Brand24, tylko raport z badania przewag konkurencyjnych.",
+  authorBody: "W badaniu wykorzystaliśmy framework, który stosujemy z firmami B2B: przemysł, technologia, produkcja, SaaS. Nasze prace dla klientów są poufne. Brand24 wybraliśmy celowo: publiczna spółka, znana marka, pełna transparentność danych.",
+  author: {
+    name: "Tomasz Maciąg",
+    role: "CEO i strateg · Fuse Collective",
+    photoUrl: "/images/authors/tomasz-maciag.png",
+  },
+  cta: {
+    primary: { label: "Zobacz wyniki badania", href: "#s2" },
+    secondary: { label: "Odblokuj pełną wersję", href: "#gate" },
+  },
+  gateNote: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami.",
+};
+
+const overviewAreas = [
+  { number: '01', label: 'Bolączki kategorii', state: 'done' as const },
+  { number: '02', label: 'Łamanie schematów', state: 'done' as const },
+  { number: '03', label: 'DNA firmy', state: 'done' as const },
+  { number: '04', label: 'Demokratyzacja', state: 'done' as const },
+  { number: '05', label: 'Kombinacje wartości', state: 'done' as const },
+  { number: '06', label: 'Nowa podkategoria', state: 'done' as const },
+];
+
+const overviewPills = [
+  { label: 'Konstelacje przewag', state: 'locked' as const },
+  { label: 'Ocena strategiczna', state: 'locked' as const },
+];
+
+const analysisArea01 = {
+  number: '01',
+  title: 'Bolączki kategorii: AI zamiast ręcznej analizy',
+  intro: 'Kategoria social listening ma chroniczne problemy: narzędzia zbierają tysiące wzmianek, ale użytkownik sam musi wydobyć wnioski. Konfiguracja trwa tygodnie. Analiza sentymentu jest niedokładna.',
+  headerIcon: 'areas/target-click',
+  insightsHeading: 'Główne wnioski',
+  insights: [
+    { title: 'AI zamiast surowych danych', description: 'Konkurencja daje panele danych. Brand24 daje odpowiedzi. AI Brand Assistant pozwala zadać pytanie w języku naturalnym i dostać gotowy wniosek. AI Insights generuje automatyczne raporty z trendami.' },
+    { title: 'Sentyment z 95% skutecznością', description: 'AI Sentiment Analysis osiąga 95% F1 score na próbie 50 tys. wzmianek. Konkurencja? "Niedokładny sentyment" to stały motyw w recenzjach Brandwatch i Meltwater.' },
+    { title: 'Konfiguracja w minuty', description: 'Ocena łatwości obsługi: 4,7/5 na bazie 250+ recenzji. Brandwatch wymaga dedykowanego wdrożenia. Meltwater prowadzi przez demo. Brand24? Wpisujesz słowo kluczowe i zaczynasz.' },
+  ],
+  comparisonHeading: 'Porównanie z konkurencją',
+  comparison: {
+    columns: ['Aspekt', 'Brandwatch', 'Meltwater', 'Brand24'],
+    highlightedColumnIndex: 3,
+    rows: [
+      ['Wdrożenie', 'Dedykowane wdrożenie', 'Guided demo', 'Konfiguracja w minuty'],
+      ['Wnioski', 'Praca własna', 'Panele danych', 'AI generuje gotowe'],
+      ['Cennik', 'Brak publicznego', 'Brak publicznego', 'Publiczny'],
+      ['Cena wejścia', 'Indywidualna wycena', 'Indywidualna wycena', '$199/mies. (rocznie)'],
+    ],
+  },
+  risksHeading: 'Gdzie leży ryzyko?',
+  risks: [
+    { icon: 'control-point-duplicate', title: 'Kopiowalność', body: 'Trudna w krótkim terminie. Wymaga połączenia danych (25 mln źródeł), UX, AI osadzonego w przepływie pracy i tempa wydawania nowych wersji. Kopiowalna w średnim terminie przez duże platformy, jeśli uznają segment MŚP za strategiczny.' },
+    { icon: 'visibility-lock', title: 'Ograniczenie kategorii', body: 'Niedokładny sentyment to systemowa wada całej branży, nie specyficzny problem Brand24. Żadne narzędzie social listening nie rozwiązało tego w pełni. Szum w wynikach występuje u wszystkich graczy.' },
+  ],
+};
 ---
 
 <PreviewLayout title="Section Templates" current="/design-system/sections/">
@@ -98,6 +177,50 @@ const services = [
       ]}
       symptoms={painSymptoms}
     />
+  </div>
+
+  {/* ReportCoverSection */}
+  <div>
+    <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">ReportCoverSection</h2>
+    <ReportCoverSection {...reportCover} />
+  </div>
+
+  {/* ChapterTitleSection */}
+  <div>
+    <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">ChapterTitleSection</h2>
+    <ChapterTitleSection
+      headline="Jak szukamy przewagi konkurencyjnej?"
+      subtitle="Zanim pokażemy wyniki badania Brand24, zaczynamy od problemu i metodologii."
+    />
+  </div>
+
+  {/* OverviewSection */}
+  <div>
+    <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">OverviewSection</h2>
+    <OverviewSection
+      headline="Co znaleźliśmy w Brand24"
+      subtitle="Przeanalizowaliśmy Brand24 w 6 obszarach. W kilku wyniki są wyjątkowo silne."
+      insightLabel="Kluczowy wniosek"
+      insight="Brand24 ma realne przewagi konkurencyjne w branży social listening."
+      insightPoints={[
+        "<strong>Najsilniejsza: łamanie schematów kategorii</strong> — publiczny cennik, trial bez karty, miesięczne subskrypcje w branży, która to wszystko ukrywa.",
+        "Nie wszystkie są jednakowo silne, ale te najsilniejsze są najtrudniejsze do skopiowania.",
+      ]}
+      areasLabel="6 obszarów przewagi"
+      areas={overviewAreas}
+      sectionPills={overviewPills}
+      cta={{
+        label: "Odblokuj pełną wersję",
+        href: "#gate",
+        note: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami.",
+      }}
+    />
+  </div>
+
+  {/* AnalysisSection */}
+  <div>
+    <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">AnalysisSection</h2>
+    <AnalysisSection {...analysisArea01} />
   </div>
 
 </PreviewLayout>

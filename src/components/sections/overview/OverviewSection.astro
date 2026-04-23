@@ -1,16 +1,20 @@
 ---
 /**
- * OverviewSection — full-yellow hero-style summary with a key insight.
+ * OverviewSection — thin composition of OverviewHero + OverviewInsight.
  *
- * Top row: headline + subtitle (2-col).
- * Divider.
- * Bottom row: insight + CTA (full width). The 6-area TOC menu is rendered
- * once at page level in [slug].astro (sticky right column starting from
- * the first analysis section) — not inline here — so we don't duplicate it.
+ * The two halves are split because on the live report page ([slug].astro),
+ * the page-level sticky TOC overlay starts at the INSIGHT row, not at the
+ * hero. To achieve that, the `data-menu-scope` boundary must fall BETWEEN
+ * the hero and the insight — so [slug].astro imports and renders
+ * OverviewHero + OverviewInsight directly with the scope wrapper between
+ * them.
  *
- * Figma: 3611:9539 (workaround_mode: no Variables, non-semantic layer names).
+ * This wrapper component exists for preview / documentation use (e.g. the
+ * design-system/sections page), where the TOC overlay is absent and both
+ * halves should render together.
  */
-import { Icon } from 'astro-icon/components';
+import OverviewHero from './OverviewHero.astro';
+import OverviewInsight from './OverviewInsight.astro';
 
 interface Area {
   number: string;
@@ -24,61 +28,28 @@ interface SectionPill {
   state: 'locked';
 }
 
+interface Cta {
+  label: string;
+  href: string;
+  note?: string;
+}
+
 interface Props {
   headline: string;
   subtitle: string;
   insightLabel: string;
   insight: string;
-  areasLabel: string;
-  areas: Area[];
+  insightPoints?: string[];
+  cta?: Cta;
+  // Accepted for interface parity with the YAML shape, but rendered by the
+  // page-level TOC overlay (not by Overview itself).
+  areasLabel?: string;
+  areas?: Area[];
   sectionPills?: SectionPill[];
 }
 
-const {
-  headline,
-  subtitle,
-  insightLabel,
-  insight,
-  areasLabel,
-  areas,
-  sectionPills = [],
-} = Astro.props;
+const { headline, subtitle, insightLabel, insight, insightPoints, cta } = Astro.props;
 ---
 
-<section
-  class="bg-surface-accent py-monumental px-page-gutter"
-  data-surface="accent"
-  data-section-type="overview"
->
-  <div class="mx-auto max-w-content-max flex flex-col gap-comfortable xl:pr-[368px]">
-
-    {/* Top row — headline + subtitle */}
-    <div class="grid gap-relaxed lg:grid-cols-2 lg:gap-comfortable">
-      <h2 class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-accent m-0">
-        {headline}
-      </h2>
-      <p class="font-body text-body-md lg:text-body-lg font-normal leading-tight text-on-surface-accent m-0 lg:pt-compact">
-        {subtitle}
-      </p>
-    </div>
-
-    {/* Divider */}
-    <hr class="border-0 border-t border-on-surface-accent/40 m-0" />
-
-    {/* Insight row (full width — menu lives at page level, not here) */}
-    <div class="flex flex-col gap-relaxed lg:flex-row lg:gap-relaxed lg:items-start">
-      <div class="w-[148px] h-[148px] shrink-0 text-on-surface-accent">
-        <Icon name="indicator-circle" class="w-full h-full" />
-      </div>
-      <div class="flex flex-col gap-relaxed max-w-[893px]">
-        <h3 class="font-body text-headline-md lg:text-body-xl font-medium leading-tight text-on-surface-accent m-0">
-          {insightLabel}
-        </h3>
-        <p class="font-body text-body font-normal leading-normal text-on-surface-accent m-0">
-          {insight}
-        </p>
-      </div>
-    </div>
-
-  </div>
-</section>
+<OverviewHero headline={headline} subtitle={subtitle} />
+<OverviewInsight insightLabel={insightLabel} insight={insight} insightPoints={insightPoints} cta={cta} />

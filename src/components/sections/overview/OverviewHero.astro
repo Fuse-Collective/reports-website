@@ -1,0 +1,39 @@
+---
+/**
+ * OverviewHero — top half of the Overview: headline + subtitle + separator.
+ *
+ * Renders FULL-WIDTH (no menu reservation). Lives outside `data-menu-scope`
+ * in [slug].astro so the sticky TOC overlay doesn't visually overlap this row.
+ *
+ * Paired with OverviewInsight for the insight row on the same accent surface.
+ * Bottom padding is trimmed to `comfortable` so the two halves flow seamlessly
+ * (separator-to-insight gap matches the single-section gap-comfortable).
+ */
+interface Props {
+  headline: string;
+  subtitle: string;
+}
+
+const { headline, subtitle } = Astro.props;
+---
+
+<section
+  class="bg-surface-accent pt-monumental pb-comfortable px-page-gutter"
+  data-surface="accent"
+  data-section-type="overview-hero"
+>
+  <div class="mx-auto max-w-content-max flex flex-col gap-comfortable">
+
+    <div class="grid gap-relaxed lg:grid-cols-2 lg:gap-comfortable">
+      <h2 class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-accent m-0">
+        {headline}
+      </h2>
+      <p class="font-body text-body-md lg:text-body-lg font-normal leading-tight text-on-surface-accent m-0 lg:pt-compact">
+        {subtitle}
+      </p>
+    </div>
+
+    <hr class="border-0 border-t border-on-surface-accent/40 m-0" />
+
+  </div>
+</section>

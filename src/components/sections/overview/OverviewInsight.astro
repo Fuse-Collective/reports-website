@@ -1,0 +1,95 @@
+---
+/**
+ * OverviewInsight — bottom half of the Overview: key insight + CTA.
+ *
+ * Lives INSIDE `data-menu-scope` in [slug].astro as its first child — so the
+ * page-level sticky TOC overlay's natural top aligns with this component's
+ * top edge (see aside `pt-0` in [slug].astro). Reserves `xl:pr-[368px]` on
+ * the inner content wrapper so text doesn't collide with the menu rail.
+ *
+ * `xl:min-h-[448px]` sizes the inner wrapper to match the TOC menu's measured
+ * content height (6 areas + 2 locked section pills + label pill) so the menu
+ * fits entirely on the yellow accent background. Section total height =
+ * 448 (inner min-h) + 112 (pb-monumental) = 560px. Tighter than an arbitrary
+ * 600px+ min-h, which would leave awkward empty yellow below the menu.
+ *
+ * If the YAML adds more areas or pills in future reports, re-measure and bump
+ * this value — otherwise the menu will spill onto the next section's surface.
+ *
+ * Paired with OverviewHero on the same accent surface.
+ */
+import { Icon } from 'astro-icon/components';
+import Button from '../../ui/Button.astro';
+import Bullet from '../../ui/Bullet.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+  note?: string;
+}
+
+interface Props {
+  insightLabel: string;
+  insight: string;
+  insightPoints?: string[];
+  cta?: Cta;
+}
+
+const { insightLabel, insight, insightPoints, cta } = Astro.props;
+---
+
+<section
+  class="bg-surface-accent pb-monumental px-page-gutter"
+  data-surface="accent"
+  data-section-type="overview-insight"
+>
+  <div class="mx-auto max-w-content-max xl:pr-[368px] xl:min-h-[448px]">
+
+    <div class="flex flex-col gap-relaxed lg:flex-row lg:gap-relaxed lg:items-start">
+      <div class="w-[148px] h-[148px] shrink-0 text-on-surface-accent">
+        <Icon name="indicator-circle" class="w-full h-full" />
+      </div>
+      <div class="flex flex-col gap-relaxed max-w-[893px]">
+        <h3 class="font-body text-headline-md lg:text-body-xl font-medium leading-tight text-on-surface-accent m-0">
+          {insightLabel}
+        </h3>
+        <p class="font-body text-body font-normal leading-normal text-on-surface-accent m-0">
+          {insight}
+        </p>
+
+        {insightPoints && insightPoints.length > 0 && (
+          <ul class="flex flex-col gap-compact m-0 p-0 list-none">
+            {insightPoints.map((point) => (
+              <li class="flex gap-standard items-start">
+                <Bullet class="mt-[0.45em]" />
+                <span
+                  class="font-body text-body font-normal leading-normal text-on-surface-accent"
+                  set:html={point}
+                ></span>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {cta && (
+          <div class="flex flex-col gap-standard">
+            <Button variant="primary" surface="accent" href={cta.href}>
+              {cta.label}
+              <svg slot="icon" viewBox="0 0 64 64" fill="none">
+                <rect x="14" y="32" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2"/>
+                <path d="M22 32V22C22 14.268 27.268 9 34 9V9C40.732 9 46 14.268 46 22V32" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                <circle cx="32" cy="44" r="3" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </Button>
+            {cta.note && (
+              <p class="font-body text-label-sm leading-loose text-on-surface-accent m-0">
+                {cta.note}
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+
+  </div>
+</section>

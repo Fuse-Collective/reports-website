@@ -5,6 +5,8 @@ import NavBar from '../components/sections/nav-bar/NavBar.astro';
 import SectionRenderer from '../components/sections/SectionRenderer.astro';
 import ReportSideNav from '../components/interactive/ReportSideNav.astro';
 import ReportAreasMenu from '../components/common/ReportAreasMenu.astro';
+import OverviewHero from '../components/sections/overview/OverviewHero.astro';
+import OverviewInsight from '../components/sections/overview/OverviewInsight.astro';
 
 export async function getStaticPaths() {
   const reports = await getCollection('reports');
@@ -26,24 +28,25 @@ const sideNav = overviewSection
     }
   : null;
 
-// Menu scope = from the `overview` section through the last section BEFORE
-// the first `cta`. On xl+ the wrapper becomes a real 2-col CSS grid
-// (content | sticky menu) — sections inside drop their own px-page-gutter
-// and max-width constraints via their own `xl:` responsive overrides
-// (see OverviewSection + AnalysisSection for the pattern). Starting the
-// scope at `overview` (not at `analysis`) means the sticky menu appears
-// alongside the overview row and keeps following as the user scrolls down
-// instead of appearing only after overview has scrolled away.
-// Below xl, the mobile drawer trigger in ReportSideNav handles TOC access.
+// Menu scope = from the `overview` INSIGHT ROW through the last section
+// BEFORE the first `cta`. The overview is split into a hero (headline +
+// subtitle + separator) and an insight (key insight block). The hero renders
+// OUTSIDE `data-menu-scope` so the sticky TOC overlay does not visually
+// overlap the full-width headline/subtitle row. The insight row is the FIRST
+// section inside `data-menu-scope` — that's where the menu's natural top
+// aligns (aside `pt-0`). Below xl, the mobile drawer in ReportSideNav
+// handles TOC access.
 const overviewIdx = sections.findIndex((s) => s.type === 'overview');
 const firstCtaIdx = sections.findIndex((s) => s.type === 'cta');
 const hasMenuScope = sideNav && overviewIdx !== -1;
+const overviewData = overviewIdx !== -1 ? sections[overviewIdx] : null;
 
-const menuScopeStart = overviewIdx;
+// Pre-menu: everything before overview (the overview HERO is rendered
+// separately just after this block).
 const menuScopeEnd = firstCtaIdx === -1 ? sections.length : firstCtaIdx;
-
-const preMenu = hasMenuScope ? sections.slice(0, menuScopeStart) : sections;
-const menuScope = hasMenuScope ? sections.slice(menuScopeStart, menuScopeEnd) : [];
+const preMenu = hasMenuScope ? sections.slice(0, overviewIdx) : sections;
+// Menu-scope content AFTER the overview insight row (analyses, etc.).
+const menuScopeAfterOverview = hasMenuScope ? sections.slice(overviewIdx + 1, menuScopeEnd) : [];
 const postMenu = hasMenuScope ? sections.slice(menuScopeEnd) : [];
 ---
 
@@ -54,43 +57,58 @@ const postMenu = hasMenuScope ? sections.slice(menuScopeEnd) : [];
     <SectionRenderer section={section} />
   ))}
 
-  {hasMenuScope && (
-    <div class="relative" data-menu-scope>
-      {menuScope.map((section) => (
-        <SectionRenderer section={section} />
-      ))}
+  {hasMenuScope && overviewData && (
+    <>
+      {/* Overview hero — full width, OUTSIDE data-menu-scope so the sticky
+          TOC overlay below doesn't overlap the headline/subtitle row. */}
+      <OverviewHero
+        headline={overviewData.headline}
+        subtitle={overviewData.subtitle}
+      />
 
-      {/* Desktop menu — absolutely positioned overlay aligned to the same
-          content-max + page-gutter grid as the sections. Sections keep their
-          own outer gutters and inner max-width, so outer responsive behavior
-          is identical across pre-menu and menu-scope sections. Menu-scope
-          sections reserve `xl:pr-[368px]` inside their content wrapper so
-          content doesn't collide with the menu rail. */}
-      <div class="hidden xl:block absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div class="h-full px-page-gutter">
-          <div class="mx-auto max-w-content-max h-full relative">
-            <aside
-              class="absolute top-0 right-0 h-full w-[320px] pt-monumental pointer-events-auto"
-              aria-label="Spis treści raportu"
-              aria-hidden="false"
-            >
-              {/* `pt-monumental` on the parent aligns the menu's natural
-                  position with the overview section's content top. Once the
-                  user scrolls past that, sticky `top-[2rem]` kicks in and
-                  the menu floats near the viewport top (32px margin) —
-                  NavBar is absolute and scrolls away, so no overlap risk. */}
-              <div class="sticky top-[2rem] w-fit ml-auto">
-                <ReportAreasMenu
-                  areasLabel={sideNav.areasLabel}
-                  areas={sideNav.areas}
-                  sectionPills={sideNav.sectionPills}
-                />
-              </div>
-            </aside>
+      <div class="relative" data-menu-scope>
+        {/* Overview insight — first section in menu scope. The menu overlay's
+            natural top aligns with this component's top edge (aside `pt-0`). */}
+        <OverviewInsight
+          insightLabel={overviewData.insightLabel}
+          insight={overviewData.insight}
+          insightPoints={overviewData.insightPoints}
+          cta={overviewData.cta}
+        />
+
+        {menuScopeAfterOverview.map((section) => (
+          <SectionRenderer section={section} />
+        ))}
+
+        {/* Desktop menu — absolutely positioned overlay aligned to the same
+            content-max + page-gutter grid as the sections. Menu-scope
+            sections reserve `xl:pr-[368px]` inside their content wrapper so
+            content doesn't collide with the menu rail. */}
+        <div class="hidden xl:block absolute inset-0 pointer-events-none" aria-hidden="true">
+          <div class="h-full px-page-gutter">
+            <div class="mx-auto max-w-content-max h-full relative">
+              <aside
+                class="absolute top-0 right-0 h-full w-[320px] pointer-events-auto"
+                aria-label="Spis treści raportu"
+                aria-hidden="false"
+              >
+                {/* Menu's natural top = top of OverviewInsight (first in scope).
+                    Once scrolled past, sticky `top-[2rem]` kicks in and the menu
+                    floats 32px from the viewport top — NavBar is absolute and
+                    scrolls away, so no overlap risk. */}
+                <div class="sticky top-[2rem] w-fit ml-auto">
+                  <ReportAreasMenu
+                    areasLabel={sideNav.areasLabel}
+                    areas={sideNav.areas}
+                    sectionPills={sideNav.sectionPills}
+                  />
+                </div>
+              </aside>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )}
 
   {postMenu.map((section) => (
