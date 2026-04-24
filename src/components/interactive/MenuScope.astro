@@ -15,10 +15,11 @@
  * from the viewport top — NavBar is absolute and scrolls away, so no
  * overlap risk.
  *
- * The aside fills the full scope height (top-0 bottom-0). With the inner
- * sticky pinned at `top-[2rem]`, the menu stays at that fixed top offset
- * throughout the scope and releases exactly at the scope boundary — it
- * does not visibly "park" at the bottom before the next section arrives.
+ * The aside fills the scope height minus the last section's bottom padding
+ * (`bottom-monumental` = 112px, matches `py-monumental` convention). With
+ * the inner sticky pinned at `top-[2rem]`, the menu releases at the last
+ * section's content end — not at the absolute bottom of the scope — so it
+ * doesn't appear to "park" in the 112px padding below the final content.
  */
 import ReportAreasMenu from '../common/ReportAreasMenu.astro';
 
@@ -65,7 +66,7 @@ const { areasLabel, areas, areasHref, sectionPills, mode = 'areas', sticky = tru
     <div class="h-full px-page-gutter">
       <div class="mx-auto max-w-content-max h-full relative">
         <aside
-          class="absolute top-0 bottom-0 right-0 w-[320px] pointer-events-auto"
+          class="absolute top-0 bottom-monumental right-0 w-[320px] pointer-events-auto"
           data-surface={surface}
           aria-label="Spis treści raportu"
           aria-hidden="false"
