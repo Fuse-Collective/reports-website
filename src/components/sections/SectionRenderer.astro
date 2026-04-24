@@ -7,7 +7,10 @@ import ReportCoverSection from './report-cover/ReportCoverSection.astro';
 import ChapterTitleSection from './chapter-title/ChapterTitleSection.astro';
 import PainBlockSection from './pain-block/PainBlockSection.astro';
 import OverviewSection from './overview/OverviewSection.astro';
+import PreviewGateSection from './preview-gate/PreviewGateSection.astro';
+import MethodologySection from './methodology/MethodologySection.astro';
 import AnalysisSection from './analysis/AnalysisSection.astro';
+import ConstellationSection from './constellation/ConstellationSection.astro';
 import OfferCardsSection from './offer-cards/OfferCardsSection.astro';
 import ServicesSection from './services/ServicesSection.astro';
 
@@ -28,8 +31,14 @@ const headline = (section as Record<string, unknown>).headline as string | undef
   <PainBlockSection {...section as any} />
 ) : type === 'overview' ? (
   <OverviewSection {...section as any} />
+) : type === 'preview-gate' ? (
+  <PreviewGateSection {...section as any} />
+) : type === 'methodology' ? (
+  <MethodologySection {...section as any} />
 ) : type === 'analysis' ? (
   <AnalysisSection {...section as any} />
+) : type === 'constellation' ? (
+  <ConstellationSection {...section as any} />
 ) : type === 'offer-cards' ? (
   <OfferCardsSection {...section as any} />
 ) : type === 'services-grid' ? (

@@ -16,6 +16,8 @@
 import OverviewHero from './OverviewHero.astro';
 import OverviewInsight from './OverviewInsight.astro';
 
+type Surface = 'accent' | 'dark';
+
 interface Area {
   number: string;
   label: string;
@@ -36,11 +38,12 @@ interface Cta {
 
 interface Props {
   headline: string;
-  subtitle: string;
+  subtitle?: string;
   insightLabel: string;
-  insight: string;
+  insight?: string;
   insightPoints?: string[];
   cta?: Cta;
+  surface?: Surface;
   // Accepted for interface parity with the YAML shape, but rendered by the
   // page-level TOC overlay (not by Overview itself).
   areasLabel?: string;
@@ -48,8 +51,20 @@ interface Props {
   sectionPills?: SectionPill[];
 }
 
-const { headline, subtitle, insightLabel, insight, insightPoints, cta } = Astro.props;
+const {
+  headline,
+  subtitle,
+  insightLabel,
+  insight,
+  insightPoints,
+  cta,
+  surface = 'accent',
+} = Astro.props;
+
+// Standalone composition (DS preview, SectionRenderer fallback). On the
+// actual report page, [slug].astro renders Hero and Insight directly —
+// Insight gets wrapped in MenuScope and receives inMenuScope={true} there.
 ---
 
-<OverviewHero headline={headline} subtitle={subtitle} />
-<OverviewInsight insightLabel={insightLabel} insight={insight} insightPoints={insightPoints} cta={cta} />
+<OverviewHero headline={headline} subtitle={subtitle} surface={surface} />
+<OverviewInsight insightLabel={insightLabel} insight={insight} insightPoints={insightPoints} cta={cta} surface={surface} />

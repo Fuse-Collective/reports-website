@@ -1,0 +1,196 @@
+---
+/**
+ * ConstellationSection — full deep-dive of one advantage constellation.
+ *
+ * Composes 6 sub-blocks (Figma 3644:22096):
+ *   1. Header — cluster icon + h2 title
+ *   2. ConstellationFoundation — demand points + mechanism (bordered card)
+ *   3. Gwiazdy konstelacji — 2-col grid of ConstellationStar
+ *   4. Risks — 2-col grid of RiskCard (Zagrożenie / Kopiowalność)
+ *   5. Ideas — "Co mogłoby wzmocnić…" + 2-col grid of ConstellationStar
+ *   6. FeaturedCta — Advantage Intelligence interstitial
+ *
+ * Used once per constellation (5× per report).
+ */
+import { Icon } from 'astro-icon/components';
+import ConstellationFoundation from '../../common/ConstellationFoundation.astro';
+import ConstellationStar from '../../common/ConstellationStar.astro';
+import RiskCard from '../../common/RiskCard.astro';
+import FeaturedCta from '../../common/FeaturedCta.astro';
+
+interface DemandPoint {
+  tag: string;
+  tagTone?: 'accent' | 'neutral';
+  quote: string;
+}
+
+interface Star {
+  tag: string;
+  tagTone?: 'accent' | 'neutral';
+  tagSecondary?: string;
+  tagSecondaryTone?: 'accent' | 'neutral';
+  title: string;
+  description: string;
+}
+
+interface Risk {
+  icon: string;
+  title: string;
+  body: string;
+}
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Featured {
+  icon: string;
+  headline: string;
+  paragraphs: string[];
+  cta: Cta;
+}
+
+interface Props {
+  /** Section surface. 'light' (default) = white; 'muted' = #EEEEEE grey.
+   * Risk cards flip to the opposite surface so they stay visible. */
+  surface?: 'light' | 'muted';
+  number: string;
+  title: string;
+
+  demandPointsHeading: string;
+  demandPoints: DemandPoint[];
+
+  mechanismHeading: string;
+  mechanismLead: string;
+  mechanismLines: string[];
+
+  starsHeading: string;
+  stars: Star[];
+
+  risksHeading?: string;
+  risks: Risk[];
+
+  ideasHeading?: string;
+  ideasSubheading?: string;
+  ideas?: Star[];
+
+  featured?: Featured;
+}
+
+const {
+  surface = 'light',
+  number,
+  title,
+  demandPointsHeading,
+  demandPoints,
+  mechanismHeading,
+  mechanismLead,
+  mechanismLines,
+  starsHeading,
+  stars,
+  risks,
+  ideasHeading,
+  ideasSubheading,
+  ideas,
+  featured,
+} = Astro.props;
+
+const sectionBgClass = surface === 'muted' ? 'bg-surface-muted' : 'bg-surface-light';
+const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
+---
+
+<section
+  class:list={[sectionBgClass, 'py-monumental px-page-gutter']}
+  data-section-type="constellation"
+  data-constellation-number={number}
+  data-surface={surface}
+>
+  <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
+
+    {/* 1. Header */}
+    <div class="flex items-start gap-relaxed">
+      <Icon name="constellations/cluster" class="w-[148px] h-[152px] shrink-0 text-on-surface-dark" />
+      <h2
+        class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-dark m-0"
+        set:html={title}
+      ></h2>
+    </div>
+
+    {/* 2. Foundation: demand points + mechanism */}
+    <ConstellationFoundation
+      demandPointsHeading={demandPointsHeading}
+      demandPoints={demandPoints}
+      mechanismHeading={mechanismHeading}
+      mechanismLead={mechanismLead}
+      mechanismLines={mechanismLines}
+    />
+
+    {/* 3. Gwiazdy konstelacji */}
+    <div class="flex flex-col gap-relaxed">
+      <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+        {starsHeading}
+      </h3>
+      <div class:list={['grid grid-cols-1 gap-relaxed', stars.length > 1 && 'md:grid-cols-2 md:gap-[120px]']}>
+        {stars.map((s) => (
+          <ConstellationStar
+            tag={s.tag}
+            tagTone={s.tagTone}
+            tagSecondary={s.tagSecondary}
+            tagSecondaryTone={s.tagSecondaryTone}
+            title={s.title}
+            description={s.description}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* 4. Ideas (Co mogłoby wzmocnić…) — optional */}
+    {ideas && ideas.length > 0 && (
+      <div class="flex flex-col gap-relaxed">
+        <div class="flex flex-col gap-tight">
+          {ideasHeading && (
+            <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+              {ideasHeading}
+            </h3>
+          )}
+          {ideasSubheading && (
+            <p class="font-body text-body-sm font-normal text-on-surface-dark m-0" set:html={ideasSubheading}></p>
+          )}
+        </div>
+        <div class:list={['grid grid-cols-1 gap-relaxed', ideas.length > 1 && 'md:grid-cols-2 md:gap-[120px]']}>
+          {ideas.map((s) => (
+            <ConstellationStar
+              tag={s.tag}
+              tagTone={s.tagTone}
+              tagSecondary={s.tagSecondary}
+              tagSecondaryTone={s.tagSecondaryTone}
+              title={s.title}
+              description={s.description}
+            />
+          ))}
+        </div>
+      </div>
+    )}
+
+    {/* 5. FeaturedCta (engine explainer — continues the Ideas block) — optional */}
+    {featured && (
+      <div id="jak-powstaly-te-pomysly">
+        <FeaturedCta
+          icon={featured.icon}
+          headline={featured.headline}
+          paragraphs={featured.paragraphs}
+          cta={featured.cta}
+        />
+      </div>
+    )}
+
+    {/* 6. Risks */}
+    <div class:list={['grid grid-cols-1 gap-standard', risks.length > 1 && 'lg:grid-cols-2 lg:gap-relaxed']}>
+      {risks.map((r) => (
+        <RiskCard icon={r.icon} title={r.title} body={r.body} surface={riskCardSurface} />
+      ))}
+    </div>
+
+  </div>
+</section>

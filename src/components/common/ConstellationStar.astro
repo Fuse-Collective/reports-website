@@ -1,0 +1,57 @@
+---
+/**
+ * ConstellationStar — card with yellow disk + sparkle glyph, tag row, title,
+ * description, and optional secondary tag (for "idea" variants in the
+ * "Co mogłoby wzmocnić tę konstelację" block).
+ *
+ * Used in:
+ *   - "Gwiazdy konstelacji" block — tag + title + description (single tag).
+ *   - "Co mogłoby wzmocnić…" block — title + description + tag (different
+ *     copy, same shape). Secondary tag pattern is supported via `tagSecondary`.
+ */
+import { Icon } from 'astro-icon/components';
+import Tag from '../ui/Tag.astro';
+
+interface Props {
+  tag: string;
+  tagTone?: 'accent' | 'neutral';
+  /** Optional second tag — e.g. "POMYSŁ: MARKETING" for idea star cards. */
+  tagSecondary?: string;
+  tagSecondaryTone?: 'accent' | 'neutral';
+  title: string;
+  description: string;
+}
+
+const {
+  tag,
+  tagTone = 'accent',
+  tagSecondary,
+  tagSecondaryTone = 'accent',
+  title,
+  description,
+} = Astro.props;
+---
+
+<div class="flex flex-col gap-standard">
+
+  {/* Icon + primary tag row */}
+  <div class="flex items-center justify-between gap-standard">
+    <Icon
+      name="constellations/gwiazda"
+      class="w-[96px] h-[64px] shrink-0 text-on-surface-dark"
+    />
+    <div class="flex flex-col items-end gap-tight">
+      <Tag label={tag} tone="neutral" />
+      {tagSecondary && <Tag label={tagSecondary} tone="neutral" />}
+    </div>
+  </div>
+
+  <h4 class="font-body text-body-md font-normal leading-relaxed text-on-surface-dark m-0">
+    {title}
+  </h4>
+
+  <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+    {description}
+  </p>
+
+</div>

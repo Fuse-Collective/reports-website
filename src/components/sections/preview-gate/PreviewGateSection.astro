@@ -1,0 +1,42 @@
+---
+/**
+ * PreviewGateSection — second-overview-shaped teaser placed after the
+ * analyses, inviting readers to unlock the full report (constellations,
+ * strategic assessment, etc.). Reuses OverviewHero + OverviewInsight so
+ * the layout matches the primary overview exactly, only the texts differ.
+ *
+ * Renders OUTSIDE `data-menu-scope` in [slug].astro (the scope ends at the
+ * first preview-gate or cta). Hero spans full content-max width with the
+ * separator intact — same layout as the primary overview's hero.
+ *
+ * Differences vs primary OverviewSection:
+ *  - No subtitle (single-column hero)
+ *  - No insight paragraph (label flows straight into bullets)
+ */
+import OverviewHero from '../overview/OverviewHero.astro';
+import OverviewInsight from '../overview/OverviewInsight.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+  note?: string;
+}
+
+interface Props {
+  headline: string;
+  insightLabel: string;
+  insight?: string;
+  insightPoints?: string[];
+  cta?: Cta;
+}
+
+const { headline, insightLabel, insight, insightPoints, cta } = Astro.props;
+---
+
+<OverviewHero headline={headline} />
+<OverviewInsight
+  insightLabel={insightLabel}
+  insight={insight}
+  insightPoints={insightPoints}
+  cta={cta}
+/>

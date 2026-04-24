@@ -6,18 +6,24 @@
  * large bare icon (84×84), title H4, body paragraph.
  */
 import Badge from '../ui/Badge.astro';
+import Bullet from '../ui/Bullet.astro';
 
 interface Props {
   icon: string;
   title: string;
-  body: string;
+  body?: string;
+  bullets?: string[];
+  /** Card surface. 'muted' (default) for cards on light sections;
+   * 'light' for cards on muted sections — preserves contrast. */
+  surface?: 'light' | 'muted';
   class?: string;
 }
 
-const { icon, title, body, class: className } = Astro.props;
+const { icon, title, body, bullets, surface = 'muted', class: className } = Astro.props;
+const bgClass = surface === 'light' ? 'bg-surface-light' : 'bg-surface-muted';
 ---
 
-<div class:list={['flex flex-col gap-comfortable p-[60px] bg-surface-muted rounded-[4px]', className]}>
+<div class:list={['flex flex-col gap-comfortable p-[60px] rounded-[4px]', bgClass, className]}>
 
   <div class="flex flex-col gap-standard">
     <Badge icon={icon} size="lg" variant="naked" surface="muted" />
@@ -26,8 +32,21 @@ const { icon, title, body, class: className } = Astro.props;
     </h3>
   </div>
 
-  <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
-    {body}
-  </p>
+  {body && (
+    <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+      {body}
+    </p>
+  )}
+
+  {bullets && bullets.length > 0 && (
+    <ul class="flex flex-col gap-standard m-0 p-0 list-none">
+      {bullets.map((item) => (
+        <li class="flex gap-standard items-start font-body text-body font-normal leading-normal text-on-surface-dark">
+          <Bullet class="mt-[calc(0.45em+1px)]" />
+          <span set:html={item} />
+        </li>
+      ))}
+    </ul>
+  )}
 
 </div>

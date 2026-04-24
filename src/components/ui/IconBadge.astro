@@ -1,0 +1,29 @@
+---
+/**
+ * IconBadge — coloured circular disk primitive.
+ *
+ * Purely decorative backdrop. The badge itself renders no content; callers
+ * position glyphs or text over it via a relative/absolute wrapper (see
+ * StatCircle for centred value, ApproachCompareCard for overflowing glyph).
+ *
+ * Sizes:
+ *   md = 64px  (approach-compare glyph backdrop)
+ *   lg = 200px (stat-circle backdrop)
+ *
+ * Tones:
+ *   accent  = brand yellow (#FECD36 / --color-surface-accent)
+ *   neutral = outline grey (#D8D8D8 / --color-outline-light)
+ */
+interface Props {
+  size?: 'md' | 'lg';
+  tone?: 'accent' | 'neutral';
+  class?: string;
+}
+
+const { size = 'md', tone = 'accent', class: className } = Astro.props;
+
+const sizeClass = size === 'lg' ? 'w-[200px] h-[200px]' : 'w-16 h-16';
+const toneClass = tone === 'accent' ? 'bg-surface-accent' : 'bg-outline-light';
+---
+
+<span aria-hidden="true" class:list={["block rounded-full shrink-0", sizeClass, toneClass, className]} />

@@ -4,6 +4,7 @@
 /* Sections set data-surface on root element. Children use on-dark:/on-accent: to adapt. */
 @custom-variant on-dark (&:is([data-surface="dark"] *));
 @custom-variant on-accent (&:is([data-surface="accent"] *));
+@custom-variant on-muted (&:is([data-surface="muted"] *));
 
 @theme {
   /* === COLOR TOKENS === */
@@ -83,6 +84,12 @@
   /* === UNMAPPED TOKENS (no @theme namespace) === */
   --overlay: rgba(29, 29, 27, 0.9);
   --transition-button: 0.15s ease-in-out;
+}
+
+/* Inline bold in prose — use semibold (600) instead of browser default bold
+ * (700). Matches user preference for a lighter, less chunky emphasis weight. */
+strong, b {
+  font-weight: var(--font-weight-semibold);
 }
 
 /* Brand icon colors: yellow accents → white on accent surface */

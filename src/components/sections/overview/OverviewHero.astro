@@ -2,38 +2,70 @@
 /**
  * OverviewHero — top half of the Overview: headline + subtitle + separator.
  *
- * Renders FULL-WIDTH (no menu reservation). Lives outside `data-menu-scope`
- * in [slug].astro so the sticky TOC overlay doesn't visually overlap this row.
+ * Surface variants:
+ *   'accent' (default) — primary pre-gate overview (yellow).
+ *   'dark'             — post-gate overview (black, white text).
  *
- * Paired with OverviewInsight for the insight row on the same accent surface.
- * Bottom padding is trimmed to `comfortable` so the two halves flow seamlessly
- * (separator-to-insight gap matches the single-section gap-comfortable).
+ * The primary overview renders FULL-WIDTH outside `data-menu-scope` in
+ * [slug].astro so the sticky TOC doesn't overlap. Variants that live inside
+ * a scope (preview-gate hero, post-gate dark overview) set `inMenuScope`
+ * to reserve 368px on the right.
+ *
+ * Paired with OverviewInsight; bottom padding is trimmed to `comfortable`
+ * so the two halves flow seamlessly (separator-to-insight gap = gap-comfortable).
  */
+type Surface = 'accent' | 'dark';
+
 interface Props {
   headline: string;
-  subtitle: string;
+  subtitle?: string;
+  surface?: Surface;
+  /** When true, reserves 368px on the right at xl+ so content doesn't
+   * collide with the page-level sticky TOC overlay. The primary overview
+   * hero renders OUTSIDE data-menu-scope so it stays false there.
+   * Second-overview-shaped sections (e.g. preview-gate, post-gate dark
+   * overview) live INSIDE menu scope and must set this to true. */
+  inMenuScope?: boolean;
+  /** Separator line under the headline block. True by default — matches
+   * the primary overview. Preview-gate hides it (no separator in Figma). */
+  showSeparator?: boolean;
 }
 
-const { headline, subtitle } = Astro.props;
+const { headline, subtitle, surface = 'accent', inMenuScope = false, showSeparator = true } = Astro.props;
+
+const bgClass = surface === 'dark' ? 'bg-surface-dark' : 'bg-surface-accent';
+
+const textClass =
+  'text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent';
+const hrClass =
+  'border-0 border-t m-0 border-on-surface-dark/40 on-dark:border-on-surface-light/40 on-accent:border-on-surface-accent/40';
 ---
 
 <section
-  class="bg-surface-accent pt-monumental pb-comfortable px-page-gutter"
-  data-surface="accent"
+  class:list={[bgClass, "pt-monumental pb-comfortable px-page-gutter"]}
+  data-surface={surface}
   data-section-type="overview-hero"
 >
-  <div class="mx-auto max-w-content-max flex flex-col gap-comfortable">
+  <div class:list={["mx-auto max-w-content-max flex flex-col gap-comfortable", inMenuScope && "xl:pr-[368px]"]}>
 
-    <div class="grid gap-relaxed lg:grid-cols-2 lg:gap-comfortable">
-      <h2 class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-accent m-0">
+    {subtitle ? (
+      <div class="grid gap-relaxed lg:grid-cols-2 lg:gap-comfortable">
+        <h2 class:list={["font-body text-display-md lg:text-display-lg font-normal leading-normal m-0", textClass]}>
+          {headline}
+        </h2>
+        <p class:list={["font-body text-body-md lg:text-body-lg font-normal leading-tight m-0 lg:pt-compact", textClass]}>
+          {subtitle}
+        </p>
+      </div>
+    ) : (
+      <h2 class:list={["font-body text-display-md lg:text-display-lg font-normal leading-normal m-0", textClass]}>
         {headline}
       </h2>
-      <p class="font-body text-body-md lg:text-body-lg font-normal leading-tight text-on-surface-accent m-0 lg:pt-compact">
-        {subtitle}
-      </p>
-    </div>
+    )}
 
-    <hr class="border-0 border-t border-on-surface-accent/40 m-0" />
+    {showSeparator && (
+      <hr class={hrClass} />
+    )}
 
   </div>
 </section>

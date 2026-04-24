@@ -10,6 +10,10 @@ import AnalysisHeader from '../../components/common/AnalysisHeader.astro';
 import InsightRow from '../../components/common/InsightRow.astro';
 import RiskCard from '../../components/common/RiskCard.astro';
 import ReportAreasMenu from '../../components/common/ReportAreasMenu.astro';
+import IconBadge from '../../components/ui/IconBadge.astro';
+import ApproachCompareCard from '../../components/common/ApproachCompareCard.astro';
+import StatCircle from '../../components/common/StatCircle.astro';
+import StatsGrid from '../../components/common/StatsGrid.astro';
 import { Icon } from 'astro-icon/components';
 
 const surfaces = ['light', 'muted', 'dark', 'accent'] as const;
@@ -493,7 +497,7 @@ const areaIcons = [
   <div class="py-comfortable px-page-gutter border-t border-outline-light" id="bullet">
     <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.8 Bullet</h2>
     <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/Bullet.astro</code>
-    <p class="font-body text-label-sm text-text-muted mb-relaxed">12×12 square marker for unordered lists. Fill inherits the parent section's <code class="font-mono">data-surface</code> via <code class="font-mono">on-dark:</code> / <code class="font-mono">on-accent:</code> prefixes. Pair with text in a <code class="font-mono">flex gap-standard items-start</code> row and align the bullet to cap height (e.g. <code class="font-mono">mt-[0.45em]</code>).</p>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Square marker for unordered lists — two sizes: <code class="font-mono">lg</code> (12×12, default, paired with body text via <code class="font-mono">mt-[0.45em]</code>) and <code class="font-mono">sm</code> (4×4, for footnote-style lists, paired with <code class="font-mono">mt-[0.65em]</code>). Fill inherits the parent section's <code class="font-mono">data-surface</code> via <code class="font-mono">on-dark:</code> / <code class="font-mono">on-accent:</code> prefixes.</p>
 
     <div class="ds-component" data-active-surface="light">
       <div class="flex items-center gap-tight mb-compact">
@@ -504,27 +508,48 @@ const areaIcons = [
       </div>
 
       {surfaces.map((s) => (
-        <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
-          <ul class="flex flex-col gap-compact m-0 p-0 list-none max-w-[720px]">
-            <li class="flex gap-standard items-start">
-              <Bullet class="mt-[0.45em]" />
-              <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
-                Pierwszy punkt — bullet dziedziczy kolor z otaczającej sekcji.
-              </span>
-            </li>
-            <li class="flex gap-standard items-start">
-              <Bullet class="mt-[0.45em]" />
-              <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
-                <strong>Drugi punkt:</strong> bold fragment to wzorzec z YAML (rich text przez <code class="font-mono">set:html</code>).
-              </span>
-            </li>
-            <li class="flex gap-standard items-start">
-              <Bullet class="mt-[0.45em]" />
-              <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
-                Trzeci punkt — dłuższy tekst, żeby pokazać jak bullet wygląda obok wiersza, który się zawija na dwie linie przy węższym kontenerze.
-              </span>
-            </li>
-          </ul>
+        <div class:list={["ds-panel p-comfortable flex flex-col gap-relaxed", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
+          <div class="flex flex-col gap-tight">
+            <span class="font-body text-label-sm text-text-muted on-dark:text-on-surface-light/70 on-accent:text-on-surface-accent/70">Large (12px) — default</span>
+            <ul class="flex flex-col gap-compact m-0 p-0 list-none max-w-[720px]">
+              <li class="flex gap-standard items-start">
+                <Bullet size="lg" class="mt-[calc(0.45em+1px)]" />
+                <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                  Pierwszy punkt — bullet dziedziczy kolor z otaczającej sekcji.
+                </span>
+              </li>
+              <li class="flex gap-standard items-start">
+                <Bullet size="lg" class="mt-[calc(0.45em+1px)]" />
+                <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                  <strong>Drugi punkt:</strong> bold fragment to wzorzec z YAML (rich text przez <code class="font-mono">set:html</code>).
+                </span>
+              </li>
+              <li class="flex gap-standard items-start">
+                <Bullet size="lg" class="mt-[calc(0.45em+1px)]" />
+                <span class="font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                  Trzeci punkt — dłuższy tekst, żeby pokazać jak bullet wygląda obok wiersza, który się zawija na dwie linie przy węższym kontenerze.
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="flex flex-col gap-tight">
+            <span class="font-body text-label-sm text-text-muted on-dark:text-on-surface-light/70 on-accent:text-on-surface-accent/70">Small (4px)</span>
+            <ul class="flex flex-col gap-compact m-0 p-0 list-none max-w-[720px]">
+              <li class="flex gap-tight items-start">
+                <Bullet size="sm" class="mt-[0.65em]" />
+                <span class="font-body text-body-sm font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                  Mały wariant — dla list drugorzędnych lub w przypisach.
+                </span>
+              </li>
+              <li class="flex gap-tight items-start">
+                <Bullet size="sm" class="mt-[0.65em]" />
+                <span class="font-body text-body-sm font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent">
+                  Drugi punkt — dopasuj <code class="font-mono">mt</code> jeśli zmieniasz rozmiar tekstu.
+                </span>
+              </li>
+            </ul>
+          </div>
         </div>
       ))}
     </div>
@@ -713,6 +738,126 @@ const areaIcons = [
           </div>
         </div>
       ))}
+    </div>
+  </div>
+
+  <!-- ===================== ICON BADGE ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="icon-badge">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.13 IconBadge</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/ui/IconBadge.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Pure decorative circular disk. Rendered as a bare <code class="font-mono">&lt;span&gt;</code> with background colour and border radius — no content slot. Callers stack glyphs or text over it via a relative wrapper. Used by <code class="font-mono">ApproachCompareCard</code> (md, overflowing glyph) and <code class="font-mono">StatCircle</code> (lg, centred value).</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">size</td><td class="py-tight pr-relaxed text-text-muted">"md" | "lg"</td><td class="py-tight pr-relaxed text-text-muted">"md"</td><td class="py-tight font-body text-text-muted">64px (md) or 270px (lg)</td></tr>
+        <tr><td class="py-tight pr-relaxed">tone</td><td class="py-tight pr-relaxed text-text-muted">"accent" | "neutral"</td><td class="py-tight pr-relaxed text-text-muted">"accent"</td><td class="py-tight font-body text-text-muted">Yellow (accent) or grey (neutral)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="p-comfortable bg-surface-light flex items-end gap-comfortable flex-wrap">
+      <div class="flex flex-col gap-tight items-center"><IconBadge size="md" tone="neutral" /><span class="font-body text-label-sm text-text-muted">md / neutral</span></div>
+      <div class="flex flex-col gap-tight items-center"><IconBadge size="md" tone="accent" /><span class="font-body text-label-sm text-text-muted">md / accent</span></div>
+      <div class="flex flex-col gap-tight items-center"><IconBadge size="lg" tone="accent" /><span class="font-body text-label-sm text-text-muted">lg / accent</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== APPROACH COMPARE CARD ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="approach-compare-card">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.14 ApproachCompareCard</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/ApproachCompareCard.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">One column of a before/after approach comparison. Header is a face glyph overlapping an <code class="font-mono">IconBadge</code> (64px disk + 60px glyph offset right); below it an h4 label and body description. Reusable for typical-vs-ours, old-vs-new, problem-vs-solution pairings.</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">icon</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">astro-icon name, e.g. "approaches/face-happy"</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">tone</td><td class="py-tight pr-relaxed text-text-muted">"accent" | "neutral"</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Disk colour under the glyph</td></tr>
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">label</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">h4 headline</td></tr>
+        <tr><td class="py-tight pr-relaxed">description</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Body copy</td></tr>
+      </tbody>
+    </table>
+
+    <div class="p-comfortable bg-surface-light grid grid-cols-1 lg:grid-cols-2 gap-comfortable lg:gap-[120px]">
+      <ApproachCompareCard
+        icon="approaches/face-neutral"
+        tone="neutral"
+        label="Typowe podejście"
+        description="Szukasz jednego USP. Jednej rzeczy, która Cię wyróżnia. Problem: jedno USP jest kopiowalne."
+      />
+      <ApproachCompareCard
+        icon="approaches/face-happy"
+        tone="accent"
+        label="Nasze podejście"
+        description="Szukamy konstelacji. Grup elementów, które wzmacniają się nawzajem i tworzą pozycję."
+      />
+    </div>
+  </div>
+
+  <!-- ===================== STAT CIRCLE ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="stat-circle">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.15 StatCircle</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/StatCircle.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Big proof-point value on a 270px yellow disk + caption below. Composes <code class="font-mono">IconBadge</code> (lg/accent) with the value centred over it via absolute positioning.</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">value</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Centred value (e.g. "5x", "90%")</td></tr>
+        <tr><td class="py-tight pr-relaxed">caption</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Body copy underneath</td></tr>
+      </tbody>
+    </table>
+
+    <div class="p-comfortable bg-surface-light flex flex-wrap gap-comfortable">
+      <StatCircle value="5x" caption="wyższa penetracja rynku dla marek znacząco innych" />
+      <StatCircle value="2x" caption="wyższa skłonność klientów do zapłaty wyższej ceny" />
+      <StatCircle value="90%" caption="wpływ inności na predyspozycję do zapłaty premium" />
+    </div>
+  </div>
+
+  <!-- ===================== STATS GRID ===================== -->
+  <div class="py-comfortable px-page-gutter border-t border-outline-light" id="stats-grid">
+    <h2 class="font-body text-headline-sm leading-normal text-on-surface-dark mb-compact">2.16 StatsGrid</h2>
+    <code class="font-mono text-label text-on-surface-dark block mb-compact">src/components/common/StatsGrid.astro</code>
+    <p class="font-body text-label-sm text-text-muted mb-relaxed">Horizontal row of <code class="font-mono">StatCircle</code> with an optional source footnote. Desktop: items distributed along the row via <code class="font-mono">justify-between</code>. Mobile: stacked vertically.</p>
+
+    <table class="font-body text-label w-full mb-comfortable">
+      <thead><tr class="text-left border-b border-outline-light">
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Prop</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Typ</th>
+        <th class="py-tight pr-relaxed text-text-muted font-normal">Default</th>
+        <th class="py-tight text-text-muted font-normal">Opis</th>
+      </tr></thead>
+      <tbody class="font-mono text-label-sm">
+        <tr class="border-b border-outline-subtle"><td class="py-tight pr-relaxed">items</td><td class="py-tight pr-relaxed text-text-muted">{"{ value, caption }[]"}</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Stats list (typically 3)</td></tr>
+        <tr><td class="py-tight pr-relaxed">source</td><td class="py-tight pr-relaxed text-text-muted">string</td><td class="py-tight pr-relaxed text-text-muted">—</td><td class="py-tight font-body text-text-muted">Optional small footnote under the row</td></tr>
+      </tbody>
+    </table>
+
+    <div class="p-comfortable bg-surface-light">
+      <StatsGrid
+        items={[
+          { value: "5x", caption: "wyższa penetracja rynku dla marek znacząco innych" },
+          { value: "2x", caption: "wyższa skłonność klientów do zapłaty wyższej ceny" },
+          { value: "90%", caption: "wpływ inności na predyspozycję do zapłaty premium" },
+        ]}
+        source="Źródło: Blueprint for Brand Growth, Kantar 2024."
+      />
     </div>
   </div>
 

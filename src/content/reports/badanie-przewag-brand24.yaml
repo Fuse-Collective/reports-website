@@ -4,7 +4,7 @@ description: "Raport z badania przewag konkurencyjnych Brand24 — framework sto
 sections:
   - type: report-cover
     headline: "Co wyróżnia Brand24?"
-    subtitle: "Brand24 to polska spółka SaaS, która od 14 lat rośnie dwucyfrowo."
+    subtitle: "Spółka od 14 lat rośnie dwucyfrowo, a decyzje podejmowane przez te lata budowały jej przewagę konkurencyjną."
     profileLabel: "Profil firmy"
     profile:
       items:
@@ -120,6 +120,17 @@ sections:
     sectionPills:
       - label: "Konstelacje przewag"
         state: locked
+        items:
+          - number: "01"
+            label: "Transparentna alternatywa"
+          - number: "02"
+            label: "AI intelligence dla każdego"
+          - number: "03"
+            label: "Firma z twarzą"
+          - number: "04"
+            label: "Pierwszy w nowym świecie"
+          - number: "05"
+            label: "Twierdza danych"
       - label: "Ocena strategiczna"
         state: locked
     cta:
@@ -132,7 +143,7 @@ sections:
     title: "Bolączki kategorii: AI zamiast ręcznej analizy"
     intro: "Kategoria social listening ma chroniczne problemy: narzędzia zbierają tysiące wzmianek, ale użytkownik sam musi wydobyć wnioski. Konfiguracja trwa tygodnie. Analiza sentymentu jest niedokładna."
     headerIcon: "areas/target-click"
-    insightsHeading: "Główne wnioski"
+    insightsHeading: "Jak Brand24 rozwiązuje bolączki kategorii?"
     insights:
       - title: "AI zamiast surowych danych"
         description: "Konkurencja daje panele danych. Brand24 daje odpowiedzi. AI Brand Assistant pozwala zadać pytanie w języku naturalnym i dostać gotowy wniosek. AI Insights generuje automatyczne raporty z trendami."
@@ -157,3 +168,510 @@ sections:
       - icon: "visibility-lock"
         title: "Ograniczenie kategorii"
         body: "Niedokładny sentyment to systemowa wada całej branży, nie specyficzny problem Brand24. Żadne narzędzie social listening nie rozwiązało tego w pełni. Szum w wynikach występuje u wszystkich graczy."
+
+  - type: analysis
+    surface: muted
+    number: "02"
+    title: "Łamanie schematów: Publiczny cennik w branży, która cennik ukrywa"
+    intro: "Brand24 łamie co najmniej 5 niepisanych reguł branży social listening. To najsilniejsza przewaga w całej analizie."
+    headerIcon: "areas/eye-scan"
+    insightsHeading: "Jak Brand24 łamie schematy?"
+    insights:
+      - title: "Publikuje ceny, których branża nie pokazuje"
+        description: "Brandwatch nie publikuje cennika. Meltwater wymaga rozmowy z handlowcem. Brand24 publikuje cennik na stronie."
+      - title: "Daje przetestować produkt bez rozmowy z handlowcem"
+        description: "Klient testuje pełny produkt bez kontaktu z handlowcem. W segmencie enterprise to odwrócenie typowego procesu sprzedaży."
+      - title: "Zmienia kategorię budżetową: z kosztu na analitykę"
+        description: "Brand24 przekształca social listening z wydatku PR-owego w analitykę biznesową. Zmiana kategorii budżetowej w głowie klienta."
+    comparisonHeading: "5 złamanych reguł"
+    comparison:
+      columns: ["Reguła branżowa", "Co robi Brand24"]
+      rows:
+        - ["Ukryte ceny, indywidualne wyceny", "Publiczny cennik online, od $199/mies."]
+        - ["Demo + rozmowa z handlowcem", "14-dniowy trial bez karty kredytowej"]
+        - ["Roczne kontrakty", "Subskrypcje miesięczne, bez zobowiązań"]
+        - ["Złożoność = wartość", "Prostota i szybkość (4,7/5 na ~500 recenzji)"]
+        - ["Sprzedaż relacyjna enterprise", "Samoobsługa dla mniejszych firm"]
+    risksHeading: "Gdzie leży ryzyko?"
+    risks:
+      - icon: "control-point-duplicate"
+        title: "Kopiowalność"
+        body: "Bardzo trudna dla dominujących graczy (Brandwatch, Meltwater). Obniżenie cen i uproszczenie modelu sprzedaży oznaczałoby kanibalizację marży (klasyczny dylemat innowatora). Dla nowych pretendentów kopiowalna. Mniejsi gracze już to robią."
+      - icon: "exclamation"
+        title: "Kompromisy modelu"
+        bullets:
+          - "Niski próg wejścia ($199/mies.), ale zaawansowane filtry wzmianek (Boolean search) dopiero od wyższych planów."
+          - "Szybka konfiguracja bez szkoleń, ale dużo filtrów i opcji od razu, bez prowadzenia."
+          - "AI generuje wnioski automatycznie, ale nieadekwatne wzmianki nadal wymagają ręcznego filtrowania."
+
+  - type: analysis
+    number: "03"
+    title: "DNA firmy: Twarz w branży bezosobowych platform"
+    intro: "Czasem wyróżnik nie leży w produkcie, ale w tym, kim jest organizacja. Brand24 to przypadek, w którym CEO jest częścią produktu."
+    headerIcon: "areas/dna-helix"
+    insightsHeading: "Jak Brand24 buduje przewagę z własnej tożsamości?"
+    insights:
+      - title: "Ma twarz i nazwisko w kategorii bez twarzy"
+        description: "Sadowski: 95K+ followersów LinkedIn, wideo \"This is Poland\" z 4M+ wyświetleń, autor bestsellerowej \"Rewolucji Social Media\". Otwarcie publikuje dane operacyjne (MRR, ARPU)."
+      - title: "Tłumaczy się wprost, gdy coś idzie nie tak"
+        description: "W 2018 Facebook zablokował integrację Brand24. Firma straciła 8% klientów z dnia na dzień. Sadowski wystąpił przed kamerą, tłumacząc sytuację wprost. Otwartość zbudowała obrońców marki."
+      - title: "Traktuje support jak element marki"
+        description: "Ocena wsparcia na Capterra: 4,8/5. Recenzje wymieniają z imienia konkretne osoby z supportu. Zasada \"ciut za uprzejmi\" to sformalizowana kultura, nie przypadek."
+    risksHeading: "Gdzie leży ryzyko?"
+    risks:
+      - icon: "control-point-duplicate"
+        title: "Kopiowalność"
+        body: "Osobista marka CEO jest organicznie przypisana do konkretnego człowieka i trudna do skopiowania. Ale DNA firmy nie musi opierać się na jednej osobie. Zespół, który otwarcie pokazuje swoją pracę, dzieli się wiedzą i buduje relacje z rynkiem, może osiągnąć podobny efekt. Wymaga to świadomej strategii, nie przypadku."
+      - icon: "exclamation"
+        title: "Zagrożenie"
+        body: "Efektywne głównie w Polsce. Za granicą (80% przychodów) marketing \"odarty jest z Sadka\" (cytat Sadowskiego). Przejęcie przez Semrush/Adobe dodaje 4 poziomy hierarchii korporacyjnej. Osobista marka CEO jest trudna do utrzymania w strukturze korporacji."
+
+  - type: analysis
+    surface: muted
+    number: "04"
+    title: "Demokratyzacja: Social listening za $199, nie $800+"
+    intro: "Social listening był domeną korporacji z budżetami na Brandwatch ($800+/mies.) i dedykowanymi zespołami analitycznymi. Brand24 otworzył tę kategorię na mniejsze firmy."
+    headerIcon: "areas/shopping-bag"
+    insightsHeading: "Jak Brand24 otwiera kategorię dla mniejszych firm?"
+    insights:
+      - title: "Sprzedaje za $199 tam, gdzie enterprise woła $800+"
+        description: "Od $199/mies. Ponad 50% klientów to firmy do 100 pracowników. Sprout Social kosztuje $199/mies. za jednego użytkownika. Brand24 daje unlimited users od planu Team."
+      - title: "Wpuszcza na pokład bez karty i handlowca"
+        description: "14-dniowy trial bez karty kredytowej. Brak wymaganej rozmowy z handlowcem. Wystarczy wpisać słowo kluczowe, żeby zacząć monitoring."
+      - title: "Zmienia social listening w operacyjne narzędzie MŚP"
+        description: "Social listening to już nie \"CI dla Coca-Coli\". To narzędzie operacyjne dla małych biznesów: znajdowanie klientów, monitorowanie konkurencji, reagowanie na kryzysy."
+    comparisonHeading: "Porównanie cen"
+    comparison:
+      columns: ["Narzędzie", "Cena wejścia", "Trial", "Kontakt z handlowcem"]
+      rows:
+        - ["Brandwatch", "~$800+/mies.", "Brak", "Tak"]
+        - ["Meltwater", "~$400–1000+/mies.", "Brak", "Tak"]
+        - ["Sprout Social", "$199/mies./user", "30 dni", "Nie"]
+        - ["Brand24", "$199/mies.", "14 dni, bez karty", "Nie"]
+        - ["Mention", "od $599/mies.", "Brak", "Tak"]
+        - ["Awario", "$29–49/mies.", "Tak", "Nie"]
+    risksHeading: "Gdzie leży ryzyko?"
+    risks:
+      - icon: "exclamation"
+        title: "Napięcie strategiczne"
+        body: "14-dniowy trial bez karty to świadomy ruch: niski próg wejścia pozwala użytkownikowi doświadczyć wartości produktu zanim zapłaci. To buduje retencję (trudniej zrezygnować z czegoś, co już znasz). Kompromis: bez karty na wejściu Brand24 musi potem „ścigać\" o płatność, co wymaga dodatkowych mechanizmów konwersji. Na najniższym planie (2000 wzmianek/mies.) aktywnie dyskutowana firma wyczerpie limit w ciągu dni. Brand24 przesuwa się w stronę enterprise: ARPU rośnie szybciej niż liczba klientów."
+
+  - type: analysis
+    number: "05"
+    title: "Kombinacje wartości: 11 funkcji w jednym narzędziu"
+    intro: "Klienci kupowali osobno: monitoring wzmianek, analitykę sentymentu, raportowanie, influencer tracking, crisis alerting. Brand24 połączył to w jednym produkcie w przystępnej cenie."
+    headerIcon: "areas/magic-wand"
+    insightsHeading: "Jak Brand24 łączy to, co inni sprzedają osobno?"
+    insights:
+      - title: "Łamie kompromis \"tanie albo zaawansowane\""
+        description: "\"Tanie = uproszczone\" vs \"zaawansowane = drogie\". Zaawansowane funkcje (influencer tracking, AI analytics, crisis detection) przy cenie dostępnej dla MŚP."
+      - title: "Zamienia kombinację AI + monitoring w 2,5× ARPU"
+        description: "AI spowodowało 2,5-krotny wzrost ARPU na nowych klientach. Empiryczne potwierdzenie, że kombinacja monitoring + AI konwertuje na wyższą monetyzację."
+    comparisonHeading: "Co tradycyjnie kupowano osobno"
+    comparison:
+      columns: ["Kupowano osobno", "Brand24 łączy w jednym"]
+      rows:
+        - ["Monitoring wzmianek", "25+ mln źródeł: social, news, blogi, podcasty, fora, recenzje"]
+        - ["Analiza sentymentu", "AI Sentiment Analysis"]
+        - ["Raporty z trendami", "AI Insights (automatyczne raporty)"]
+        - ["Q&A o marce", "AI Brand Assistant (pytania w języku naturalnym)"]
+        - ["Alerty kryzysowe", "Storm Alerts, push, Slack/Teams"]
+        - ["Influencer tracking", "Influence Score, Share of Voice, top profiles"]
+    risksHeading: "Gdzie leży ryzyko?"
+    risks:
+      - icon: "exclamation"
+        title: "Trwałość przewagi"
+        body: "Poszczególne funkcje są kopiowalne indywidualnie. Okno ekskluzywności: 6–12 miesięcy. Trwała przewaga leży w integracji 11 funkcji w prostym interfejsie za cenę MŚP, nie w liście funkcji samej w sobie."
+
+  - type: analysis
+    surface: muted
+    number: "06"
+    title: "Nowa podkategoria: Co AI mówi o Twojej marce"
+    intro: "Brand24 w Polsce przez lata był synonimem „monitoringu mediów społecznościowych\" — marka zdefiniowała kategorię. Ten sam ruch zespół próbuje powtórzyć globalnie z nowym, siostrzanym produktem Chatbeat."
+    headerIcon: "areas/robot"
+    insightsHeading: "Jak Brand24 definiuje nową kategorię?"
+    insights:
+      - title: "W Polsce stał się synonimem swojej kategorii"
+        description: "Na polskim rynku Brand24 przez lata było synonimem „monitoringu mediów społecznościowych\". Wikipedia polska definiuje monitoring mediów przez pryzmat Brand24. Top keyword na Similarweb: „brand24\" z 26,4K wyszukiwań."
+      - title: "Powtarza ruch globalnie przez siostrzany Chatbeat"
+        description: "Chatbeat (osobny pakiet, ten sam zespół) monitoruje obecność marki w odpowiedziach ChatGPT, Claude, Gemini, Perplexity. Sadowski: „Monitoring Internetu: słuchasz LUDZI. Monitoring AI: słuchasz MODELI\". 1,1 mln zł ARR po 7 miesiącach, zero wydatków marketingowych."
+    comparisonHeading: "Twarde dane Chatbeat (po 7 miesiącach)"
+    comparison:
+      columns: ["Metryka", "Wartość"]
+      rows:
+        - ["Klienci", "100+"]
+        - ["ARR", "1,1 mln zł (+25% m/m)"]
+        - ["Marketing na launch", "Zero"]
+        - ["Promocja do bazy Brand24", "Brak aktywnej"]
+        - ["Monitorowane LLM", "6+ (ChatGPT, Claude, Gemini, Perplexity, DeepSeek, Grok)"]
+    risksHeading: "Gdzie leży ryzyko?"
+    risks:
+      - icon: "exclamation"
+        title: "Kopiowalność"
+        body: "Kategoria LLM Listening dopiero się formuje. 6–8 nowych narzędzi w 12 miesięcy (Ahrefs Brand Radar, Meltwater GenAI Lens, Nightwatch). Okno: 12–18 miesięcy. Pytanie: czy Brand24 utrzyma pozycję early movera."
+
+  - type: preview-gate
+    headline: "Chcesz zobaczyć jak przewagi łączą się w trudną do skopiowania konstelację?"
+    insightLabel: "To dopiero połowa analizy. W pełnej wersji zobaczysz:"
+    insightPoints:
+      - "5 konstelacji przewag (jak elementy tworzą system)"
+      - "Pomysły na wzmocnienie przewag (z narzędzia Advantage Intelligence)"
+      - "Ocena strategiczna (co najsilniejsze, co zagrożone, co wzmocnić)"
+    cta:
+      label: "Odblokuj pełną wersję"
+      href: "#gate"
+      note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do newslettera. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
+
+  - type: methodology
+    rationaleHeading: "Dlaczego szukamy konstelacji przewag, nie magicznego USP"
+    rationaleIntro: "Pojedyncza przewaga jest łatwo kopiowalna, a konkurencja może ją odtworzyć w 6-12 miesięcy. System wzajemnie wzmacniających się elementów jest bardzo trudno skopiować."
+    approaches:
+      - icon: "approaches/face-neutral"
+        tone: neutral
+        label: "Typowe podejście"
+        description: "Szukasz jednego USP. Jednej rzeczy, która Cię wyróżnia. Problem: jedno USP jest kopiowalne. Konkurencja kopiuje to w 6-12 miesięcy."
+      - icon: "approaches/face-happy"
+        tone: accent
+        label: "Nasze podejście"
+        description: "Szukamy konstelacji. Grup elementów, które wzmacniają się nawzajem i tworzą pozycję, której konkurent nie odtworzy kopiując pojedynczy element."
+    evidenceHeading: "Meaningfully different: dlaczego inność wygrywa?"
+    evidenceIntro: "Marka postrzegana jako spełniająca potrzeby (meaningful) i wyróżniająca się (different) rośnie szybciej i może drożej sprzedawać."
+    stats:
+      - value: "5x"
+        caption: "Marki „znacząco inne” osiągają 5-krotnie wyższą penetrację rynku i szybciej rosną."
+      - value: "2x"
+        caption: "Klienci są skłonni za nie zapłacić nawet 2-krotnie więcej."
+      - value: "90%"
+        caption: "Stopień inności w ponad 90% determinuje predyspozycję klientów do zapłacenia wyższej ceny."
+    source: "Źródło: Blueprint for Brand Growth, Kantar 2024. 21 000 marek, 540 kategorii (zarówno B2C, jak i B2B), 54 rynki."
+
+  - type: overview
+    surface: accent
+    headline: "Konstelacje przewag Brand24"
+    insightLabel: "Brand24 ma 5 systemów przewag."
+    insight: "Każda konstelacja to odpowiedź na konkretny motywator klienta, czyli jego punkt decyzyjny (demand point)."
+    insightPoints:
+      - "<strong>Punkt decyzyjny (demand point)</strong> to moment, w którym klient rozważa rozwiązanie. Konkretne pytanie albo problem, na który szuka odpowiedzi."
+      - "<strong>Konstelacja przewag</strong> to grupa wzajemnie wzmacniających się elementów Brand24 (produkt, model, pozycjonowanie), które razem odpowiadają na ten motywator."
+
+  - type: constellation
+    number: "01"
+    title: "<strong>Konstelacja przewag</strong><br>Transparentna alternatywa"
+
+    demandPointsHeading: "Punkty decyzyjne klienta (demand points)"
+    demandPoints:
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Chcę znać cenę zanim porozmawiam z handlowcem”."
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Nie chcę być zamknięty w rocznym kontrakcie, żeby sprawdzić czy narzędzie działa”."
+      - tag: "Emocjonalny"
+        tagTone: accent
+        quote: "„Chcę sam przetestować narzędzie bez presji sprzedawcy”."
+
+    mechanismHeading: "Mechanizm"
+    mechanismLead: "System radykalnej otwartości, w którym każdy element napędza następny:"
+    mechanismLines:
+      - "Publiczny cennik → zaufanie → trial"
+      - "Trial → samoobsługa → niski koszt pozyskania"
+      - "Niski koszt → niska cena → powrót do cennika"
+
+    starsHeading: "Gwiazdy konstelacji"
+    stars:
+      - tag: "Obszar marketingu"
+        tagTone: accent
+        title: "Publiczny cennik"
+        description: "Jedyny poważny gracz z publicznym cennikiem ($199-$1499)."
+      - tag: "Obszar marketingu"
+        tagTone: accent
+        title: "14-dniowy trial bez karty"
+        description: "14-dniowy trial bez karty i bez rozmowy z handlowcem."
+
+    risks:
+      - icon: "constellations/warning"
+        title: "Zagrożenie"
+        body: "Pojedyncze elementy (trial, cennik) są kopiowalne przez nowych graczy. Transparentność jest przewagą dopóki konkurenci wybierają model zamknięty."
+      - icon: "constellations/cpd"
+        title: "Kopiowalność"
+        body: "Dominujący gracze nie mogą tego skopiować bez kanibalizacji modelu sprzedaży (dylemat innowatora). System jako całość nie jest kopiowalny."
+
+    ideasHeading: "Pomysły na wzmocnienie przewagi"
+    ideasSubheading: 'Powered by <svg class="inline-block w-[24px] h-[24px] align-middle mx-[4px]" viewBox="0 0 16 16" fill="#FECD36" xmlns="http://www.w3.org/2000/svg"><path d="M8 0 C8 4.45 11.55 8 16 8 C11.55 8 8 11.55 8 16 C8 11.55 4.45 8 0 8 C4.45 8 8 4.45 8 0 Z"/></svg> <a href="#jak-powstaly-te-pomysly" class="font-semibold">Fuse Foresight</a>'
+    ideas:
+      - tag: "Obszar marki"
+        tagTone: accent
+        title: "Cennik jako wartość"
+        description: "Kampania wyjaśniająca filozofię publicznych cen. „Szanujemy Twój czas, nie zmuszamy do rozmowy z handlowcem, żeby poznać cenę”. Zamienia taktykę cenową w wartość marki."
+      - tag: "Obszar marketingu"
+        tagTone: accent
+        title: "Kalkulator oszczędności"
+        description: "Publiczny kalkulator pokazujący ile zespół klienta zapłaciłby za Brandwatch/Sprout Social vs Brand24 unlimited. Materializuje abstrakcyjną przewagę w konkretną liczbę."
+
+    featured:
+      icon: "brand/owl"
+      headline: "Jak powstały te pomysły?"
+      paragraphs:
+        - "Pomysły wyżej wygenerował nasz wewnętrzny silnik analityczny łączący bazę wiedzy o B2B (badania, wzorce przewag, case studies) z kontekstem analizowanej firmy. Rekomendacje powstają na danych i wzorcach rynkowych, a nie na intuicji jednego konsultanta <em>(robocza nazwa silnika: Fuse Foresight Lab)</em>."
+      cta:
+        label: "Zobacz ofertę"
+        href: "https://www.fusecollective.com/oferta/"
+
+  - type: constellation
+    surface: muted
+    number: "02"
+    title: "<strong>Konstelacja przewag</strong><br>AI intelligence dla każdego"
+
+    demandPointsHeading: "Punkty decyzyjne klienta (demand points)"
+    demandPoints:
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Chcę wiedzieć co ludzie mówią o mojej marce, ale nie mam analityka”."
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Potrzebuję gotowych odpowiedzi, nie surowych danych i paneli”."
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Nie stać mnie na $800/mies. za narzędzie enterprise”."
+
+    mechanismHeading: "Mechanizm"
+    mechanismLead: "Łamie kompromis „zaawansowane = drogie”:"
+    mechanismLines:
+      - "Warstwa AI na prostej platformie w cenie MŚP"
+      - "Wszystko w jednym narzędziu za cenę jednego modułu konkurencji"
+      - "Efekt: 2,5× wzrost ARPU na nowych klientach"
+
+    starsHeading: "Gwiazdy konstelacji"
+    stars:
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "AI Brand Assistant"
+        description: "Pytania w języku naturalnym zamiast Boolean. Gotowe odpowiedzi, nie surowe panele danych."
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "AI Insights"
+        description: "Automatyczne raporty tygodniowe z trendami. Bez pracy analityka."
+      - tag: "Obszar technologii"
+        tagTone: accent
+        title: "AI Sentiment 95% F1"
+        description: "Skuteczność 95% na 50 tys. wzmianek. „Niedokładny sentyment” to stały motyw w recenzjach konkurencji."
+      - tag: "Obszar CX"
+        tagTone: accent
+        title: "Łatwość obsługi 4,7/5"
+        description: "Ocena z 250+ recenzji. Szybki setup bez szkoleń — wpisujesz słowo kluczowe i zaczynasz."
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "All-in-one w cenie modułu"
+        description: "11 funkcji w jednym narzędziu za cenę jednego modułu konkurencji."
+      - tag: "Obszar pricingu"
+        tagTone: accent
+        title: "$199 vs wycena indywidualna"
+        description: "Publiczny cennik od $199/mies. Brandwatch i Meltwater — sales-led, wycena indywidualna."
+      - tag: "Obszar pricingu"
+        tagTone: accent
+        title: "AI jako oś monetyzacji"
+        description: "Funkcje AI wprost w tabeli cennikowej. 2,5× wzrost ARPU na nowych klientach."
+
+    ideasHeading: "Pomysły na wzmocnienie przewagi"
+    ideasSubheading: 'Powered by <svg class="inline-block w-[24px] h-[24px] align-middle mx-[4px]" viewBox="0 0 16 16" fill="#FECD36" xmlns="http://www.w3.org/2000/svg"><path d="M8 0 C8 4.45 11.55 8 16 8 C11.55 8 8 11.55 8 16 C8 11.55 4.45 8 0 8 C4.45 8 8 4.45 8 0 Z"/></svg> <a href="#jak-powstaly-te-pomysly" class="font-semibold">Fuse Foresight</a>'
+    ideas:
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Inteligentny filtr"
+        description: "AI tłumaczy pytania w języku naturalnym na składnię Boolean. Usuwa najczęstszą barierę techniczną. Zamiast uczyć klientów składni, składnia uczy się klientów."
+      - tag: "Obszar CX"
+        tagTone: accent
+        title: "Czysty start"
+        description: "Pierwszy ekran po logowaniu to puste pole z jednym pytaniem, nie chaos panelu z filtrami. Od rejestracji do pierwszego wniosku w jednym kroku."
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Poniedziałkowy raport"
+        description: "Automatyczny raport wysyłany co poniedziałek rano. Użytkownik przesyła szefowi, szef widzi wartość, budżet się obroni. Produkt sam się sprzedaje wewnątrz organizacji."
+      - tag: "Obszar pricingu"
+        tagTone: accent
+        title: "Płać za dane, nie za stanowiska"
+        description: "Zmiana osi cenowej z liczby użytkowników na wolumen danych. Firma nie powinna płacić więcej za to, że więcej osób korzysta z wniosków."
+
+    risks:
+      - icon: "constellations/warning"
+        title: "Zagrożenie"
+        body: "Komodytyzacja AI. Gdy ChatGPT sam analizuje wzmianki, warstwa AI przestaje być wyróżnikiem. Konkurenci pospiesznie budują bliźniacze moduły (Meltwater Mira AI, Mentionlytics SIA)."
+      - icon: "constellations/cpd"
+        title: "Kopiowalność"
+        body: "Żeby to skopiować, konkurent musi jednocześnie zmienić produkt (dodać AI), cennik (obniżyć próg), UX (uprościć) i model sprzedaży (samoobsługa). To 4 zmiany naraz. Najszersze pokrycie ze wszystkich konstelacji."
+
+  - type: constellation
+    number: "03"
+    title: "<strong>Konstelacja przewag</strong><br>Firma z twarzą"
+
+    demandPointsHeading: "Punkty decyzyjne klienta (demand points)"
+    demandPoints:
+      - tag: "Emocjonalny"
+        tagTone: accent
+        quote: "„Potrzebuję wiedzieć że ktoś mi pomoże jeśli utknę”."
+      - tag: "Emocjonalny"
+        tagTone: accent
+        quote: "„Chcę mieć kontakt z ludźmi, nie z botem i ticketem”."
+
+    mechanismHeading: "Mechanizm"
+    mechanismLead: "W kategorii bezosobowych platform:"
+    mechanismLines:
+      - "CEO ma imię i twarz"
+      - "Support zna Twoje imię"
+      - "Menedżerowie wracają do obsługi klienta"
+      - "Kultura „ciut za uprzejmi” to praktyka, nie slogan"
+
+    starsHeading: "Gwiazdy konstelacji"
+    stars:
+      - tag: "Obszar marketingu"
+        tagTone: accent
+        title: "Sadowski jako marka"
+        description: "95K+ followersów LinkedIn, 4M+ wyświetleń wideo „This is Poland”, autor „Rewolucji Social Media”."
+      - tag: "Obszar CX"
+        tagTone: accent
+        title: "„Ciut za uprzejmi”"
+        description: "Sformalizowana zasada przejęta z doświadczeń w Pizza Hut. Praktyka, nie slogan."
+      - tag: "Obszar CX"
+        tagTone: accent
+        title: "Menedżerowie w obsłudze"
+        description: "Regularnie wracają na najniższy szczebel obsługi. Zachowują kontakt z realnymi problemami klientów."
+      - tag: "Obszar CX"
+        tagTone: accent
+        title: "Support 4,8/5"
+        description: "Ocena na Capterra. Recenzje wymieniają konkretnych ludzi z supportu z imienia."
+      - tag: "Obszar marki"
+        tagTone: accent
+        title: "Autentyczność publiczna"
+        description: "Wypalenie, depresja, kredyt we frankach. Sadowski mówi o tym, co zwykle ukrywa się w komunikacji korporacyjnej."
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Insights24"
+        description: "Hybryda SaaS + usługa: analitycy robią spersonalizowane raporty. ~1 mln zł ARR."
+
+    risks:
+      - icon: "constellations/warning"
+        title: "Zagrożenie"
+        body: "Słabnie po przejęciu przez Adobe (4 poziomy hierarchii nad Brand24) i delistingu z GPW. Rozpoznawalność Sadowskiego działa głównie w Polsce. Za granicą (80% przychodów) marketing „odarty jest z Sadka”."
+      - icon: "constellations/cpd"
+        title: "Kopiowalność"
+        body: "Osobista marka CEO jest niemożliwa do skopiowania. Kultura supportu skaluje się lepiej niż personal branding. Mocna w Polsce, średnia globalnie."
+
+  - type: constellation
+    surface: muted
+    number: "04"
+    title: "<strong>Konstelacja przewag</strong><br>Pierwszy w nowym świecie"
+
+    demandPointsHeading: "Punkty decyzyjne klienta (demand points)"
+    demandPoints:
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Chcę wiedzieć co AI mówi o mojej marce”."
+      - tag: "Aspiracyjny"
+        tagTone: accent
+        quote: "„Chcę wpływać na to jak AI prezentuje moją firmę”."
+
+    mechanismHeading: "Mechanizm"
+    mechanismLead: "Pozycja pierwszego gracza w kategorii, która dopiero się formuje:"
+    mechanismLines:
+      - "Chatbeat (siostrzany produkt) monitoruje jak AI mówi o Twojej marce"
+      - "GEO (Generative Engine Optimization) jako nowe SEO"
+      - "Social Listening + LLM Listening w jednym panelu"
+
+    starsHeading: "Gwiazdy konstelacji"
+    stars:
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Chatbeat: monitoring AI"
+        description: "Metryki: Average Position, Share of Voice, Monitoring Halucynacji. Marka w odpowiedziach ChatGPT, Gemini, Claude, Perplexity."
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "1,1 mln zł ARR"
+        description: "Po 7 miesiącach od launchu, bez aktywnej promocji do bazy Brand24."
+      - tag: "Obszar marki"
+        tagTone: accent
+        title: "Definicja „AI Visibility”"
+        description: "Nazwa nowej podkategorii definiowana przez Brand24. Kategoriotwórcze pozycjonowanie."
+      - tag: "Obszar marketingu"
+        tagTone: accent
+        title: "GEO jako nowe SEO"
+        description: "Sadowski ewangelizuje: „karmienie modeli językowych własnymi danymi”. Edukacja rynku."
+      - tag: "Obszar marki"
+        tagTone: accent
+        title: "Zmiana kategorii budżetowej"
+        description: "Z „wydatku PR” na „analitykę biznesową”. Inna linia w tabeli budżetowej klienta."
+
+    ideasHeading: "Pomysły na wzmocnienie przewagi"
+    ideasSubheading: 'Powered by <svg class="inline-block w-[24px] h-[24px] align-middle mx-[4px]" viewBox="0 0 16 16" fill="#FECD36" xmlns="http://www.w3.org/2000/svg"><path d="M8 0 C8 4.45 11.55 8 16 8 C11.55 8 8 11.55 8 16 C8 11.55 4.45 8 0 8 C4.45 8 8 4.45 8 0 Z"/></svg> <a href="#jak-powstaly-te-pomysly" class="font-semibold">Fuse Foresight</a>'
+    ideas:
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Analiza źródła narracji"
+        description: "Chatbeat zbiera co AI mówi o produkcie. Brand24 zbiera co mówią ludzie. Łączy te dwa zbiory i pokazuje korelację: AI zmienił opis produktu w marcu, dwa tygodnie później to samo słownictwo pojawiło się w social mediach. Żaden inny gracz nie może tego zbudować bez posiadania obu źródeł danych."
+      - tag: "Obszar marketingu"
+        tagTone: accent
+        title: "Buduj widoczność na nowe frazy kategorii"
+        description: "Systematyczne zajmowanie fraz: LLM Listening, AI Visibility, Share of Model Voice. Publikacje, raporty, wystąpienia, SEO. W 12–18 miesięcy Brand24 może posiadać język nowej kategorii."
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Wykrywanie zmian w reputacji AI"
+        description: "Alert gdy AI zmieni sposób mówienia o Twojej marce. ChatGPT polecał Cię w poniedziałek, w środę przestał. Zamienia filozofię „monitoruj AI” w funkcję, która sprzedaje się sama."
+
+    risks:
+      - icon: "constellations/warning"
+        title: "Zagrożenie"
+        body: "Najkrótsze okno ze wszystkich konstelacji: 12–18 miesięcy zanim monitoring AI stanie się standardową funkcją. Ahrefs Brand Radar oferuje darmowy LLM monitoring. Meltwater uruchomił GenAI Lens. 6–8 nowych narzędzi w 12 miesięcy."
+      - icon: "constellations/cpd"
+        title: "Kopiowalność"
+        body: "Wstępna pozycja. 100+ klientów to dowód koncepcji, nie dominacja. Przewaga: jedyny gracz łączący starą i nową rzeczywistość w jednym panelu z modelem samoobsługowym."
+
+  - type: constellation
+    number: "05"
+    title: "<strong>Konstelacja przewag</strong><br>Twierdza danych"
+
+    demandPointsHeading: "Punkty decyzyjne klienta (demand points)"
+    demandPoints:
+      - tag: "Funkcjonalny"
+        tagTone: accent
+        quote: "„Potrzebuję danych historycznych żeby porównać jak zmieniała się percepcja marki”."
+      - tag: "Emocjonalny"
+        tagTone: accent
+        quote: "„Chcę narzędzia które ma sprawdzone modele, nie startup który dopiero zbiera dane”."
+
+    mechanismHeading: "Mechanizm"
+    mechanismLead: "Klasyczne koło zamachowe danych:"
+    mechanismLines:
+      - "14 lat zbierania danych (od 2011)"
+      - "Więcej danych → lepsze modele AI"
+      - "Lepsze modele → więcej klientów"
+      - "Więcej klientów → więcej danych"
+
+    starsHeading: "Gwiazdy konstelacji"
+    stars:
+      - tag: "Obszar technologii"
+        tagTone: accent
+        title: "25 mld wzmianek"
+        description: "Baza z 25 mln źródeł: social, news, blogi, podcasty, fora, recenzje. Bariera wejścia dla nowych graczy."
+      - tag: "Obszar technologii"
+        tagTone: accent
+        title: "AI Sentiment 95% F1"
+        description: "Modele trenowane na własnych danych historycznych, nie na generycznych zbiorach publicznych."
+      - tag: "Obszar technologii"
+        tagTone: accent
+        title: "14 lat monitoringu real-time"
+        description: "Ciągła kumulacja od 2011. Konkurencja tamtego czasu odświeżała dane 2–3 razy dziennie."
+
+    ideasHeading: "Pomysły na wzmocnienie przewagi"
+    ideasSubheading: 'Powered by <svg class="inline-block w-[24px] h-[24px] align-middle mx-[4px]" viewBox="0 0 16 16" fill="#FECD36" xmlns="http://www.w3.org/2000/svg"><path d="M8 0 C8 4.45 11.55 8 16 8 C11.55 8 8 11.55 8 16 C8 11.55 4.45 8 0 8 C4.45 8 8 4.45 8 0 Z"/></svg> <a href="#jak-powstaly-te-pomysly" class="font-semibold">Fuse Foresight</a>'
+    ideas:
+      - tag: "Obszar produktu"
+        tagTone: accent
+        title: "Analiza historyczna"
+        description: "Produktyzacja 8+ lat danych historycznych jako funkcja: „porównaj sentyment dziś vs 3 lata temu”, „jak zmieniała się percepcja marki po rebrandingu”. Nowy gracz nie może tego zaoferować, bo potrzebowałby zacząć zbierać dane 14 lat temu."
+
+    risks:
+      - icon: "constellations/warning"
+        title: "Zagrożenie"
+        body: "Koszty utrzymania rosną: X pobiera $0,005/post, Reddit $0,24/1000 zapytań API, Meta ogranicza dostęp do danych. Koszty utrzymania bazy danych rosną szybciej niż przychody na klienta."
+      - icon: "constellations/cpd"
+        title: "Kopiowalność"
+        body: "Jedyna konstelacja, w której czas działa wyłącznie na korzyść Brand24. Każdy dzień powiększa przewagę. Konkurent musiałby zacząć zbierać dane 14 lat temu. Nowy gracz może skopiować interfejs i cennik, ale nie dane."

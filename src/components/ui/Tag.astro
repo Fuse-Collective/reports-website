@@ -1,0 +1,41 @@
+---
+/**
+ * Tag — small rounded pill for category labels (FUNKCJONALNY, OBSZAR MARKETINGU, POMYSŁ, etc.).
+ *
+ * Visual: filled pill, uppercase text, medium weight, tight tracking.
+ * Tones:
+ *   accent  = yellow (--color-primary)
+ *   neutral = light grey (--color-surface-muted)
+ *
+ * Reusable for any "category chip" need: demand-point type, area marker,
+ * idea flag, content-type hint, etc.
+ */
+interface Props {
+  label: string;
+  tone?: 'accent' | 'neutral';
+  /** Visual style. 'filled' (default) = solid fill. 'outlined' = border only, transparent bg. */
+  variant?: 'filled' | 'outlined';
+  class?: string;
+}
+
+const { label, tone = 'accent', variant = 'filled', class: className } = Astro.props;
+
+const toneClass =
+  variant === 'outlined'
+    ? tone === 'accent'
+      ? 'bg-transparent border border-primary text-on-surface-dark'
+      : 'bg-transparent border border-outline-light text-on-surface-dark'
+    : tone === 'accent'
+    ? 'bg-primary text-on-surface-dark'
+    : 'bg-surface-muted on-muted:bg-surface-light text-on-surface-dark';
+---
+
+<span
+  class:list={[
+    'inline-flex items-center px-standard py-[6px] rounded-full font-body text-label-sm font-semibold uppercase tracking-wider',
+    toneClass,
+    className,
+  ]}
+>
+  {label}
+</span>

@@ -1,0 +1,86 @@
+---
+/**
+ * MethodologySection — methodology-justification section.
+ *
+ * One section, two blocks (Figma 3644:22023):
+ *   Block A — Rationale: h2 + intro + 2-col ApproachCompareCard comparison.
+ *   Block B — Evidence:  h3 + intro + StatsGrid (3 stat circles + source).
+ *
+ * Surface: light (white). Max-width content container, page-gutter padded.
+ */
+import ApproachCompareCard from '../../common/ApproachCompareCard.astro';
+import StatsGrid from '../../common/StatsGrid.astro';
+import SectionIntro from '../../ui/SectionIntro.astro';
+
+interface Approach {
+  icon: string;
+  tone: 'accent' | 'neutral';
+  label: string;
+  description: string;
+}
+
+interface Stat {
+  value: string;
+  caption: string;
+}
+
+interface Props {
+  rationaleHeading: string;
+  rationaleIntro: string;
+  approaches: Approach[];
+  evidenceHeading: string;
+  evidenceIntro: string;
+  stats: Stat[];
+  source?: string;
+}
+
+const {
+  rationaleHeading,
+  rationaleIntro,
+  approaches,
+  evidenceHeading,
+  evidenceIntro,
+  stats,
+  source,
+} = Astro.props;
+---
+
+<section
+  class="bg-surface-light py-monumental px-page-gutter"
+  data-section-type="methodology"
+>
+  <div class="mx-auto max-w-content-max flex flex-col gap-monumental">
+
+    {/* Block A — Rationale */}
+    <div class="flex flex-col gap-comfortable">
+      <SectionIntro
+        headline={rationaleHeading}
+        body={rationaleIntro}
+        layout="stacked-left"
+        as="h2"
+      />
+      <div class="grid grid-cols-1 gap-comfortable lg:grid-cols-2 lg:gap-[120px]">
+        {approaches.map((approach) => (
+          <ApproachCompareCard
+            icon={approach.icon}
+            tone={approach.tone}
+            label={approach.label}
+            description={approach.description}
+          />
+        ))}
+      </div>
+    </div>
+
+    {/* Block B — Evidence */}
+    <div class="flex flex-col gap-comfortable">
+      <SectionIntro
+        headline={evidenceHeading}
+        body={evidenceIntro}
+        layout="stacked-left"
+        as="h2"
+      />
+      <StatsGrid items={stats} source={source} />
+    </div>
+
+  </div>
+</section>

@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NavBar from '../components/sections/nav-bar/NavBar.astro';
 import SectionRenderer from '../components/sections/SectionRenderer.astro';
 import ReportSideNav from '../components/interactive/ReportSideNav.astro';
-import ReportAreasMenu from '../components/common/ReportAreasMenu.astro';
+import MenuScope from '../components/interactive/MenuScope.astro';
 import OverviewHero from '../components/sections/overview/OverviewHero.astro';
 import OverviewInsight from '../components/sections/overview/OverviewInsight.astro';
 
@@ -19,35 +19,64 @@ export async function getStaticPaths() {
 const { report } = Astro.props;
 const { title, description, sections } = report.data;
 
-const overviewSection = sections.find((section) => section.type === 'overview');
-const sideNav = overviewSection
+// Primary (pre-gate, accent) overview drives the shared TOC data
+// (areas + sectionPills). Post-gate dark overview re-uses the same TOC.
+const primaryIdx = sections.findIndex((s) => s.type === 'overview');
+// Post-gate overview = any subsequent overview section (regardless of surface).
+const darkIdx = sections.findIndex(
+  (s, i) => i > primaryIdx && s.type === 'overview'
+);
+const previewGateIdx = sections.findIndex((s) => s.type === 'preview-gate');
+const ctaIdx = sections.findIndex((s) => s.type === 'cta');
+
+const primaryData = primaryIdx !== -1 ? sections[primaryIdx] : null;
+const darkData = darkIdx !== -1 ? sections[darkIdx] : null;
+const previewGateData = previewGateIdx !== -1 ? sections[previewGateIdx] : null;
+
+const sideNav = primaryData
   ? {
-      areasLabel: overviewSection.areasLabel,
-      areas: overviewSection.areas,
-      sectionPills: overviewSection.sectionPills ?? [],
+      areasLabel: primaryData.areasLabel,
+      areas: primaryData.areas,
+      sectionPills: primaryData.sectionPills ?? [],
     }
   : null;
 
-// Menu scope = from the `overview` INSIGHT ROW through the last section
-// BEFORE the first `cta`. The overview is split into a hero (headline +
-// subtitle + separator) and an insight (key insight block). The hero renders
-// OUTSIDE `data-menu-scope` so the sticky TOC overlay does not visually
-// overlap the full-width headline/subtitle row. The insight row is the FIRST
-// section inside `data-menu-scope` — that's where the menu's natural top
-// aligns (aside `pt-0`). Below xl, the mobile drawer in ReportSideNav
-// handles TOC access.
-const overviewIdx = sections.findIndex((s) => s.type === 'overview');
-const firstCtaIdx = sections.findIndex((s) => s.type === 'cta');
-const hasMenuScope = sideNav && overviewIdx !== -1;
-const overviewData = overviewIdx !== -1 ? sections[overviewIdx] : null;
+// Structural anchors — the page has three TOC regions, each anchored on an
+// OVERVIEW INSIGHT. Heroes always render OUTSIDE scope (full-width):
+//   Scope 1 (sticky):     primary overview INSIGHT → first of {preview-gate,
+//                         dark overview, cta, end}. Primary analysis loop.
+//                         TOC mode = 'areas'.
+//   Preview-gate (static): preview-gate INSIGHT only — the menu is visible
+//                         inline on the right rail but does NOT follow the
+//                         reader (sticky={false}). TOC mode = 'constellations'.
+//   Between (no menu):    methodology, any other sections after preview-gate
+//                         and before the dark overview.
+//   Scope 2 (sticky):     dark overview INSIGHT → first of {cta, end}.
+//                         Post-gate chapter. TOC mode = 'constellations'.
+const scope1End = Math.min(
+  previewGateIdx !== -1 ? previewGateIdx : Infinity,
+  darkIdx !== -1 ? darkIdx : Infinity,
+  ctaIdx !== -1 ? ctaIdx : Infinity,
+  sections.length,
+);
+const betweenEnd = darkIdx !== -1 ? darkIdx : (ctaIdx !== -1 ? ctaIdx : sections.length);
+const scope2End = ctaIdx !== -1 ? ctaIdx : sections.length;
 
-// Pre-menu: everything before overview (the overview HERO is rendered
-// separately just after this block).
-const menuScopeEnd = firstCtaIdx === -1 ? sections.length : firstCtaIdx;
-const preMenu = hasMenuScope ? sections.slice(0, overviewIdx) : sections;
-// Menu-scope content AFTER the overview insight row (analyses, etc.).
-const menuScopeAfterOverview = hasMenuScope ? sections.slice(overviewIdx + 1, menuScopeEnd) : [];
-const postMenu = hasMenuScope ? sections.slice(menuScopeEnd) : [];
+const preMenu = primaryIdx !== -1 ? sections.slice(0, primaryIdx) : sections;
+const scope1Content = primaryIdx !== -1 ? sections.slice(primaryIdx + 1, scope1End) : [];
+
+// Transitional region (between scope 1 and scope 2). Preview-gate is
+// special-cased inside this region: rendered explicitly with a non-sticky
+// MenuScope around its insight. Remaining transitional sections render
+// plain via SectionRenderer.
+const pgInBetween = previewGateIdx !== -1 && previewGateIdx >= scope1End && previewGateIdx < betweenEnd;
+const beforePreviewGate = pgInBetween
+  ? sections.slice(scope1End, previewGateIdx)
+  : sections.slice(scope1End, betweenEnd);
+const afterPreviewGate = pgInBetween ? sections.slice(previewGateIdx + 1, betweenEnd) : [];
+
+const scope2Content = darkIdx !== -1 ? sections.slice(darkIdx + 1, scope2End) : [];
+const postMenu = sections.slice(scope2End);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -57,57 +86,90 @@ const postMenu = hasMenuScope ? sections.slice(menuScopeEnd) : [];
     <SectionRenderer section={section} />
   ))}
 
-  {hasMenuScope && overviewData && (
+  {primaryData && sideNav && (
     <>
-      {/* Overview hero — full width, OUTSIDE data-menu-scope so the sticky
-          TOC overlay below doesn't overlap the headline/subtitle row. */}
       <OverviewHero
-        headline={overviewData.headline}
-        subtitle={overviewData.subtitle}
+        headline={primaryData.headline}
+        subtitle={primaryData.subtitle}
       />
 
-      <div class="relative" data-menu-scope>
-        {/* Overview insight — first section in menu scope. The menu overlay's
-            natural top aligns with this component's top edge (aside `pt-0`). */}
+      <MenuScope
+        areasLabel={sideNav.areasLabel}
+        areas={sideNav.areas}
+        sectionPills={sideNav.sectionPills}
+      >
         <OverviewInsight
-          insightLabel={overviewData.insightLabel}
-          insight={overviewData.insight}
-          insightPoints={overviewData.insightPoints}
-          cta={overviewData.cta}
+          insightLabel={primaryData.insightLabel}
+          insight={primaryData.insight}
+          insightPoints={primaryData.insightPoints}
+          cta={primaryData.cta}
+          inMenuScope={true}
         />
 
-        {menuScopeAfterOverview.map((section) => (
+        {scope1Content.map((section) => (
           <SectionRenderer section={section} />
         ))}
+      </MenuScope>
+    </>
+  )}
 
-        {/* Desktop menu — absolutely positioned overlay aligned to the same
-            content-max + page-gutter grid as the sections. Menu-scope
-            sections reserve `xl:pr-[368px]` inside their content wrapper so
-            content doesn't collide with the menu rail. */}
-        <div class="hidden xl:block absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div class="h-full px-page-gutter">
-            <div class="mx-auto max-w-content-max h-full relative">
-              <aside
-                class="absolute top-0 right-0 h-full w-[320px] pointer-events-auto"
-                aria-label="Spis treści raportu"
-                aria-hidden="false"
-              >
-                {/* Menu's natural top = top of OverviewInsight (first in scope).
-                    Once scrolled past, sticky `top-[2rem]` kicks in and the menu
-                    floats 32px from the viewport top — NavBar is absolute and
-                    scrolls away, so no overlap risk. */}
-                <div class="sticky top-[2rem] w-fit ml-auto">
-                  <ReportAreasMenu
-                    areasLabel={sideNav.areasLabel}
-                    areas={sideNav.areas}
-                    sectionPills={sideNav.sectionPills}
-                  />
-                </div>
-              </aside>
-            </div>
-          </div>
-        </div>
-      </div>
+  {beforePreviewGate.map((section) => (
+    <SectionRenderer section={section} />
+  ))}
+
+  {previewGateData && sideNav && (
+    <>
+      <OverviewHero headline={previewGateData.headline} />
+
+      <MenuScope
+        areasLabel={sideNav.areasLabel}
+        areas={sideNav.areas}
+        sectionPills={sideNav.sectionPills}
+        mode="constellations"
+        sticky={false}
+      >
+        <OverviewInsight
+          insightLabel={previewGateData.insightLabel}
+          insight={previewGateData.insight}
+          insightPoints={previewGateData.insightPoints}
+          cta={previewGateData.cta}
+          inMenuScope={true}
+        />
+      </MenuScope>
+    </>
+  )}
+
+  {afterPreviewGate.map((section) => (
+    <SectionRenderer section={section} />
+  ))}
+
+  {darkData && sideNav && (
+    <>
+      <OverviewHero
+        headline={darkData.headline}
+        subtitle={darkData.subtitle}
+        surface={(darkData as any).surface ?? 'accent'}
+      />
+
+      <MenuScope
+        areasLabel={sideNav.areasLabel}
+        areas={sideNav.areas}
+        sectionPills={sideNav.sectionPills}
+        mode="constellations"
+      >
+        <OverviewInsight
+          insightLabel={darkData.insightLabel}
+          insight={darkData.insight}
+          insightPoints={darkData.insightPoints}
+          cta={darkData.cta}
+          surface={(darkData as any).surface ?? 'accent'}
+          inMenuScope={true}
+        />
+
+        {scope2Content.map((section) => (
+          <SectionRenderer section={section} />
+        ))}
+      </MenuScope>
     </>
   )}
 
@@ -126,12 +188,13 @@ const postMenu = hasMenuScope ? sections.slice(menuScopeEnd) : [];
 
 <script>
   // Scroll-spy for the TOC: watches each analysis section and toggles
-  // `data-current` on every matching `[data-area-number]` (covers both the
-  // desktop sticky overlay and the mobile drawer — they share ReportAreasMenu).
+  // `data-current` on every matching `[data-area-number]` — with two
+  // desktop TOC overlays + the mobile drawer, ALL items sharing the active
+  // area get highlighted, which is correct (only one overlay is visible at
+  // a time based on scroll position).
   //
   // "Active" zone: the top 40% of the viewport. A section becomes current
-  // when its top edge enters that zone. This feels natural because the
-  // heading is usually near the top of each section.
+  // when its top edge enters that zone.
   const analysisSections = document.querySelectorAll<HTMLElement>('[data-section-type="analysis"]');
   const menuItems = document.querySelectorAll<HTMLElement>('[data-area-number]');
 
@@ -180,5 +243,54 @@ const postMenu = hasMenuScope ? sections.slice(menuScopeEnd) : [];
     );
 
     analysisSections.forEach((s) => observer.observe(s));
+  }
+
+  // Same pattern for constellations — toggles `data-current` on every matching
+  // `[data-constellation-number]` menu item based on which constellation section
+  // is currently in the top 40% of the viewport.
+  const constellationSections = document.querySelectorAll<HTMLElement>('[data-section-type="constellation"]');
+  const constellationMenuItems = document.querySelectorAll<HTMLElement>('li[data-constellation-number]');
+
+  if (constellationSections.length > 0 && constellationMenuItems.length > 0) {
+    const setCurrentConstellation = (number: string | null) => {
+      constellationMenuItems.forEach((item) => {
+        const match = number !== null && item.getAttribute('data-constellation-number') === number;
+        item.setAttribute('data-current', match ? 'true' : 'false');
+      });
+    };
+
+    const visibleC = new Map<string, number>();
+
+    const pickCurrentC = () => {
+      if (visibleC.size === 0) return;
+      let best: { number: string; top: number } | null = null;
+      for (const section of constellationSections) {
+        const number = section.getAttribute('data-constellation-number');
+        if (!number || !visibleC.has(number)) continue;
+        const rect = section.getBoundingClientRect();
+        if (!best || Math.abs(rect.top) < Math.abs(best.top)) {
+          best = { number, top: rect.top };
+        }
+      }
+      if (best) setCurrentConstellation(best.number);
+    };
+
+    const observerC = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const number = (entry.target as HTMLElement).getAttribute('data-constellation-number');
+          if (!number) continue;
+          if (entry.isIntersecting) visibleC.set(number, entry.intersectionRatio);
+          else visibleC.delete(number);
+        }
+        pickCurrentC();
+      },
+      {
+        rootMargin: '0px 0px -60% 0px',
+        threshold: [0, 0.1, 0.5, 1],
+      }
+    );
+
+    constellationSections.forEach((s) => observerC.observe(s));
   }
 </script>

@@ -1,0 +1,60 @@
+---
+/**
+ * ConstellationFoundation — bordered container with two stacked sub-blocks:
+ *   1. "Punkty decyzyjne (demand points)" — 3-column grid of DemandPointCards
+ *   2. "Mechanizm" — lead + bulleted flow
+ *
+ * The two share a single outer border; an hr separator divides them.
+ * Reused once per constellation in ConstellationSection.
+ */
+import DemandPointCard from './DemandPointCard.astro';
+import MechanismFlow from './MechanismFlow.astro';
+
+interface DemandPoint {
+  tag: string;
+  tagTone?: 'accent' | 'neutral';
+  quote: string;
+}
+
+interface Props {
+  demandPointsHeading: string;
+  demandPoints: DemandPoint[];
+  mechanismHeading: string;
+  mechanismLead: string;
+  mechanismLines: string[];
+}
+
+const {
+  demandPointsHeading,
+  demandPoints,
+  mechanismHeading,
+  mechanismLead,
+  mechanismLines,
+} = Astro.props;
+---
+
+<div class="flex flex-col">
+
+  {/* Block A — Demand points */}
+  <div class="flex flex-col gap-relaxed">
+    <h4 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+      {demandPointsHeading}
+    </h4>
+    <div class="grid grid-cols-1 gap-comfortable md:grid-cols-3 md:gap-[48px]">
+      {demandPoints.map((dp) => (
+        <DemandPointCard tag={dp.tag} tagTone={dp.tagTone} quote={dp.quote} />
+      ))}
+    </div>
+  </div>
+
+  <hr class="border-0 border-t border-outline-light my-comfortable" />
+
+  {/* Block B — Mechanism */}
+  <div class="flex flex-col gap-relaxed">
+    <h4 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+      {mechanismHeading}
+    </h4>
+    <MechanismFlow lead={mechanismLead} lines={mechanismLines} />
+  </div>
+
+</div>

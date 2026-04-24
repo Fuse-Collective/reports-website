@@ -75,9 +75,7 @@ const arrowClass =
     )}
 
     {body && (
-      <p class={bodyClass}>
-        {body}
-      </p>
+      <p class={bodyClass} set:html={body}></p>
     )}
 
     {hasLeftExtra && <slot name="left-extra" />}

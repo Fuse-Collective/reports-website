@@ -1,0 +1,61 @@
+---
+/**
+ * FeaturedCta — universal yellow interstitial block. Icon (xl indicator-style)
+ * on the left, h2 + prose body + text-link on the right.
+ *
+ * Used between content sections as an interruption that promotes a feature,
+ * tool, or adjacent offer. Icon, copy, and link are all caller-supplied —
+ * component form is always the same (accent surface, icon left, content right,
+ * text-link CTA at the bottom).
+ */
+import { Icon } from 'astro-icon/components';
+import Button from '../ui/Button.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  icon: string;
+  headline: string;
+  /** One or more body paragraphs. Inline HTML (`<strong>`, `<a>`) is allowed. */
+  paragraphs: string[];
+  cta: Cta;
+}
+
+const { icon, headline, paragraphs, cta } = Astro.props;
+---
+
+<div
+  class="bg-surface-accent py-comfortable px-comfortable rounded-[4px]"
+  data-surface="accent"
+>
+  <div class="flex flex-col gap-relaxed lg:flex-row lg:gap-relaxed lg:items-start">
+
+    <div class="w-[148px] h-[148px] shrink-0 text-on-surface-accent">
+      <Icon name={icon} class="w-full h-full" />
+    </div>
+
+    <div class="flex flex-col gap-comfortable max-w-[797px]">
+      <h2 class="font-body text-headline-md lg:text-body-xl font-medium leading-tight text-on-surface-accent m-0">
+        {headline}
+      </h2>
+
+      <div class="flex flex-col gap-standard">
+        {paragraphs.map((p) => (
+          <p
+            class="font-body text-body font-normal leading-normal text-on-surface-accent m-0"
+            set:html={p}
+          ></p>
+        ))}
+      </div>
+
+      <Button variant="text-link" surface="accent" href={cta.href} class="mt-standard">
+        <Icon slot="icon" name="book" class="w-full h-full" />
+        {cta.label}
+      </Button>
+    </div>
+
+  </div>
+</div>

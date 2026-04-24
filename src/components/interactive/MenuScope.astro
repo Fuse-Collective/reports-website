@@ -1,0 +1,86 @@
+---
+/**
+ * MenuScope — wrapper that attaches a sticky desktop TOC overlay to its
+ * children. Rendered twice on the report page:
+ *   1. Around the primary overview insight + all analyses — the main
+ *      navigation rail.
+ *   2. Around the preview-gate insight + any trailing sections — the rail
+ *      reappears here after disappearing during the preview-gate HERO.
+ *
+ * Sections inside the scope must reserve `xl:pr-[368px]` in their own
+ * content wrapper so copy doesn't collide with the 320px overlay.
+ *
+ * The overlay's natural top aligns with the top of this wrapper's first
+ * child. Once scrolled past, `sticky top-[2rem]` floats the menu 32px
+ * from the viewport top — NavBar is absolute and scrolls away, so no
+ * overlap risk.
+ *
+ * The aside ends `monumental` (112px) ABOVE the wrapper's bottom edge —
+ * this matches the `py-monumental` padding used by analysis sections and
+ * the `pt-monumental` on the next section's hero. Net effect: the menu
+ * releases from sticky at the visual end of the last section's CONTENT,
+ * not at the surface boundary, so the menu doesn't "kiss" the next
+ * section's surface as the user scrolls past.
+ */
+import ReportAreasMenu from '../common/ReportAreasMenu.astro';
+
+interface Area {
+  number: string;
+  label: string;
+  state: 'done' | 'current';
+  href?: string;
+}
+
+interface SectionPill {
+  label: string;
+  state: 'locked';
+}
+
+interface Props {
+  areasLabel: string;
+  areas: Area[];
+  sectionPills: SectionPill[];
+  /** Which part of the menu is expanded. `areas` (default) expands the
+   * 6-areas list; `constellations` collapses areas and expands the first
+   * section pill (used in the second TOC scope after the preview-gate). */
+  mode?: 'areas' | 'constellations';
+  /** When true (default), the menu floats with `position: sticky` as the
+   * user scrolls through the scope — the canonical behavior for scope 1
+   * (primary overview + analyses) and scope 2 (post-gate overview).
+   * When false, the menu is rendered inline at the top of the scope and
+   * scrolls away with the content — used for the preview-gate transition
+   * section where we want the menu visible but NOT following the reader. */
+  sticky?: boolean;
+  /** Sets `data-surface` on the aside so descendant text picks up
+   * `on-dark:` / `on-accent:` variants (list items flip to white on dark,
+   * etc.). Leave unset for scopes rendered over light/accent surfaces. */
+  surface?: 'accent' | 'dark';
+}
+
+const { areasLabel, areas, sectionPills, mode = 'areas', sticky = true, surface } = Astro.props;
+---
+
+<div class="relative" data-menu-scope>
+  <slot />
+  <div class="hidden xl:block absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="h-full px-page-gutter">
+      <div class="mx-auto max-w-content-max h-full relative">
+        <aside
+          class="absolute top-0 bottom-monumental right-0 w-[320px] pointer-events-auto"
+          data-surface={surface}
+          aria-label="Spis treści raportu"
+          aria-hidden="false"
+        >
+          <div class:list={["w-fit ml-auto", sticky && "sticky top-[2rem]"]}>
+            <ReportAreasMenu
+              areasLabel={areasLabel}
+              areas={areas}
+              sectionPills={sectionPills}
+              mode={mode}
+            />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>

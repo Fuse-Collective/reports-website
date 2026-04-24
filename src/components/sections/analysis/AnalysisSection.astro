@@ -21,22 +21,26 @@ interface Comparison {
   rows: string[][];
   highlightedColumnIndex?: number;
 }
-interface Risk { icon: string; title: string; body: string; }
+interface Risk { icon: string; title: string; body?: string; bullets?: string[]; }
 
 interface Props {
+  /** Section surface. 'light' (default) = white; 'muted' = #EEEEEE grey.
+   * Risk cards flip to the opposite surface so they stay visible. */
+  surface?: 'light' | 'muted';
   number: string;
   title: string;
   intro: string;
   headerIcon: string;
   insightsHeading: string;
   insights: Insight[];
-  comparisonHeading: string;
-  comparison: Comparison;
+  comparisonHeading?: string;
+  comparison?: Comparison;
   risksHeading: string;
   risks: Risk[];
 }
 
 const {
+  surface = 'light',
   number,
   title,
   intro,
@@ -48,12 +52,16 @@ const {
   risksHeading,
   risks,
 } = Astro.props;
+
+const sectionBgClass = surface === 'muted' ? 'bg-surface-muted' : 'bg-surface-light';
+const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
 ---
 
 <section
-  class="bg-surface-light py-monumental px-page-gutter"
+  class:list={[sectionBgClass, 'py-monumental px-page-gutter']}
   data-section-type="analysis"
   data-analysis-number={number}
+  data-surface={surface}
 >
   <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
 
@@ -72,25 +80,29 @@ const {
     </div>
 
     {/* Comparison */}
-    <div class="flex flex-col gap-standard">
-      <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
-        {comparisonHeading}
-      </h3>
-      <Table
-        columns={comparison.columns}
-        rows={comparison.rows}
-        highlightedColumnIndex={comparison.highlightedColumnIndex}
-      />
-    </div>
+    {comparison && (
+      <div class="flex flex-col gap-standard">
+        {comparisonHeading && (
+          <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
+            {comparisonHeading}
+          </h3>
+        )}
+        <Table
+          columns={comparison.columns}
+          rows={comparison.rows}
+          highlightedColumnIndex={comparison.highlightedColumnIndex}
+        />
+      </div>
+    )}
 
     {/* Risks */}
     <div class="flex flex-col gap-standard">
       <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
         {risksHeading}
       </h3>
-      <div class="grid gap-standard lg:grid-cols-2 lg:gap-relaxed">
+      <div class:list={['grid gap-standard', risks.length > 1 && 'lg:grid-cols-2 lg:gap-relaxed']}>
         {risks.map((risk) => (
-          <RiskCard icon={risk.icon} title={risk.title} body={risk.body} />
+          <RiskCard icon={risk.icon} title={risk.title} body={risk.body} bullets={risk.bullets} surface={riskCardSurface} />
         ))}
       </div>
     </div>

@@ -2,6 +2,10 @@
 /**
  * OverviewInsight — bottom half of the Overview: key insight + CTA.
  *
+ * Surface variants:
+ *   'accent' (default) — primary pre-gate overview (yellow).
+ *   'dark'             — post-gate overview (black, white text, no CTA).
+ *
  * Lives INSIDE `data-menu-scope` in [slug].astro as its first child — so the
  * page-level sticky TOC overlay's natural top aligns with this component's
  * top edge (see aside `pt-0` in [slug].astro). Reserves `xl:pr-[368px]` on
@@ -9,18 +13,18 @@
  *
  * `xl:min-h-[448px]` sizes the inner wrapper to match the TOC menu's measured
  * content height (6 areas + 2 locked section pills + label pill) so the menu
- * fits entirely on the yellow accent background. Section total height =
- * 448 (inner min-h) + 112 (pb-monumental) = 560px. Tighter than an arbitrary
- * 600px+ min-h, which would leave awkward empty yellow below the menu.
+ * fits entirely on the surface. Section total height = 448 (inner min-h) +
+ * 112 (pb-monumental) = 560px. If the YAML adds more areas or pills in
+ * future reports, re-measure and bump this value — otherwise the menu will
+ * spill onto the next section's surface.
  *
- * If the YAML adds more areas or pills in future reports, re-measure and bump
- * this value — otherwise the menu will spill onto the next section's surface.
- *
- * Paired with OverviewHero on the same accent surface.
+ * Paired with OverviewHero on the same surface.
  */
 import { Icon } from 'astro-icon/components';
 import Button from '../../ui/Button.astro';
 import Bullet from '../../ui/Bullet.astro';
+
+type Surface = 'accent' | 'dark';
 
 interface Cta {
   label: string;
@@ -30,40 +34,55 @@ interface Cta {
 
 interface Props {
   insightLabel: string;
-  insight: string;
+  /** Prose paragraph under the label. Optional — preview-gate omits it and
+   * goes straight from label into bullets. */
+  insight?: string;
   insightPoints?: string[];
   cta?: Cta;
+  surface?: Surface;
+  /** When true, reserves 368px on the right at xl+ so content doesn't collide
+   * with the page-level sticky TOC overlay. Only anchor-of-scope inserts
+   * (primary overview insight, post-gate dark overview insight) need this;
+   * standalone renders (preview-gate, DS preview) leave it false. */
+  inMenuScope?: boolean;
 }
 
-const { insightLabel, insight, insightPoints, cta } = Astro.props;
+const { insightLabel, insight, insightPoints, cta, surface = 'accent', inMenuScope = false } = Astro.props;
+
+const bgClass = surface === 'dark' ? 'bg-surface-dark' : 'bg-surface-accent';
+
+const textClass =
+  'text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent';
 ---
 
 <section
-  class="bg-surface-accent pb-monumental px-page-gutter"
-  data-surface="accent"
+  class:list={[bgClass, "pb-monumental px-page-gutter"]}
+  data-surface={surface}
   data-section-type="overview-insight"
 >
-  <div class="mx-auto max-w-content-max xl:pr-[368px] xl:min-h-[448px]">
+  <div class:list={["mx-auto max-w-content-max xl:min-h-[448px]", inMenuScope && "xl:pr-[368px]"]}>
 
     <div class="flex flex-col gap-relaxed lg:flex-row lg:gap-relaxed lg:items-start">
-      <div class="w-[148px] h-[148px] shrink-0 text-on-surface-accent">
+      <div class:list={["w-[148px] h-[148px] shrink-0", textClass]}>
         <Icon name="indicator-circle" class="w-full h-full" />
       </div>
       <div class="flex flex-col gap-relaxed max-w-[893px]">
-        <h3 class="font-body text-headline-md lg:text-body-xl font-medium leading-tight text-on-surface-accent m-0">
+        <h3 class:list={["font-body text-headline-md lg:text-body-xl font-medium leading-tight m-0", textClass]}>
           {insightLabel}
         </h3>
-        <p class="font-body text-body font-normal leading-normal text-on-surface-accent m-0">
-          {insight}
-        </p>
+        {insight && (
+          <p class:list={["font-body text-body font-normal leading-normal m-0", textClass]}>
+            {insight}
+          </p>
+        )}
 
         {insightPoints && insightPoints.length > 0 && (
           <ul class="flex flex-col gap-compact m-0 p-0 list-none">
             {insightPoints.map((point) => (
               <li class="flex gap-standard items-start">
-                <Bullet class="mt-[0.45em]" />
+                <Bullet class="mt-[calc(0.45em+1px)]" />
                 <span
-                  class="font-body text-body font-normal leading-normal text-on-surface-accent"
+                  class:list={["font-body text-body font-normal leading-normal", textClass]}
                   set:html={point}
                 ></span>
               </li>
@@ -73,7 +92,7 @@ const { insightLabel, insight, insightPoints, cta } = Astro.props;
 
         {cta && (
           <div class="flex flex-col gap-standard">
-            <Button variant="primary" surface="accent" href={cta.href}>
+            <Button variant="primary" surface={surface} href={cta.href}>
               {cta.label}
               <svg slot="icon" viewBox="0 0 64 64" fill="none">
                 <rect x="14" y="32" width="36" height="24" rx="2" stroke="currentColor" stroke-width="2"/>
@@ -82,7 +101,7 @@ const { insightLabel, insight, insightPoints, cta } = Astro.props;
               </svg>
             </Button>
             {cta.note && (
-              <p class="font-body text-label-sm leading-loose text-on-surface-accent m-0">
+              <p class:list={["font-body text-label-sm leading-loose m-0", textClass]}>
                 {cta.note}
               </p>
             )}

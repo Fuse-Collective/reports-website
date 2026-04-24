@@ -1,6 +1,13 @@
 ---
 /**
- * Bullet — 4×4 square marker for unordered lists.
+ * Bullet — square marker for unordered lists, with two sizes.
+ *
+ * Sizes:
+ *   - `lg` (default) — 12×12. Paired with `text-body` via `mt-[0.45em]` on
+ *     the bullet to land on the cap line. Used in OverviewInsight /
+ *     PreviewGate lists.
+ *   - `sm`           —  4×4. Smaller/footnote-style lists. Pair with a
+ *     tighter cap offset (~`mt-[0.65em]`) and retune if text size changes.
  *
  * Surface-adaptive fill via `on-dark:` / `on-accent:` prefixes. The mapping
  * intentionally differs from the text-color convention — on accent (yellow),
@@ -22,21 +29,32 @@
  *       <span>List item text</span>
  *     </li>
  *   </ul>
- *
- * The `mt-[0.45em]` on the bullet aligns it with the cap height of the
- * first text line. Adjust if used with a different text size.
  */
 interface Props {
+  size?: 'sm' | 'lg';
+  /** Fill variant.
+   *   'default' — surface-adaptive (dark on light/muted, white on dark/accent).
+   *   'accent'  — always yellow (bg-primary). Use on light surfaces where the
+   *               dark square feels heavy and an accent pop reads better. */
+  variant?: 'default' | 'accent';
   class?: string;
 }
 
-const { class: className } = Astro.props;
+const { size = 'lg', variant = 'default', class: className } = Astro.props;
+
+const sizeClass = size === 'sm' ? 'w-[4px] h-[4px]' : 'w-[12px] h-[12px]';
+
+const variantClass =
+  variant === 'accent'
+    ? 'bg-primary'
+    : 'bg-on-surface-dark on-dark:bg-on-surface-light on-accent:bg-on-surface-light';
 ---
 
 <span
   class:list={[
-    'inline-block w-[4px] h-[4px] shrink-0',
-    'bg-on-surface-dark on-dark:bg-on-surface-light on-accent:bg-on-surface-light',
+    'inline-block shrink-0',
+    sizeClass,
+    variantClass,
     className,
   ]}
   aria-hidden="true"

@@ -127,8 +127,61 @@ const chapterTitleSection = z.object({
   chapterLabel: z.string().optional(),
 });
 
+const constellationStarSchema = z.object({
+  tag: z.string(),
+  tagTone: z.enum(['accent', 'neutral']).optional(),
+  tagSecondary: z.string().optional(),
+  tagSecondaryTone: z.enum(['accent', 'neutral']).optional(),
+  title: z.string(),
+  description: z.string(),
+});
+
+const constellationSection = z.object({
+  type: z.literal('constellation'),
+  /** Section surface. 'light' (default) = white; 'muted' = #EEEEEE grey.
+   * Use to alternate across sequential constellations. */
+  surface: z.enum(['light', 'muted']).optional(),
+  number: z.string(),
+  title: z.string(),
+
+  demandPointsHeading: z.string(),
+  demandPoints: z.array(z.object({
+    tag: z.string(),
+    tagTone: z.enum(['accent', 'neutral']).optional(),
+    quote: z.string(),
+  })),
+
+  mechanismHeading: z.string(),
+  mechanismLead: z.string(),
+  mechanismLines: z.array(z.string()),
+
+  starsHeading: z.string(),
+  stars: z.array(constellationStarSchema),
+
+  risksHeading: z.string().optional(),
+  risks: z.array(z.object({
+    icon: z.string(),
+    title: z.string(),
+    body: z.string(),
+  })),
+
+  ideasHeading: z.string().optional(),
+  ideasSubheading: z.string().optional(),
+  ideas: z.array(constellationStarSchema).optional(),
+
+  featured: z.object({
+    icon: z.string(),
+    headline: z.string(),
+    paragraphs: z.array(z.string()),
+    cta: z.object({ label: z.string(), href: z.string() }),
+  }).optional(),
+});
+
 const analysisSection = z.object({
   type: z.literal('analysis'),
+  /** Section surface. 'light' (default) = white; 'muted' = #EEEEEE grey.
+   * Use to alternate backgrounds across sequential areas. */
+  surface: z.enum(['light', 'muted']).optional(),
   number: z.string(),
   title: z.string(),
   intro: z.string(),
@@ -138,43 +191,85 @@ const analysisSection = z.object({
     title: z.string(),
     description: z.string(),
   })),
-  comparisonHeading: z.string(),
+  comparisonHeading: z.string().optional(),
   comparison: z.object({
     columns: z.array(z.string()),
     rows: z.array(z.array(z.string())),
     highlightedColumnIndex: z.number().optional(),
-  }),
+  }).optional(),
   risksHeading: z.string(),
   risks: z.array(z.object({
     icon: z.string(),
     title: z.string(),
-    body: z.string(),
+    body: z.string().optional(),
+    bullets: z.array(z.string()).optional(),
   })),
+});
+
+const previewGateSection = z.object({
+  type: z.literal('preview-gate'),
+  headline: z.string(),
+  insightLabel: z.string(),
+  insight: z.string().optional(),
+  insightPoints: z.array(z.string()).optional(),
+  cta: z.object({
+    label: z.string(),
+    href: z.string(),
+    note: z.string().optional(),
+  }).optional(),
+});
+
+const methodologySection = z.object({
+  type: z.literal('methodology'),
+  rationaleHeading: z.string(),
+  rationaleIntro: z.string(),
+  approaches: z.array(z.object({
+    icon: z.string(),
+    tone: z.enum(['accent', 'neutral']),
+    label: z.string(),
+    description: z.string(),
+  })),
+  evidenceHeading: z.string(),
+  evidenceIntro: z.string(),
+  stats: z.array(z.object({
+    value: z.string(),
+    caption: z.string(),
+  })),
+  source: z.string().optional(),
 });
 
 const overviewSection = z.object({
   type: z.literal('overview'),
+  /** Surface tone. 'accent' = primary pre-gate overview (yellow).
+   * 'dark' = post-gate variant (black, no CTA). */
+  surface: z.enum(['accent', 'dark']).optional(),
   headline: z.string(),
-  subtitle: z.string(),
+  subtitle: z.string().optional(),
   insightLabel: z.string(),
-  insight: z.string(),
+  insight: z.string().optional(),
   insightPoints: z.array(z.string()).optional(),
-  areasLabel: z.string(),
+  /** Only the FIRST overview on the page drives the page-level sideNav.
+   * Subsequent overviews (post-gate) omit these fields. */
+  areasLabel: z.string().optional(),
   areas: z.array(z.object({
     number: z.string(),
     label: z.string(),
     state: z.enum(['done', 'current']),
     href: z.string().optional(),
-  })),
+  })).optional(),
   sectionPills: z.array(z.object({
     label: z.string(),
     state: z.enum(['locked']),
+    items: z.array(z.object({
+      number: z.string(),
+      label: z.string(),
+    })).optional(),
   })).optional(),
   cta: z.object({
     label: z.string(),
     href: z.string(),
     note: z.string().optional(),
-  }),
+  }).optional(),
 });
 
 
@@ -183,7 +278,10 @@ const section = z.discriminatedUnion('type', [
   chapterTitleSection,
   painBlockSection,
   overviewSection,
+  previewGateSection,
+  methodologySection,
   analysisSection,
+  constellationSection,
   offerCardsSection,
   painPointsSection,
   servicesGridSection,
