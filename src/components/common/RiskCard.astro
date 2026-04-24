@@ -23,7 +23,7 @@ const { icon, title, body, bullets, surface = 'muted', class: className } = Astr
 const bgClass = surface === 'light' ? 'bg-surface-light' : 'bg-surface-muted';
 ---
 
-<div class:list={['flex flex-col gap-comfortable p-[60px] rounded-[4px]', bgClass, className]}>
+<div class:list={['flex flex-col gap-comfortable p-relaxed lg:p-[60px] rounded-[4px]', bgClass, className]}>
 
   <div class="flex flex-col gap-standard">
     <Badge icon={icon} size="lg" variant="naked" surface="muted" />

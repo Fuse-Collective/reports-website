@@ -37,7 +37,7 @@ sections:
         label: "Zobacz wyniki badania"
         href: "#overview-areas"
       secondary:
-        label: "Odblokuj pełną wersję"
+        label: "Odblokuj dostęp"
         href: "#gate"
     gateNote: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
@@ -136,7 +136,7 @@ sections:
         state: locked
         href: "#ocena-strategiczna"
     cta:
-      label: "Odblokuj pełną wersję"
+      label: "Odblokuj dostęp"
       href: "#gate"
       note: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
@@ -320,7 +320,7 @@ sections:
       - "Pomysły na wzmocnienie przewag (z narzędzia Advantage Intelligence)"
       - "Ocena strategiczna (co najsilniejsze, co zagrożone, co wzmocnić)"
     cta:
-      label: "Odblokuj pełną wersję"
+      label: "Odblokuj dostęp"
       href: "#gate"
       note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do newslettera. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
 
