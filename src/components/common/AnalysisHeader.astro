@@ -39,7 +39,7 @@ const titleRest = colonIdx >= 0 ? title.slice(colonIdx + 1).trim() : '';
     <Icon name={icon} class="w-[258px] h-[149px] shrink-0" aria-hidden="true" />
 
     {/* Title — lead (bold) on first line, rest on a new line if ":" splits it */}
-    <h2 class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-dark m-0 flex flex-col">
+    <h2 class="font-body text-headline-md lg:text-display-lg font-normal leading-normal text-on-surface-dark m-0 flex flex-col">
       <span class="font-bold">{titleLead}</span>
       {titleRest && <span>{titleRest}</span>}
     </h2>
