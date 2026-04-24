@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/badanie-przewag-brand24", "permanent": false }
+  ]
+}
