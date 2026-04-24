@@ -66,7 +66,7 @@ sections:
         text: "Zespół sprzedaży narzeka na ceny, bo nie ma innych argumentów"
 
   - type: services-grid
-    headline: "Nasz framework: 6 obszarów przewagi konkurencyjnej"
+    headline: "<strong>Nasz framework:</strong><br>6 obszarów przewagi konkurencyjnej"
     body: "Szukamy przewagi w 6 obszarach. Każdy to inny mechanizm, ale nie każdy będzie jednakowo silny. Wartość leży w tym, jak się łączą w system."
     surface: muted
     services:

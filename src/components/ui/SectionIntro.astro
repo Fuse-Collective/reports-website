@@ -63,9 +63,7 @@ const arrowClass =
 
 {layout === 'stacked-left' ? (
   <div class:list={["flex flex-col gap-comfortable", className]} {...rest}>
-    <Tag class={headlineClass}>
-      {headline}
-    </Tag>
+    <Tag class={headlineClass} set:html={headline} />
 
     {indicatorPos === 'arrow' && (
       <Icon name="arrow-right-long" class={arrowClass} />
@@ -83,9 +81,7 @@ const arrowClass =
 ) : (
   <div class:list={["grid grid-cols-1 lg:grid-cols-2 gap-relaxed", className]} {...rest}>
     <div class:list={["flex flex-col", (hasLeftExtra || indicatorPos === 'left') && "gap-comfortable"]}>
-      <Tag class={headlineClass}>
-        {headline}
-      </Tag>
+      <Tag class={headlineClass} set:html={headline} />
       {indicatorPos === 'left' && (
         <Icon name="indicator-circle" class={circleClass} />
       )}
