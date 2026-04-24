@@ -53,17 +53,13 @@ const hrClass =
 
     {subtitle ? (
       <div class="grid gap-relaxed lg:grid-cols-2 lg:gap-comfortable">
-        <h2 class:list={["font-body text-headline-md lg:text-display-lg font-normal leading-normal m-0", textClass]}>
-          {headline}
-        </h2>
+        <h2 class:list={["font-body text-headline-md lg:text-display-lg font-normal leading-normal m-0", textClass]} set:html={headline} />
         <p class:list={["font-body text-body-md lg:text-body-lg font-normal leading-tight m-0 lg:pt-compact", textClass]}>
           {subtitle}
         </p>
       </div>
     ) : (
-      <h2 class:list={["font-body text-headline-md lg:text-display-lg font-normal leading-normal m-0", textClass]}>
-        {headline}
-      </h2>
+      <h2 class:list={["font-body text-headline-md lg:text-display-lg font-normal leading-normal m-0", textClass]} set:html={headline} />
     )}
 
     {showSeparator && (
