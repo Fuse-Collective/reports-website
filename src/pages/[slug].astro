@@ -52,11 +52,11 @@ const sideNav = primaryData
 //   Scope 1 (sticky):     primary overview INSIGHT → first of {preview-gate,
 //                         dark overview, cta, end}. Primary analysis loop.
 //                         TOC mode = 'areas'.
-//   Preview-gate (static): preview-gate INSIGHT only — the menu is visible
-//                         inline on the right rail but does NOT follow the
-//                         reader (sticky={false}). TOC mode = 'constellations'.
-//   Between (no menu):    methodology, any other sections after preview-gate
-//                         and before the dark overview.
+//   Preview-gate + between (sticky): preview-gate INSIGHT through methodology
+//                         and any other sections before the dark overview.
+//                         The menu follows the reader (sticky={true}) and
+//                         releases at the next sectioning point (dark
+//                         overview or end). TOC mode = 'constellations'.
 //   Scope 2 (sticky):     dark overview INSIGHT → first of {cta, end}.
 //                         Post-gate chapter. TOC mode = 'constellations'.
 const scope1End = Math.min(
@@ -146,7 +146,7 @@ const postMenu = sections.slice(scope2End);
         areasHref="#overview-areas"
         sectionPills={sideNav.sectionPills}
         mode="constellations"
-        sticky={false}
+        sticky={true}
       >
         <OverviewInsight
           insightLabel={previewGateData.insightLabel}
@@ -155,11 +155,14 @@ const postMenu = sections.slice(scope2End);
           cta={previewGateData.cta}
           inMenuScope={true}
         />
+        {afterPreviewGate.map((section) => (
+          <SectionRenderer section={section} />
+        ))}
       </MenuScope>
     </>
   )}
 
-  {afterPreviewGate.map((section) => (
+  {!previewGateData && afterPreviewGate.map((section) => (
     <SectionRenderer section={section} />
   ))}
 
