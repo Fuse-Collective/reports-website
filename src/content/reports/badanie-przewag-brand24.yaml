@@ -34,7 +34,7 @@ sections:
       photoUrl: "/images/authors/tomasz-maciag.png"
     cta:
       primary:
-        label: "Zobacz wyniki badania"
+        label: "Wyniki badania"
         href: "#overview-areas"
       secondary:
         label: "Odblokuj dostęp"
