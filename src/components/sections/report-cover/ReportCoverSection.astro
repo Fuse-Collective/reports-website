@@ -67,7 +67,8 @@ const {
 >
 
   {/* Outer gutter + inner max-width — content text lands ~170px from viewport edge @1920 */}
-  <div class="px-page-gutter py-comfortable lg:pt-hero-top lg:pb-monumental">
+  {/* pt-hero-top always clears the absolute NavBar (h-monumental = 112px) plus breathing room. */}
+  <div class="px-page-gutter pt-hero-top pb-comfortable lg:pb-monumental">
   <div class="mx-auto max-w-content-max">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-comfortable lg:gap-monumental items-stretch">
 

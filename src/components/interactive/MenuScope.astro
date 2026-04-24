@@ -15,12 +15,10 @@
  * from the viewport top — NavBar is absolute and scrolls away, so no
  * overlap risk.
  *
- * The aside ends `monumental` (112px) ABOVE the wrapper's bottom edge —
- * this matches the `py-monumental` padding used by analysis sections and
- * the `pt-monumental` on the next section's hero. Net effect: the menu
- * releases from sticky at the visual end of the last section's CONTENT,
- * not at the surface boundary, so the menu doesn't "kiss" the next
- * section's surface as the user scrolls past.
+ * The aside fills the full scope height (top-0 bottom-0). With the inner
+ * sticky pinned at `top-[2rem]`, the menu stays at that fixed top offset
+ * throughout the scope and releases exactly at the scope boundary — it
+ * does not visibly "park" at the bottom before the next section arrives.
  */
 import ReportAreasMenu from '../common/ReportAreasMenu.astro';
 
@@ -39,6 +37,7 @@ interface SectionPill {
 interface Props {
   areasLabel: string;
   areas: Area[];
+  areasHref?: string;
   sectionPills: SectionPill[];
   /** Which part of the menu is expanded. `areas` (default) expands the
    * 6-areas list; `constellations` collapses areas and expands the first
@@ -57,7 +56,7 @@ interface Props {
   surface?: 'accent' | 'dark';
 }
 
-const { areasLabel, areas, sectionPills, mode = 'areas', sticky = true, surface } = Astro.props;
+const { areasLabel, areas, areasHref, sectionPills, mode = 'areas', sticky = true, surface } = Astro.props;
 ---
 
 <div class="relative" data-menu-scope>
@@ -66,7 +65,7 @@ const { areasLabel, areas, sectionPills, mode = 'areas', sticky = true, surface 
     <div class="h-full px-page-gutter">
       <div class="mx-auto max-w-content-max h-full relative">
         <aside
-          class="absolute top-0 bottom-monumental right-0 w-[320px] pointer-events-auto"
+          class="absolute top-0 bottom-0 right-0 w-[320px] pointer-events-auto"
           data-surface={surface}
           aria-label="Spis treści raportu"
           aria-hidden="false"
@@ -75,6 +74,7 @@ const { areasLabel, areas, sectionPills, mode = 'areas', sticky = true, surface 
             <ReportAreasMenu
               areasLabel={areasLabel}
               areas={areas}
+              areasHref={areasHref}
               sectionPills={sectionPills}
               mode={mode}
             />

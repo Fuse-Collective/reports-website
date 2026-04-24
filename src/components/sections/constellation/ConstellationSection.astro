@@ -101,7 +101,8 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
 ---
 
 <section
-  class:list={[sectionBgClass, 'py-monumental px-page-gutter']}
+  id={`constellation-${number}`}
+  class:list={[sectionBgClass, 'py-monumental px-page-gutter scroll-mt-relaxed']}
   data-section-type="constellation"
   data-constellation-number={number}
   data-surface={surface}
@@ -109,7 +110,7 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
   <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
 
     {/* 1. Header */}
-    <div class="flex items-start gap-relaxed">
+    <div class="flex flex-col items-start gap-standard lg:flex-row lg:gap-relaxed">
       <Icon name="constellations/cluster" class="w-[148px] h-[152px] shrink-0 text-on-surface-dark" />
       <h2
         class="font-body text-display-md lg:text-display-lg font-normal leading-normal text-on-surface-dark m-0"
@@ -131,7 +132,7 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
       <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
         {starsHeading}
       </h3>
-      <div class:list={['grid grid-cols-1 gap-relaxed', stars.length > 1 && 'md:grid-cols-2 md:gap-[120px]']}>
+      <div class:list={['grid grid-cols-1 gap-breathing md:gap-relaxed', stars.length > 1 && 'md:grid-cols-2 md:gap-[120px]']}>
         {stars.map((s) => (
           <ConstellationStar
             tag={s.tag}

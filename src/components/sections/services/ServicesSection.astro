@@ -21,14 +21,15 @@ type Surface = 'light' | 'muted' | 'dark' | 'accent';
 
 interface Props {
   headline: string;
-  body: string;
+  body?: string;
   services: Service[];
   as?: 'h1' | 'h2';
   surface?: Surface;
   numbered?: boolean;
+  anchorId?: string;
 }
 
-const { headline, body, services, as: headingTag = 'h2', surface = 'dark', numbered = false } = Astro.props;
+const { headline, body, services, as: headingTag = 'h2', surface = 'dark', numbered = false, anchorId } = Astro.props;
 
 const bgMap: Record<Surface, string> = {
   light: 'bg-surface-light',
@@ -39,7 +40,8 @@ const bgMap: Record<Surface, string> = {
 ---
 
 <section
-  class:list={[bgMap[surface], "py-comfortable lg:py-monumental"]}
+  id={anchorId}
+  class:list={[bgMap[surface], "py-comfortable lg:py-monumental", anchorId && 'scroll-mt-relaxed']}
   data-surface={surface}
   data-section-type="services"
 >

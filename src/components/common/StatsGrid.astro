@@ -1,0 +1,37 @@
+---
+/**
+ * StatsGrid — horizontal row of StatCircle with optional source footnote.
+ *
+ * Desktop: 3 fixed-width stat circles distributed along the row (Figma gap
+ * ~141px between 270px cards inside a 1092px column). Mobile: stacked.
+ */
+import StatCircle from './StatCircle.astro';
+
+interface StatItem {
+  value: string;
+  caption: string;
+}
+
+interface Props {
+  items: StatItem[];
+  source?: string;
+}
+
+const { items, source } = Astro.props;
+---
+
+<div class="flex flex-col gap-comfortable">
+
+  <div class="flex flex-col items-start gap-comfortable sm:grid sm:grid-cols-2 sm:items-start sm:gap-relaxed lg:flex lg:flex-row lg:flex-wrap lg:justify-between lg:gap-relaxed">
+    {items.map((item) => (
+      <StatCircle value={item.value} caption={item.caption} />
+    ))}
+  </div>
+
+  {source && (
+    <p class="font-body text-[12px] leading-[16px] font-[500] text-on-surface-dark m-0">
+      {source}
+    </p>
+  )}
+
+</div>

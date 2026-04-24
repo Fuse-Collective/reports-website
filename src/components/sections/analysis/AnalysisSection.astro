@@ -58,7 +58,8 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
 ---
 
 <section
-  class:list={[sectionBgClass, 'py-monumental px-page-gutter']}
+  id={`analysis-${number}`}
+  class:list={[sectionBgClass, 'py-monumental px-page-gutter scroll-mt-relaxed']}
   data-section-type="analysis"
   data-analysis-number={number}
   data-surface={surface}

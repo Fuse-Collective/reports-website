@@ -4,13 +4,14 @@
  *
  * Source: Figma 1249:36768 (NAVIGATION/TOP MENU, 1748×112)
  *
- * Logo: placeholder (dark circle with "fuse" text) — replace with real SVG
- *       at /images/logo/fuse-logo.svg when available.
- * Menu items: configurable via props.
- * No language switcher per project decision.
+ * Desktop (lg+): logo left, inline menu links right.
+ * Mobile (<lg): logo left, hamburger button right → opens full-screen dark
+ *               drawer with centered menu items and ZAMKNIJ close affordance.
+ *               Mirrors fusecollective.com mobile menu pattern.
  */
 
 import Logo from '../../ui/Logo.astro';
+import { Icon } from 'astro-icon/components';
 
 interface NavLink {
   label: string;
@@ -41,7 +42,6 @@ const textColor: Record<Surface, string> = {
   dark: 'text-on-surface-light',
   accent: 'text-on-surface-accent',
 };
-
 ---
 
 <nav
@@ -53,7 +53,6 @@ const textColor: Record<Surface, string> = {
   <div class="px-page-gutter">
     <div class:list={["mx-auto max-w-content-max h-monumental flex items-center justify-between gap-comfortable", textColor[surface]]}>
 
-      {/* Logo — always dark on this page (forced via prop on call site if needed) */}
       <Logo
         variant="dark"
         size={80}
@@ -61,7 +60,7 @@ const textColor: Record<Surface, string> = {
         ariaLabel="Fuse Collective — strona główna"
       />
 
-      {/* Menu links — desktop */}
+      {/* Desktop links */}
       <ul class="hidden lg:flex items-center gap-comfortable">
         {links.map((link) => (
           <li>
@@ -75,19 +74,96 @@ const textColor: Record<Surface, string> = {
         ))}
       </ul>
 
-      {/* Mobile hamburger placeholder */}
+      {/* Mobile hamburger — opens drawer */}
       <button
         type="button"
+        data-nav-toggle
         class="lg:hidden flex items-center justify-center w-[48px] h-[48px]"
         aria-label="Otwórz menu"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
+        <Icon name="menu" is:inline class="w-[40px] h-[26px]" />
       </button>
 
     </div>
   </div>
 </nav>
+
+{/* Mobile drawer — full-screen overlay */}
+<div
+  id="nav-drawer"
+  data-nav-drawer
+  class="hidden lg:hidden fixed inset-0 z-50 bg-surface-dark text-on-surface-light flex-col"
+  data-surface="dark"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu nawigacyjne"
+  hidden
+>
+  <div class="px-page-gutter">
+    <div class="mx-auto max-w-content-max h-monumental flex items-center justify-between gap-comfortable">
+      <Logo
+        variant="light"
+        size={80}
+        href={logoHref}
+        ariaLabel="Fuse Collective — strona główna"
+      />
+      <button
+        type="button"
+        data-nav-close
+        class="flex items-center gap-standard text-on-surface-light"
+        aria-label="Zamknij menu"
+      >
+        <span class="font-body text-label-sm tracking-widest uppercase">ZAMKNIJ</span>
+        <span class="flex items-center justify-center w-[48px] h-[48px]">
+          <Icon name="menu" is:inline class="w-[40px] h-[26px]" />
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <ul class="flex-1 flex flex-col items-center justify-center gap-breathing">
+    {links.map((link) => (
+      <li>
+        <a
+          href={link.href}
+          class="font-body text-headline-sm leading-normal text-on-surface-light"
+        >
+          {link.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  const drawer = document.querySelector<HTMLElement>('[data-nav-drawer]');
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-nav-toggle]');
+  const closers = document.querySelectorAll<HTMLButtonElement>('[data-nav-close]');
+
+  const open = () => {
+    if (!drawer) return;
+    drawer.hidden = false;
+    drawer.classList.remove('hidden');
+    drawer.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    toggles.forEach((t) => t.setAttribute('aria-expanded', 'true'));
+  };
+
+  const close = () => {
+    if (!drawer) return;
+    drawer.hidden = true;
+    drawer.classList.add('hidden');
+    drawer.classList.remove('flex');
+    document.body.style.overflow = '';
+    toggles.forEach((t) => t.setAttribute('aria-expanded', 'false'));
+  };
+
+  toggles.forEach((btn) => btn.addEventListener('click', open));
+  closers.forEach((btn) => btn.addEventListener('click', close));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer && !drawer.hidden) close();
+  });
+</script>

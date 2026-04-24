@@ -120,6 +120,7 @@ sections:
     sectionPills:
       - label: "Konstelacje przewag"
         state: locked
+        href: "#overview-constellations"
         items:
           - number: "01"
             label: "Transparentna alternatywa"
@@ -133,6 +134,7 @@ sections:
             label: "Twierdza danych"
       - label: "Ocena strategiczna"
         state: locked
+        href: "#ocena-strategiczna"
     cta:
       label: "Odblokuj pełną wersję"
       href: "#gate"
@@ -379,14 +381,30 @@ sections:
 
     starsHeading: "Gwiazdy konstelacji"
     stars:
+      - tag: "Obszar modelu biznesowego"
+        tagTone: accent
+        title: "Publiczny cennik online"
+        description: "Od $199 do $1499/mies. Jedyny poważny gracz w kategorii, który nie ukrywa cen."
+      - tag: "Obszar modelu biznesowego"
+        tagTone: accent
+        title: "Trial bez karty"
+        description: "14 dni pełnego dostępu bez karty kredytowej i bez rozmowy z handlowcem."
+      - tag: "Obszar modelu biznesowego"
+        tagTone: accent
+        title: "Subskrypcje miesięczne"
+        description: "Cancel anytime. Meltwater wymaga minimum 12 miesięcy zobowiązania."
+      - tag: "Obszar modelu biznesowego"
+        tagTone: accent
+        title: "Model samoobsługowy"
+        description: "Ponad 50% klientów to firmy do 100 pracowników. Bez potrzeby zespołu wdrożeniowego."
       - tag: "Obszar marketingu"
         tagTone: accent
-        title: "Publiczny cennik"
-        description: "Jedyny poważny gracz z publicznym cennikiem ($199-$1499)."
-      - tag: "Obszar marketingu"
+        title: "Publiczne dane operacyjne"
+        description: "Sadowski publikuje MRR i ARPU na LinkedIn. Wiarygodność przez radykalną otwartość."
+      - tag: "Obszar marki"
         tagTone: accent
-        title: "14-dniowy trial bez karty"
-        description: "14-dniowy trial bez karty i bez rozmowy z handlowcem."
+        title: "Jawna reakcja na kryzys"
+        description: "Kryzys FB 2018: Sadowski wystąpił na YouTube zamiast korporacyjnego milczenia."
 
     risks:
       - icon: "constellations/warning"
@@ -675,3 +693,19 @@ sections:
       - icon: "constellations/cpd"
         title: "Kopiowalność"
         body: "Jedyna konstelacja, w której czas działa wyłącznie na korzyść Brand24. Każdy dzień powiększa przewagę. Konkurent musiałby zacząć zbierać dane 14 lat temu. Nowy gracz może skopiować interfejs i cennik, ale nie dane."
+
+  - type: services-grid
+    headline: "Brand24 robi rzeczy klasy enterprise w nie-enterprise'owy sposób."
+    body: "Ten jeden mianownik łączy wszystkie 5 konstelacji."
+    surface: accent
+    anchorId: ocena-strategiczna
+    services:
+      - heading: "Najsilniejsza przewaga"
+        icon: "lider"
+        description: "Łamanie schematów kategorii w połączeniu z DNA firmy. Dominujący gracze nie mogą tego skopiować bez kanibalizacji własnego modelu (dylemat innowatora). To nie jest przewaga jednej funkcji. To przewaga modelu."
+      - heading: "Największy potencjał"
+        icon: "spojrzenie"
+        description: "Chatbeat w ekosystemie Adobe-Semrush. Jedyny gracz łączący monitoring ludzi i AI w jednym panelu z samoobsługą. Rynek GEO rośnie 30-45% rocznie. Okno: 12-18 miesięcy."
+      - heading: "Największe ryzyko"
+        icon: "proces"
+        description: "Przewagi na poziomie poszczególnych funkcji mają okno 6-12 miesięcy. Trwałe przewagi to te oparte na modelu (samoobsługa vs sprzedaż relacyjna), kulturze (DNA) i pozycji ekosystemowej (Chatbeat + Semrush)."

@@ -46,10 +46,11 @@ const painBlockSection = z.object({
 const servicesGridSection = z.object({
   type: z.literal('services-grid'),
   headline: z.string(),
-  body: z.string(),
+  body: z.string().optional(),
   as: z.enum(['h1', 'h2']).optional(),
   surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
   numbered: z.boolean().optional(),
+  anchorId: z.string().optional(),
   services: z.array(z.object({
     heading: z.string(),
     icon: z.string().optional(),
@@ -260,9 +261,11 @@ const overviewSection = z.object({
   sectionPills: z.array(z.object({
     label: z.string(),
     state: z.enum(['locked']),
+    href: z.string().optional(),
     items: z.array(z.object({
       number: z.string(),
       label: z.string(),
+      href: z.string().optional(),
     })).optional(),
   })).optional(),
   cta: z.object({

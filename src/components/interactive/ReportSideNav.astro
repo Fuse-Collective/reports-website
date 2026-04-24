@@ -1,12 +1,20 @@
 ---
 /**
- * ReportSideNav — drawer variant of the report areas menu (below xl).
+ * ReportSideNav — mobile chapter-menu (TOC) dropdown (below xl).
  *
  * xl+ (>=1280px): the menu sits inline inside the menu-scope wrapper in
  * [slug].astro as a sticky right column. This component renders NOTHING.
- * Below xl: floating "Spis treści" pill trigger (bottom-right) opens a native
- * <dialog> drawer that slides up from the bottom. Trigger appears after the
- * user scrolls past OverviewSection.
+ *
+ * Below xl: a floating "Spis treści" pill trigger sits bottom-right. Clicking
+ * it toggles a compact panel that appears directly above the trigger — the
+ * panel is constrained in width (not full-screen) so it reads like a popover.
+ * The trigger's label stays visible; only the left icon swaps (areas-indicator
+ * → × close). The same button opens and closes the panel.
+ *
+ * Visibility: the root wrapper fades in after the reader has scrolled past
+ * the primary overview hero and fades out once the closing strategic-assessment
+ * section is in view. Scroll listener (not IntersectionObserver) handles
+ * anchor-jump teleports reliably.
  */
 import { Icon } from 'astro-icon/components';
 import ReportAreasMenu from '../common/ReportAreasMenu.astro';
@@ -26,99 +34,111 @@ interface SectionPill {
 interface Props {
   areasLabel: string;
   areas: Area[];
+  areasHref?: string;
   sectionPills?: SectionPill[];
 }
 
-const { areasLabel, areas, sectionPills = [] } = Astro.props;
+const { areasLabel, areas, areasHref, sectionPills = [] } = Astro.props;
 ---
 
-{/* Mobile: floating trigger button */}
-<button
-  type="button"
-  class="xl:hidden fixed bottom-[20px] right-[20px] z-40 inline-flex items-center gap-compact rounded-full bg-surface-dark pl-tight pr-standard py-tight shadow-[0_8px_24px_rgba(29,29,27,0.24)] opacity-0 pointer-events-none transition-opacity duration-300"
-  data-sidenav-trigger
-  aria-expanded="false"
-  aria-controls="report-sidenav-drawer"
-  aria-label="Otwórz spis treści"
+<div
+  data-sidenav-root
+  class="xl:hidden fixed bottom-[20px] right-[20px] z-40 flex flex-col items-end gap-standard opacity-0 pointer-events-none transition-opacity duration-300"
 >
-  <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
-    <Icon name="areas-indicator" class="w-6 h-6" />
-  </span>
-  <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-light">
-    Spis treści
-  </span>
-</button>
 
-{/* Mobile: dialog drawer */}
-<dialog
-  id="report-sidenav-drawer"
-  class="xl:hidden fixed inset-x-0 bottom-0 top-auto w-full max-w-full m-0 p-0 bg-surface-accent rounded-t-[24px] backdrop:bg-[rgba(29,29,27,0.5)]"
-  data-sidenav-drawer
->
-  <div class="flex flex-col gap-relaxed p-relaxed" data-surface="accent">
-
-    {/* Drawer header — drag handle + close button */}
-    <div class="flex items-center justify-between">
-      <span class="inline-block w-12 h-1 rounded-full bg-on-surface-accent/30" aria-hidden="true"></span>
-      <button
-        type="button"
-        class="shrink-0 w-10 h-10 inline-flex items-center justify-center text-on-surface-accent"
-        data-sidenav-close
-        aria-label="Zamknij spis treści"
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
-        </svg>
-      </button>
-    </div>
-
+  {/* Panel — sits above the trigger, constrained width */}
+  <div
+    id="report-sidenav-panel"
+    data-sidenav-panel
+    class="w-[min(320px,calc(100vw-40px))] max-h-[calc(100vh-140px)] overflow-y-auto rounded-[24px] bg-surface-accent shadow-[0_8px_24px_rgba(29,29,27,0.24)] p-relaxed"
+    data-surface="accent"
+    role="region"
+    aria-label="Spis treści raportu"
+    hidden
+  >
     <ReportAreasMenu
       areasLabel={areasLabel}
       areas={areas}
+      areasHref={areasHref}
       sectionPills={sectionPills}
     />
-
   </div>
-</dialog>
+
+  {/* Trigger — always visible; clicking toggles the panel. Left icon
+      swaps between areas-indicator and × via group-aria-expanded. */}
+  <button
+    type="button"
+    data-sidenav-trigger
+    class="group inline-flex items-center gap-compact rounded-full bg-surface-dark pl-tight pr-standard py-tight shadow-[0_8px_24px_rgba(29,29,27,0.24)]"
+    aria-expanded="false"
+    aria-controls="report-sidenav-panel"
+    aria-label="Spis treści"
+  >
+    <span class="inline-flex w-8 h-8 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
+      <Icon name="areas-indicator" is:inline class="w-6 h-6 group-aria-expanded:hidden" />
+      <Icon name="close" is:inline class="w-6 h-6 hidden group-aria-expanded:inline-block" />
+    </span>
+    <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-light">
+      Spis treści
+    </span>
+  </button>
+
+</div>
 
 <script>
+  const root = document.querySelector<HTMLElement>('[data-sidenav-root]');
   const trigger = document.querySelector<HTMLButtonElement>('[data-sidenav-trigger]');
-  const drawer = document.querySelector<HTMLDialogElement>('[data-sidenav-drawer]');
-  const closeBtn = document.querySelector<HTMLButtonElement>('[data-sidenav-close]');
-  const overview = document.querySelector<HTMLElement>('[data-section-type="overview"]');
+  const panel = document.querySelector<HTMLElement>('[data-sidenav-panel]');
+  const overview = document.querySelector<HTMLElement>('[data-section-type="overview-hero"]');
+  const menuEnd = document.querySelector<HTMLElement>('#ocena-strategiczna');
 
-  const setVisible = (el: HTMLElement | null, visible: boolean) => {
-    if (!el) return;
-    el.classList.toggle('opacity-0', !visible);
-    el.classList.toggle('pointer-events-none', !visible);
+  const setRootVisible = (visible: boolean) => {
+    if (!root) return;
+    root.classList.toggle('opacity-0', !visible);
+    root.classList.toggle('pointer-events-none', !visible);
   };
 
-  if (overview) {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Show the mobile trigger only after the user has scrolled past
-        // OverviewSection — the TOC is forward-looking, covering sections below.
-        const pastOverview = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-        setVisible(trigger, pastOverview);
-        if (!pastOverview && drawer?.open) drawer.close();
-      },
-      { threshold: 0 },
-    );
-    observer.observe(overview);
-  }
+  const setPanelOpen = (open: boolean) => {
+    if (!trigger || !panel) return;
+    trigger.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+  };
+
+  // Scroll-driven trigger visibility (same rules as before).
+  const update = () => {
+    const y = window.scrollY;
+    const overviewBottom = overview ? y + overview.getBoundingClientRect().bottom : 0;
+    const endTop = menuEnd ? y + menuEnd.getBoundingClientRect().top : Infinity;
+    const pastOverview = y >= overviewBottom;
+    const atOrPastEnd = y + window.innerHeight * 0.2 >= endTop;
+    const visible = pastOverview && !atOrPastEnd;
+    setRootVisible(visible);
+    if (!visible && trigger?.getAttribute('aria-expanded') === 'true') {
+      setPanelOpen(false);
+    }
+  };
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
 
   trigger?.addEventListener('click', () => {
-    drawer?.showModal();
-    trigger.setAttribute('aria-expanded', 'true');
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+    setPanelOpen(!isOpen);
   });
 
-  closeBtn?.addEventListener('click', () => drawer?.close());
-
-  drawer?.addEventListener('click', (event) => {
-    if (event.target === drawer) drawer.close();
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && trigger?.getAttribute('aria-expanded') === 'true') {
+      setPanelOpen(false);
+      trigger.focus();
+    }
   });
 
-  drawer?.addEventListener('close', () => {
-    trigger?.setAttribute('aria-expanded', 'false');
+  // Click outside the root closes the panel.
+  document.addEventListener('click', (e) => {
+    if (!root || !trigger) return;
+    if (trigger.getAttribute('aria-expanded') !== 'true') return;
+    const target = e.target as Node;
+    if (!root.contains(target)) setPanelOpen(false);
   });
 </script>

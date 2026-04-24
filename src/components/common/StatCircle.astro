@@ -1,0 +1,34 @@
+---
+/**
+ * StatCircle — big value on a yellow disk + caption beneath.
+ *
+ * Composition: IconBadge (lg, accent) with the value centred over it + a
+ * body-copy caption below. Disk 200px, value at Display 46/~65, caption at
+ * Body 18/relaxed so the 4-item row packs without crushing the numbers.
+ */
+import IconBadge from '../ui/IconBadge.astro';
+
+interface Props {
+  value: string;
+  caption: string;
+}
+
+const { value, caption } = Astro.props;
+---
+
+<div class="flex flex-col gap-standard items-start">
+
+  <div class="relative w-[200px] h-[200px]">
+    <IconBadge size="lg" tone="accent" class="absolute inset-0" />
+    <span
+      class="absolute inset-0 flex items-center justify-center font-body text-display-md font-normal leading-normal text-on-surface-dark"
+    >
+      {value}
+    </span>
+  </div>
+
+  <p class="font-body text-body-sm font-normal leading-relaxed text-on-surface-dark m-0 max-w-[280px]">
+    {caption}
+  </p>
+
+</div>

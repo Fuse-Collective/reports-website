@@ -36,7 +36,7 @@ const { heading, icon, label, description, class: className, ...rest } = Astro.p
     </span>
   ) : icon ? (
     <Icon
-      name={`brand/${icon}`}
+      name={icon.includes('/') ? icon : `brand/${icon}`}
       is:inline
       class="shrink-0 w-[80px] h-[80px] lg:w-[120px] lg:h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent"
     />

@@ -28,6 +28,12 @@ const darkIdx = sections.findIndex(
 );
 const previewGateIdx = sections.findIndex((s) => s.type === 'preview-gate');
 const ctaIdx = sections.findIndex((s) => s.type === 'cta');
+// Menu boundary: TOC scope closes BEFORE this section so the closing
+// strategic-assessment + CTA + about sections render full-width, without
+// the sticky right-rail overlay. Identified by anchorId on the yaml entry.
+const menuEndIdx = sections.findIndex(
+  (s) => (s as any).anchorId === 'ocena-strategiczna'
+);
 
 const primaryData = primaryIdx !== -1 ? sections[primaryIdx] : null;
 const darkData = darkIdx !== -1 ? sections[darkIdx] : null;
@@ -57,10 +63,21 @@ const scope1End = Math.min(
   previewGateIdx !== -1 ? previewGateIdx : Infinity,
   darkIdx !== -1 ? darkIdx : Infinity,
   ctaIdx !== -1 ? ctaIdx : Infinity,
+  menuEndIdx !== -1 ? menuEndIdx : Infinity,
   sections.length,
 );
-const betweenEnd = darkIdx !== -1 ? darkIdx : (ctaIdx !== -1 ? ctaIdx : sections.length);
-const scope2End = ctaIdx !== -1 ? ctaIdx : sections.length;
+const betweenEnd = darkIdx !== -1
+  ? darkIdx
+  : Math.min(
+      ctaIdx !== -1 ? ctaIdx : Infinity,
+      menuEndIdx !== -1 ? menuEndIdx : Infinity,
+      sections.length,
+    );
+const scope2End = Math.min(
+  ctaIdx !== -1 ? ctaIdx : Infinity,
+  menuEndIdx !== -1 ? menuEndIdx : Infinity,
+  sections.length,
+);
 
 const preMenu = primaryIdx !== -1 ? sections.slice(0, primaryIdx) : sections;
 const scope1Content = primaryIdx !== -1 ? sections.slice(primaryIdx + 1, scope1End) : [];
@@ -91,11 +108,13 @@ const postMenu = sections.slice(scope2End);
       <OverviewHero
         headline={primaryData.headline}
         subtitle={primaryData.subtitle}
+        anchorId="overview-areas"
       />
 
       <MenuScope
         areasLabel={sideNav.areasLabel}
         areas={sideNav.areas}
+        areasHref="#overview-areas"
         sectionPills={sideNav.sectionPills}
       >
         <OverviewInsight
@@ -124,6 +143,7 @@ const postMenu = sections.slice(scope2End);
       <MenuScope
         areasLabel={sideNav.areasLabel}
         areas={sideNav.areas}
+        areasHref="#overview-areas"
         sectionPills={sideNav.sectionPills}
         mode="constellations"
         sticky={false}
@@ -149,11 +169,13 @@ const postMenu = sections.slice(scope2End);
         headline={darkData.headline}
         subtitle={darkData.subtitle}
         surface={(darkData as any).surface ?? 'accent'}
+        anchorId="overview-constellations"
       />
 
       <MenuScope
         areasLabel={sideNav.areasLabel}
         areas={sideNav.areas}
+        areasHref="#overview-areas"
         sectionPills={sideNav.sectionPills}
         mode="constellations"
       >
@@ -181,6 +203,7 @@ const postMenu = sections.slice(scope2End);
     <ReportSideNav
       areasLabel={sideNav.areasLabel}
       areas={sideNav.areas}
+      areasHref="#overview-areas"
       sectionPills={sideNav.sectionPills}
     />
   )}

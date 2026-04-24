@@ -31,17 +31,20 @@ interface Area {
 interface SectionPillItem {
   number: string;
   label: string;
+  href?: string;
 }
 
 interface SectionPill {
   label: string;
   state: 'locked';
+  href?: string;
   items?: SectionPillItem[];
 }
 
 interface Props {
   areasLabel: string;
   areas: Area[];
+  areasHref?: string;
   sectionPills?: SectionPill[];
   mode?: 'areas' | 'constellations';
   class?: string;
@@ -50,6 +53,7 @@ interface Props {
 const {
   areasLabel,
   areas,
+  areasHref,
   sectionPills = [],
   mode = 'areas',
   class: className,
@@ -61,32 +65,52 @@ const {
   {/* Section 1 — Areas. Header pill always shown; items list only when
       mode === 'areas'. */}
   <div class="flex flex-col gap-standard items-start">
-    <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
-      <Icon name="areas-indicator" class="w-6 h-6 shrink-0 text-on-surface-dark" />
-      <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
-        {areasLabel}
-      </span>
-    </div>
+    {areasHref ? (
+      <a
+        href={areasHref}
+        class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+      >
+        <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
+          <Icon name="areas-indicator" class="w-6 h-6 shrink-0 text-on-surface-dark" />
+          <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
+            {areasLabel}
+          </span>
+        </div>
+      </a>
+    ) : (
+      <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
+        <Icon name="areas-indicator" class="w-6 h-6 shrink-0 text-on-surface-dark" />
+        <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
+          {areasLabel}
+        </span>
+      </div>
+    )}
 
     {mode === 'areas' && (
       <ul class="flex flex-col gap-compact m-0 p-0 list-none">
-        {areas.map((area) => (
-          <li
-            data-area-number={area.number}
-            data-current={area.state === 'current' ? 'true' : 'false'}
-            class="group"
-          >
-            <div class="inline-flex items-center gap-standard">
-              {/* Number slot — same 32×32 dimensions both states; fill switches on current */}
-              <span class="inline-flex w-8 h-8 items-center justify-center rounded-full font-body text-label-sm font-normal leading-none tabular-nums text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:bg-surface-dark group-data-[current=true]:text-on-surface-light on-dark:group-data-[current=true]:bg-surface-light on-dark:group-data-[current=true]:text-on-surface-dark">
-                <span class="group-data-[current=true]:translate-y-[1px] group-data-[current=true]:-translate-x-[1px]">{area.number}</span>
-              </span>
-              <span class="font-body text-label-sm font-normal text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:font-semibold">
-                {area.label}
-              </span>
-            </div>
-          </li>
-        ))}
+        {areas.map((area) => {
+          const href = area.href ?? `#analysis-${area.number}`;
+          return (
+            <li
+              data-area-number={area.number}
+              data-current={area.state === 'current' ? 'true' : 'false'}
+              class="group"
+            >
+              <a
+                href={href}
+                class="inline-flex items-center gap-standard rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >
+                {/* Number slot — same 32×32 dimensions both states; fill switches on current */}
+                <span class="inline-flex w-8 h-8 items-center justify-center rounded-full font-body text-label-sm font-normal leading-none tabular-nums text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:bg-surface-dark group-data-[current=true]:text-on-surface-light on-dark:group-data-[current=true]:bg-surface-light on-dark:group-data-[current=true]:text-on-surface-dark">
+                  <span class="group-data-[current=true]:translate-y-[1px] group-data-[current=true]:-translate-x-[1px]">{area.number}</span>
+                </span>
+                <span class="font-body text-label-sm font-normal text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:font-semibold">
+                  {area.label}
+                </span>
+              </a>
+            </li>
+          );
+        })}
       </ul>
     )}
   </div>
@@ -96,35 +120,51 @@ const {
       `constellations` mode the first section pill's items are shown. */}
   {sectionPills.map((pill, i) => {
     const expanded = mode === 'constellations' && i === 0 && pill.items && pill.items.length > 0;
+    const pillInner = (
+      <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
+        <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
+          <Icon name="padlock-mini" class="w-6 h-6" />
+        </span>
+        <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
+          {pill.label}
+        </span>
+      </div>
+    );
     return (
       <div class="flex flex-col gap-standard items-start">
-        <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
-          <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
-            <Icon name="padlock-mini" class="w-6 h-6" />
-          </span>
-          <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
-            {pill.label}
-          </span>
-        </div>
+        {pill.href ? (
+          <a
+            href={pill.href}
+            class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          >
+            {pillInner}
+          </a>
+        ) : pillInner}
 
         {expanded && (
           <ul class="flex flex-col gap-compact m-0 p-0 list-none">
-            {pill.items!.map((item) => (
-              <li
-                data-constellation-number={item.number}
-                data-current="false"
-                class="group"
-              >
-                <div class="inline-flex items-center gap-standard">
-                  <span class="inline-flex w-8 h-8 items-center justify-center rounded-full font-body text-label-sm font-normal leading-none tabular-nums text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:bg-surface-dark group-data-[current=true]:text-on-surface-light on-dark:group-data-[current=true]:bg-surface-light on-dark:group-data-[current=true]:text-on-surface-dark">
-                    <span class="group-data-[current=true]:translate-y-[1px] group-data-[current=true]:-translate-x-[1px]">{item.number}</span>
-                  </span>
-                  <span class="font-body text-label-sm font-normal text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:font-semibold">
-                    {item.label}
-                  </span>
-                </div>
-              </li>
-            ))}
+            {pill.items!.map((item) => {
+              const href = item.href ?? `#constellation-${item.number}`;
+              return (
+                <li
+                  data-constellation-number={item.number}
+                  data-current="false"
+                  class="group"
+                >
+                  <a
+                    href={href}
+                    class="inline-flex items-center gap-standard rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  >
+                    <span class="inline-flex w-8 h-8 items-center justify-center rounded-full font-body text-label-sm font-normal leading-none tabular-nums text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:bg-surface-dark group-data-[current=true]:text-on-surface-light on-dark:group-data-[current=true]:bg-surface-light on-dark:group-data-[current=true]:text-on-surface-dark">
+                      <span class="group-data-[current=true]:translate-y-[1px] group-data-[current=true]:-translate-x-[1px]">{item.number}</span>
+                    </span>
+                    <span class="font-body text-label-sm font-normal text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:font-semibold">
+                      {item.label}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

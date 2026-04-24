@@ -18,26 +18,31 @@ interface Props {
 const { title, description, class: className } = Astro.props;
 ---
 
-<div class:list={['grid gap-relaxed lg:grid-cols-[minmax(0,360fr)_40px_minmax(0,532fr)] lg:gap-comfortable p-relaxed', className]}>
+<div class:list={[
+  'grid gap-relaxed py-relaxed',
+  'grid-cols-[40px_1fr]',
+  'lg:grid-cols-[minmax(0,360fr)_40px_minmax(0,532fr)] lg:gap-comfortable lg:px-relaxed',
+  className,
+]}>
 
   {/* Title — right-aligned at lg+ per Figma (textH:RIGHT, fs:26, fw:400).
-      Column proportions 360:40:532 match Figma Border frame (1028px inner
-      content area = 360 + 48 + 40 + 48 + 532). The narrower left column
-      makes the title wrap onto ~2 lines as intended. */}
-  <h3 class="font-body text-body-md font-normal leading-normal text-on-surface-dark m-0 lg:text-right">
+      Desktop column proportions 360:40:532 match Figma Border frame (1028px
+      inner content area = 360 + 48 + 40 + 48 + 532).
+      Mobile: title in column 2, pill spans rows 1-2 of column 1. */}
+  <h3 class="col-start-2 row-start-1 lg:col-start-1 lg:row-start-1 lg:text-right font-body text-body-md font-normal leading-normal text-on-surface-dark m-0">
     {title}
   </h3>
 
-  {/* Decorative accent pill */}
+  {/* Decorative accent pill — left-column marker on mobile, centre on desktop */}
   <span
-    class="hidden lg:flex w-10 h-[116px] items-start justify-center pt-tight rounded-full border-[1.6px] border-on-surface-dark"
+    class="col-start-1 row-start-1 row-span-2 lg:col-start-2 lg:row-span-1 self-start flex w-10 h-[116px] items-start justify-center pt-tight rounded-full border-[1.6px] border-on-surface-dark"
     aria-hidden="true"
   >
     <span class="w-6 h-6 rounded-full bg-primary"></span>
   </span>
 
   {/* Description */}
-  <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+  <p class="col-start-2 row-start-2 lg:col-start-3 lg:row-start-1 font-body text-body font-normal leading-normal text-on-surface-dark m-0">
     {description}
   </p>
 

@@ -1,0 +1,33 @@
+---
+/**
+ * MechanismFlow — lead sentence + bulleted flow list.
+ *
+ * Each flow line is typically "A → B → C" form (reinforcing causal chain).
+ * Arrows are part of the YAML string; this component just renders them as
+ * body text next to a Bullet marker.
+ */
+import Bullet from '../ui/Bullet.astro';
+
+interface Props {
+  lead: string;
+  lines: string[];
+}
+
+const { lead, lines } = Astro.props;
+---
+
+<div class="flex flex-col gap-standard">
+  <p class="font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+    {lead}
+  </p>
+  <ul class="flex flex-col gap-compact m-0 p-0 list-none">
+    {lines.map((line) => (
+      <li class="flex gap-standard items-start">
+        <Bullet variant="accent" class="mt-[calc(0.45em+1px)]" />
+        <span class="font-body text-body font-normal leading-normal text-on-surface-dark">
+          {line}
+        </span>
+      </li>
+    ))}
+  </ul>
+</div>

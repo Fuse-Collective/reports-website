@@ -24,6 +24,8 @@ pnpm-debug.log*
 .staging-lock
 scratch/
 projects/
+.claude/
+.local-rules-only
 
 # macOS-specific files
 .DS_Store
@@ -37,5 +39,6 @@ projects/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+/tests/__results__/
 
 desktop.ini

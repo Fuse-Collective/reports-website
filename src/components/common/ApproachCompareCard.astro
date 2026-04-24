@@ -1,0 +1,42 @@
+---
+/**
+ * ApproachCompareCard — one column of a before/after approach comparison.
+ *
+ * Header = face glyph overlapping a coloured disk (64px badge + 60px glyph,
+ * glyph offset right per Figma 3644:22035 / 3644:22046). Below: h4 label +
+ * body description.
+ *
+ * Reusable for typical-vs-ours, old-vs-new, problem-vs-solution pairings.
+ *
+ * Icons: any astro-icon name (`approaches/face-neutral`, `approaches/face-happy`, ...).
+ */
+import { Icon } from 'astro-icon/components';
+import IconBadge from '../ui/IconBadge.astro';
+
+interface Props {
+  icon: string;
+  tone: 'accent' | 'neutral';
+  label: string;
+  description: string;
+}
+
+const { icon, tone, label, description } = Astro.props;
+---
+
+<div class="flex flex-col gap-comfortable">
+
+  {/* Icon + disk — 100×56 composite (per Figma): disk at x=0 top=-4, glyph at x=40 top=-2 */}
+  <div class="relative w-[100px] h-14">
+    <IconBadge tone={tone} size="md" class="absolute top-[-4px] left-0" />
+    <Icon name={icon} class="absolute left-10 top-[-2px] w-[60px] h-[60px] text-on-surface-dark" />
+  </div>
+
+  <h4 class="font-body text-headline-sm font-normal leading-normal text-on-surface-dark m-0">
+    {label}
+  </h4>
+
+  <p class="font-body text-body font-normal leading-relaxed text-on-surface-dark m-0">
+    {description}
+  </p>
+
+</div>

@@ -92,6 +92,13 @@ strong, b {
   font-weight: var(--font-weight-semibold);
 }
 
+/* Smooth in-page anchor navigation (respects reduced-motion preference). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Brand icon colors: yellow accents → white on accent surface */
 [data-surface="accent"] [data-icon] :is(path, circle, ellipse)[fill]:not([fill="none"]):not([fill="currentColor"]) {
   fill: white;
