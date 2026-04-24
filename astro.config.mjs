@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 
 export default defineConfig({
-  site: 'https://reports-website.com',
+  site: 'https://reports.fusecollective.com',
   output: 'static',
 
   integrations: [
