@@ -430,7 +430,7 @@ sections:
       icon: "brand/owl"
       headline: "Jak powstały te pomysły?"
       paragraphs:
-        - "Pomysły wyżej wygenerował nasz wewnętrzny silnik analityczny łączący bazę wiedzy o B2B (badania, wzorce przewag, case studies) z kontekstem analizowanej firmy. Rekomendacje powstają na danych i wzorcach rynkowych, a nie na intuicji jednego konsultanta <em>(robocza nazwa silnika: Fuse Foresight Lab)</em>."
+        - "Pomysły wyżej wygenerował nasz wewnętrzny silnik analityczny (Fuse Foresight) łączący bazę wiedzy o B2B (badania, wzorce przewag, case studies) z kontekstem analizowanej firmy. Rekomendacje powstają na danych i wzorcach rynkowych, a nie na intuicji jednego konsultanta."
       cta:
         label: "Zobacz ofertę"
         href: "https://www.fusecollective.com/oferta/"
