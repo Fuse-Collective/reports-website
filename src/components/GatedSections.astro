@@ -1,0 +1,72 @@
+---
+/**
+ * GatedSections — renders the post-gate portion of a report:
+ *   1. Dark overview (post-gate "Konstelacje przewag" hero + insight)
+ *   2. Constellations 01-05 (or however many follow the dark overview)
+ *   3. Strategic-assessment closing section (services-grid w/ anchorId
+ *      'ocena-strategiczna')
+ *
+ * Does NOT render in the static page HTML. Instead, this component is
+ * rendered server-side by `/api/gated/[slug].ts` (via Astro Container API)
+ * after subscription verification, then injected into the page by client
+ * JS at the `#gated-content` mount point.
+ *
+ * Caller computes the slices and passes them as props — keeps this
+ * component dumb (no duplicated indexing logic).
+ */
+import OverviewHero from './sections/overview/OverviewHero.astro';
+import OverviewInsight from './sections/overview/OverviewInsight.astro';
+import MenuScope from './interactive/MenuScope.astro';
+import SectionRenderer from './sections/SectionRenderer.astro';
+
+interface SideNav {
+  areasLabel: string;
+  areas: any[];
+  sectionPills: any[];
+}
+
+interface Props {
+  darkData: any | null;
+  sideNav: SideNav | null;
+  scope2Content: any[];
+  postMenu: any[];
+}
+
+const { darkData, sideNav, scope2Content, postMenu } = Astro.props;
+---
+
+{darkData && sideNav && (
+  <>
+    <OverviewHero
+      headline={darkData.headline}
+      subtitle={darkData.subtitle}
+      surface={(darkData as any).surface ?? 'accent'}
+      anchorId="overview-constellations"
+    />
+
+    <MenuScope
+      areasLabel={sideNav.areasLabel}
+      areas={sideNav.areas}
+      areasHref="#overview-areas"
+      sectionPills={sideNav.sectionPills}
+      mode="constellations"
+    >
+      <OverviewInsight
+        insightLabel={darkData.insightLabel}
+        insight={darkData.insight}
+        insightPoints={darkData.insightPoints}
+        cta={darkData.cta}
+        surface={(darkData as any).surface ?? 'accent'}
+        inMenuScope={true}
+      />
+
+      {scope2Content.map((section) => (
+        <SectionRenderer section={section} />
+      ))}
+    </MenuScope>
+  </>
+)}
+
+{postMenu.map((section) => (
+  <SectionRenderer section={section} />
+))}

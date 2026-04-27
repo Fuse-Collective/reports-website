@@ -312,18 +312,6 @@ sections:
         title: "Kopiowalność"
         body: "Kategoria LLM Listening dopiero się formuje. 6–8 nowych narzędzi w 12 miesięcy (Ahrefs Brand Radar, Meltwater GenAI Lens, Nightwatch). Okno: 12–18 miesięcy. Pytanie: czy Brand24 utrzyma pozycję early movera."
 
-  - type: preview-gate
-    headline: "Chcesz zobaczyć jak przewagi łączą się w trudną do skopiowania konstelację?"
-    insightLabel: "To dopiero połowa analizy. W pełnej wersji zobaczysz:"
-    insightPoints:
-      - "5 konstelacji przewag (jak elementy tworzą system)"
-      - "Pomysły na wzmocnienie przewag (z narzędzia Advantage Intelligence)"
-      - "Ocena strategiczna (co najsilniejsze, co zagrożone, co wzmocnić)"
-    cta:
-      label: "Odblokuj dostęp"
-      href: "#gate"
-      note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do newslettera. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
-
   - type: methodology
     rationaleHeading: "Dlaczego szukamy konstelacji przewag, nie magicznego USP"
     rationaleIntro: "Pojedyncza przewaga jest łatwo kopiowalna, a konkurencja może ją odtworzyć w 6-12 miesięcy. System wzajemnie wzmacniających się elementów jest bardzo trudno skopiować."
@@ -346,6 +334,18 @@ sections:
       - value: "90%"
         caption: "Stopień inności w ponad 90% determinuje predyspozycję klientów do zapłacenia wyższej ceny."
     source: "Źródło: Blueprint for Brand Growth, Kantar 2024. 21 000 marek, 540 kategorii (zarówno B2C, jak i B2B), 54 rynki."
+
+  - type: preview-gate
+    headline: "Chcesz zobaczyć jak przewagi łączą się w trudną do skopiowania konstelację?"
+    insightLabel: "To dopiero połowa analizy. W pełnej wersji zobaczysz:"
+    insightPoints:
+      - "5 konstelacji przewag (jak elementy tworzą system)"
+      - "Pomysły na wzmocnienie przewag (z narzędzia Advantage Intelligence)"
+      - "Ocena strategiczna (co najsilniejsze, co zagrożone, co wzmocnić)"
+    cta:
+      label: "Odblokuj dostęp"
+      href: "#gate"
+      note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do newslettera. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
 
   - type: overview
     surface: accent

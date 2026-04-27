@@ -166,41 +166,15 @@ const postMenu = sections.slice(scope2End);
     <SectionRenderer section={section} />
   ))}
 
-  {darkData && sideNav && (
-    <>
-      <OverviewHero
-        headline={darkData.headline}
-        subtitle={darkData.subtitle}
-        surface={(darkData as any).surface ?? 'accent'}
-        anchorId="overview-constellations"
-      />
+  {/* Gated content mount point. Pre-gate sections render statically above;
+      the dark overview, constellations 01-05, and Ocena strategiczna are
+      fetched from /api/gated/[slug] by the client script below and inserted
+      here. `display: contents` makes this wrapper invisible to layout, so
+      the inserted children flow as siblings of the static sections above. */}
+  <div id="gated-content" data-slug={Astro.params.slug} style="display: contents;"></div>
 
-      <MenuScope
-        areasLabel={sideNav.areasLabel}
-        areas={sideNav.areas}
-        areasHref="#overview-areas"
-        sectionPills={sideNav.sectionPills}
-        mode="constellations"
-      >
-        <OverviewInsight
-          insightLabel={darkData.insightLabel}
-          insight={darkData.insight}
-          insightPoints={darkData.insightPoints}
-          cta={darkData.cta}
-          surface={(darkData as any).surface ?? 'accent'}
-          inMenuScope={true}
-        />
-
-        {scope2Content.map((section) => (
-          <SectionRenderer section={section} />
-        ))}
-      </MenuScope>
-    </>
-  )}
-
-  {postMenu.map((section) => (
-    <SectionRenderer section={section} />
-  ))}
+  {/* Future: offer/CTA/about sections render here, always visible, always
+      at the end of the page regardless of gate state. */}
 
   {sideNav && (
     <ReportSideNav
@@ -274,10 +248,15 @@ const postMenu = sections.slice(scope2End);
   // Same pattern for constellations — toggles `data-current` on every matching
   // `[data-constellation-number]` menu item based on which constellation section
   // is currently in the top 40% of the viewport.
-  const constellationSections = document.querySelectorAll<HTMLElement>('[data-section-type="constellation"]');
-  const constellationMenuItems = document.querySelectorAll<HTMLElement>('li[data-constellation-number]');
+  //
+  // Constellation sections live in the GATED portion of the report, fetched
+  // from /api/gated/[slug] AFTER page load. Init runs both on DOMContentLoaded
+  // (no-op when the gate is closed) and again after gated content is injected.
+  function initConstellationScrollSpy() {
+    const constellationSections = document.querySelectorAll<HTMLElement>('[data-section-type="constellation"]');
+    const constellationMenuItems = document.querySelectorAll<HTMLElement>('li[data-constellation-number]');
+    if (constellationSections.length === 0 || constellationMenuItems.length === 0) return;
 
-  if (constellationSections.length > 0 && constellationMenuItems.length > 0) {
     const setCurrentConstellation = (number: string | null) => {
       constellationMenuItems.forEach((item) => {
         const match = number !== null && item.getAttribute('data-constellation-number') === number;
@@ -318,5 +297,28 @@ const postMenu = sections.slice(scope2End);
     );
 
     constellationSections.forEach((s) => observerC.observe(s));
+  }
+
+  // Initial pass — no-ops in normal flow (constellations are gated and not
+  // in static HTML). Kept for symmetry with analysis scroll-spy + future
+  // reports that might inline constellations.
+  initConstellationScrollSpy();
+
+  // Fetch and inject the gated portion. Phase 1: no auth — server returns
+  // the HTML to anyone. Phase 2 will add cookie+MailerLite verification.
+  const mount = document.getElementById('gated-content');
+  if (mount) {
+    const slug = mount.dataset.slug;
+    if (slug) {
+      fetch(`/api/gated/${slug}`, { credentials: 'same-origin' })
+        .then((r) => (r.ok ? r.text() : null))
+        .then((html) => {
+          if (!html) return;
+          mount.insertAdjacentHTML('beforeend', html);
+          // Re-scan now that constellation sections + their menu items exist.
+          initConstellationScrollSpy();
+        })
+        .catch((err) => console.error('Gated content fetch failed:', err));
+    }
   }
 </script>

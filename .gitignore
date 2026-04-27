@@ -41,4 +41,7 @@ projects/
 /playwright/.auth/
 /tests/__results__/
 
+# Vercel adapter build output
+.vercel/
+
 desktop.ini
