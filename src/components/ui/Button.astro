@@ -1,13 +1,28 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
-interface Props extends HTMLAttributes<'a'> {
+type ButtonProps = {
   variant: 'primary' | 'secondary' | 'text-link';
   surface?: 'light' | 'accent' | 'dark';
+  /** Render as <a> (default) or <button>. Use 'button' for form actions. */
+  as?: 'a' | 'button';
+  /** href when as='a' (default '#'). */
   href?: string;
-}
+  /** type when as='button' (default 'button'). */
+  type?: 'button' | 'submit' | 'reset';
+};
 
-const { variant, surface = 'light', href = '#', class: className, ...rest } = Astro.props;
+type Props = ButtonProps & (HTMLAttributes<'a'> | HTMLAttributes<'button'>);
+
+const {
+  variant,
+  surface = 'light',
+  as = 'a',
+  href = '#',
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props as ButtonProps & Record<string, unknown>;
 
 const hasIcon = Astro.slots.has('icon');
 const isTextLink = variant === 'text-link';
@@ -36,24 +51,45 @@ const styles: Record<string, Record<string, string>> = {
 const iconSize = 'w-[48px] h-[48px]';
 ---
 
-<a href={href} class:list={[base, iconGap, styles[variant][surface], className]} {...rest}>
-  {/* text-link: icon LEFT of label */}
-  {isTextLink && hasIcon && (
-    <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
-      <slot name="icon" />
-    </span>
-  )}
-  <slot />
-  {/* text-link: arrow → with slide-in hover animation */}
-  {isTextLink && (
-    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" class="shrink-0 w-[32px] h-[32px]">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M30.7071 8.29292L30 7.58582L28.5858 9.00003L29.2929 9.70714L42.5858 23H3H2V25H3H42.5858L29.2929 38.2929L28.5858 39L30 40.4142L30.7071 39.7071L45.7071 24.7071L46.4142 24L45.7071 23.2929L30.7071 8.29292Z" fill="currentColor"/>
-    </svg>
-  )}
-  {/* primary/secondary: icon RIGHT of label */}
-  {!isTextLink && hasIcon && (
-    <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
-      <slot name="icon" />
-    </span>
-  )}
-</a>
+{as === 'button' ? (
+  <button type={type} class:list={[base, iconGap, styles[variant][surface], className]} {...rest}>
+    {isTextLink && hasIcon && (
+      <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon" />
+      </span>
+    )}
+    <slot />
+    {isTextLink && (
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" class="shrink-0 w-[32px] h-[32px]">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.7071 8.29292L30 7.58582L28.5858 9.00003L29.2929 9.70714L42.5858 23H3H2V25H3H42.5858L29.2929 38.2929L28.5858 39L30 40.4142L30.7071 39.7071L45.7071 24.7071L46.4142 24L45.7071 23.2929L30.7071 8.29292Z" fill="currentColor"/>
+      </svg>
+    )}
+    {!isTextLink && hasIcon && (
+      <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon" />
+      </span>
+    )}
+  </button>
+) : (
+  <a href={href} class:list={[base, iconGap, styles[variant][surface], className]} {...rest}>
+    {/* text-link: icon LEFT of label */}
+    {isTextLink && hasIcon && (
+      <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon" />
+      </span>
+    )}
+    <slot />
+    {/* text-link: arrow → with slide-in hover animation */}
+    {isTextLink && (
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true" class="shrink-0 w-[32px] h-[32px]">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.7071 8.29292L30 7.58582L28.5858 9.00003L29.2929 9.70714L42.5858 23H3H2V25H3H42.5858L29.2929 38.2929L28.5858 39L30 40.4142L30.7071 39.7071L45.7071 24.7071L46.4142 24L45.7071 23.2929L30.7071 8.29292Z" fill="currentColor"/>
+      </svg>
+    )}
+    {/* primary/secondary: icon RIGHT of label */}
+    {!isTextLink && hasIcon && (
+      <span class:list={['shrink-0 [&>svg]:w-full [&>svg]:h-full', iconSize]}>
+        <slot name="icon" />
+      </span>
+    )}
+  </a>
+)}

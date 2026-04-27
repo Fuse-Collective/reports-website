@@ -33,10 +33,11 @@ interface Props {
 const { headline, insightLabel, insight, insightPoints, cta } = Astro.props;
 ---
 
-<OverviewHero headline={headline} />
+<OverviewHero headline={headline} surface="dark" />
 <OverviewInsight
   insightLabel={insightLabel}
   insight={insight}
   insightPoints={insightPoints}
   cta={cta}
+  surface="dark"
 />

@@ -344,8 +344,8 @@ sections:
       - "Ocena strategiczna (co najsilniejsze, co zagrożone, co wzmocnić)"
     cta:
       label: "Odblokuj dostęp"
-      href: "#gate"
-      note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do newslettera. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
+      href: "#unlock-modal"
+      note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do darmowej subskrypcji. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
 
   - type: overview
     surface: accent

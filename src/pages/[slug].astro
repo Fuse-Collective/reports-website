@@ -5,8 +5,16 @@ import NavBar from '../components/sections/nav-bar/NavBar.astro';
 import SectionRenderer from '../components/sections/SectionRenderer.astro';
 import ReportSideNav from '../components/interactive/ReportSideNav.astro';
 import MenuScope from '../components/interactive/MenuScope.astro';
+import UnlockModal from '../components/interactive/UnlockModal.astro';
+import GatedSections from '../components/GatedSections.astro';
 import OverviewHero from '../components/sections/overview/OverviewHero.astro';
 import OverviewInsight from '../components/sections/overview/OverviewInsight.astro';
+
+// Global kill-switch for the subscription gate. When `false`, the report
+// renders fully open: gated sections appear inline, the preview-gate teaser
+// is hidden, the modal isn't mounted, and no client fetch fires. Useful for
+// preview / review periods. Set in `.env.local` and Vercel env.
+const gatingEnabled = import.meta.env.GATING_ENABLED !== 'false';
 
 export async function getStaticPaths() {
   const reports = await getCollection('reports');
@@ -136,9 +144,9 @@ const postMenu = sections.slice(scope2End);
     <SectionRenderer section={section} />
   ))}
 
-  {previewGateData && sideNav && (
+  {gatingEnabled && previewGateData && sideNav && (
     <>
-      <OverviewHero headline={previewGateData.headline} anchorId="gate" />
+      <OverviewHero headline={previewGateData.headline} anchorId="gate" surface="dark" />
 
       <MenuScope
         areasLabel={sideNav.areasLabel}
@@ -147,6 +155,7 @@ const postMenu = sections.slice(scope2End);
         sectionPills={sideNav.sectionPills}
         mode="constellations"
         sticky={true}
+        surface="dark"
       >
         <OverviewInsight
           insightLabel={previewGateData.insightLabel}
@@ -154,6 +163,7 @@ const postMenu = sections.slice(scope2End);
           insightPoints={previewGateData.insightPoints}
           cta={previewGateData.cta}
           inMenuScope={true}
+          surface="dark"
         />
         {afterPreviewGate.map((section) => (
           <SectionRenderer section={section} />
@@ -162,16 +172,27 @@ const postMenu = sections.slice(scope2End);
     </>
   )}
 
-  {!previewGateData && afterPreviewGate.map((section) => (
+  {gatingEnabled && !previewGateData && afterPreviewGate.map((section) => (
     <SectionRenderer section={section} />
   ))}
 
-  {/* Gated content mount point. Pre-gate sections render statically above;
-      the dark overview, constellations 01-05, and Ocena strategiczna are
-      fetched from /api/gated/[slug] by the client script below and inserted
-      here. `display: contents` makes this wrapper invisible to layout, so
-      the inserted children flow as siblings of the static sections above. */}
-  <div id="gated-content" data-slug={Astro.params.slug} style="display: contents;"></div>
+  {gatingEnabled ? (
+    /* Gated content mount point. Pre-gate sections render statically above;
+       the dark overview, constellations 01-05, and Ocena strategiczna are
+       fetched from /api/gated/[slug] by the client script below and inserted
+       here. `display: contents` makes this wrapper invisible to layout, so
+       the inserted children flow as siblings of the static sections above. */
+    <div id="gated-content" data-slug={Astro.params.slug} style="display: contents;"></div>
+  ) : (
+    /* Gating disabled (preview / review mode): render the gated portion
+       inline, server-side. No client fetch, no modal, fully public. */
+    <GatedSections
+      darkData={darkData}
+      sideNav={sideNav}
+      scope2Content={scope2Content}
+      postMenu={postMenu}
+    />
+  )}
 
   {/* Future: offer/CTA/about sections render here, always visible, always
       at the end of the page regardless of gate state. */}
@@ -184,6 +205,8 @@ const postMenu = sections.slice(scope2End);
       sectionPills={sideNav.sectionPills}
     />
   )}
+
+  {gatingEnabled && <UnlockModal />}
 </BaseLayout>
 
 <script>
@@ -304,21 +327,57 @@ const postMenu = sections.slice(scope2End);
   // reports that might inline constellations.
   initConstellationScrollSpy();
 
-  // Fetch and inject the gated portion. Phase 1: no auth — server returns
-  // the HTML to anyone. Phase 2 will add cookie+MailerLite verification.
+  // Expose for the unlock modal to call after a successful unlock injects
+  // gated content (it can't import this script's local function directly).
+  (window as unknown as { initConstellationScrollSpy: () => void }).initConstellationScrollSpy = initConstellationScrollSpy;
+
+  // Fetch and inject the gated portion. 401 = no/invalid cookie or
+  // unsubscribed — leave mount empty so the gate teaser stays visible.
+  // Any non-OK status is treated the same way (silent gate).
+  //
+  // First: if the URL carries `?email=...` (sent in MailerLite emails to
+  // existing subscribers), call /api/auto-unlock so the gated fetch below
+  // succeeds without showing the modal. Strip the param from the address
+  // bar regardless of result so the email isn't left in browser history.
   const mount = document.getElementById('gated-content');
   if (mount) {
     const slug = mount.dataset.slug;
     if (slug) {
-      fetch(`/api/gated/${slug}`, { credentials: 'same-origin' })
-        .then((r) => (r.ok ? r.text() : null))
-        .then((html) => {
-          if (!html) return;
+      (async () => {
+        const params = new URLSearchParams(window.location.search);
+        // URLSearchParams decodes `+` as a space (form-encoding rule).
+        // Subscriber emails commonly contain `+` (Gmail aliases) — recover it.
+        const emailParam = params.get('email')?.replace(/ /g, '+') ?? null;
+        if (emailParam) {
+          try {
+            await fetch('/api/auto-unlock', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: emailParam }),
+              credentials: 'same-origin',
+            });
+          } catch (err) {
+            console.error('Auto-unlock failed:', err);
+          }
+          params.delete('email');
+          const cleanUrl =
+            window.location.pathname +
+            (params.toString() ? '?' + params.toString() : '') +
+            window.location.hash;
+          window.history.replaceState(null, '', cleanUrl);
+        }
+
+        try {
+          const r = await fetch(`/api/gated/${slug}`, { credentials: 'same-origin' });
+          if (!r.ok) return;
+          const html = await r.text();
           mount.insertAdjacentHTML('beforeend', html);
           // Re-scan now that constellation sections + their menu items exist.
           initConstellationScrollSpy();
-        })
-        .catch((err) => console.error('Gated content fetch failed:', err));
+        } catch (err) {
+          console.error('Gated content fetch failed:', err);
+        }
+      })();
     }
   }
 </script>

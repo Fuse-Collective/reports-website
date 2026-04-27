@@ -1,0 +1,257 @@
+---
+/**
+ * UnlockModal — full-screen gate unlock form on dark surface.
+ * Layout: split 50/50 on desktop (SectionIntro left, form right);
+ * stacked on mobile.
+ *
+ * Opens via click on `a[href="#unlock-modal"]` (handler below). Submits to
+ * /api/unlock; on success, closes silently and triggers the gated content
+ * fetch (the cookie set by the endpoint makes the next /api/gated/[slug]
+ * request succeed).
+ *
+ * Uses native <dialog> for focus trap + ESC + scroll lock. We override the
+ * default centered card sizing to take the full viewport. The dialog carries
+ * data-surface="dark" so SectionIntro + on-dark: utility variants pick up
+ * the right text colors.
+ */
+import SectionIntro from '../ui/SectionIntro.astro';
+import Button from '../ui/Button.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<dialog
+  id="unlock-modal"
+  aria-labelledby="unlock-modal-title"
+  data-surface="dark"
+  class="fixed inset-0 m-0 p-0 w-screen h-[100dvh] max-w-none max-h-none bg-surface-dark text-on-surface-light overflow-hidden border-0 backdrop:bg-[var(--overlay)]"
+>
+  <div class="relative w-full h-full overflow-y-auto">
+    <button
+      type="button"
+      data-modal-close
+      aria-label="Zamknij"
+      class="absolute top-comfortable right-comfortable z-10 w-comfortable h-comfortable inline-flex items-center justify-center text-on-surface-light hover:opacity-70 transition-opacity duration-150 cursor-pointer"
+    >
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M6 6L18 18M18 6L6 18" stroke-linecap="square"/>
+      </svg>
+    </button>
+
+    <div class="grid lg:grid-cols-2 min-h-full">
+      {/* LEFT — hero copy via SectionIntro stacked-left, top-aligned */}
+      <div class="flex flex-col px-page-gutter pt-monumental pb-relaxed lg:py-monumental">
+        <SectionIntro
+          id="unlock-modal-title"
+          headline="Odblokuj pełny raport"
+          body="Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do 5 konstelacji przewag i oceny strategicznej. Zyskasz również dostęp do naszej wewnętrznej bazy raportów z wnioskami i praktycznymi wskazówkami."
+          layout="stacked-left"
+          indicator="arrow"
+          as="h2"
+          class="max-w-[640px] w-full lg:ml-auto lg:mr-comfortable"
+        />
+      </div>
+
+      {/* RIGHT — form */}
+      <div class="flex flex-col justify-center px-page-gutter pb-monumental pt-relaxed lg:py-monumental">
+        <form data-unlock-form class="flex flex-col gap-relaxed max-w-[640px] w-full lg:mr-auto lg:ml-comfortable">
+          <label class="flex flex-col gap-tight">
+            <span class="font-body text-label font-medium leading-loose">Adres email</span>
+            <input
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+              class="font-body text-body-sm font-normal leading-loose px-standard py-compact bg-transparent text-on-surface-light border-[1.6px] border-outline-white rounded-none placeholder:text-on-surface-light/40 focus:outline-none focus:border-primary transition-colors duration-150"
+            />
+            <span data-error-for="email" class="font-body text-label-sm leading-loose text-primary hidden" aria-live="polite"></span>
+          </label>
+
+          <label class="flex flex-col gap-tight">
+            <span class="font-body text-label font-medium leading-loose">Nazwa firmy</span>
+            <input
+              type="text"
+              name="firma"
+              required
+              autocomplete="organization"
+              class="font-body text-body-sm font-normal leading-loose px-standard py-compact bg-transparent text-on-surface-light border-[1.6px] border-outline-white rounded-none placeholder:text-on-surface-light/40 focus:outline-none focus:border-primary transition-colors duration-150"
+            />
+            <span data-error-for="firma" class="font-body text-label-sm leading-loose text-primary hidden" aria-live="polite"></span>
+          </label>
+
+          <fieldset class="flex flex-col gap-compact m-0 p-0 border-0">
+            <legend class="font-body text-label font-medium leading-loose p-0">Czym się zajmujesz?</legend>
+            <label class="flex items-start gap-standard cursor-pointer">
+              <input type="radio" name="rodzajFirmy" value="b2b" required class="mt-[0.4em] w-[18px] h-[18px] accent-primary cursor-pointer" />
+              <span class="font-body text-body-sm font-normal leading-loose">Pracuje w firmie B2B (zarząd, sprzedaż, marketing)</span>
+            </label>
+            <label class="flex items-start gap-standard cursor-pointer">
+              <input type="radio" name="rodzajFirmy" value="agency" class="mt-[0.4em] w-[18px] h-[18px] accent-primary cursor-pointer" />
+              <span class="font-body text-body-sm font-normal leading-loose">Dostarczam usługi dla B2B (agencja, konsultant)</span>
+            </label>
+            <label class="flex items-start gap-standard cursor-pointer">
+              <input type="radio" name="rodzajFirmy" value="other" class="mt-[0.4em] w-[18px] h-[18px] accent-primary cursor-pointer" />
+              <span class="font-body text-body-sm font-normal leading-loose">Mam inną rolę</span>
+            </label>
+            <span data-error-for="rodzajFirmy" class="font-body text-label-sm leading-loose text-primary hidden" aria-live="polite"></span>
+          </fieldset>
+
+          <p class="font-body text-label-sm leading-loose m-0 text-on-surface-light/70">
+            Kliknięciem wyrażasz zgodę na darmową subskrypcję Fuse Collective. Nasze maile mogą zwierać informacje o nowych treściach, inicjatywach oraz o produktach i usługach. Po więcej informacji zajrzyj do <a href="https://www.fusecollective.com/polityka-prywatnosci/" target="_blank" rel="noopener" class="underline hover:text-primary transition-colors duration-150">Polityki prywatności</a>.
+          </p>
+
+          <div data-form-error class="font-body text-body-sm leading-loose text-primary hidden" role="alert"></div>
+
+          <Button
+            as="button"
+            type="submit"
+            variant="primary"
+            surface="dark"
+            class="disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <span data-button-label>Odblokuj dostęp</span>
+            <span data-button-loading class="hidden">Odblokowuje…</span>
+            <Icon slot="icon" name="padlock-mini" />
+          </Button>
+        </form>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('unlock-modal') as HTMLDialogElement | null;
+  const form = dialog?.querySelector<HTMLFormElement>('[data-unlock-form]');
+  const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const labelDefault = submitButton?.querySelector<HTMLElement>('[data-button-label]');
+  const labelLoading = submitButton?.querySelector<HTMLElement>('[data-button-loading]');
+  const formError = dialog?.querySelector<HTMLElement>('[data-form-error]');
+
+  const fieldErrors: Record<string, HTMLElement | null> = {
+    email: dialog?.querySelector('[data-error-for="email"]') ?? null,
+    firma: dialog?.querySelector('[data-error-for="firma"]') ?? null,
+    rodzajFirmy: dialog?.querySelector('[data-error-for="rodzajFirmy"]') ?? null,
+  };
+
+  const FIELD_ERRORS_PL: Record<string, string> = {
+    invalid_email: 'Podaj poprawny adres email.',
+    missing_firma: 'Podaj nazwę firmy.',
+    invalid_role: 'Wybierz jedną z opcji.',
+    subscribe_failed: 'Nie udało się utworzyć subskrypcji. Spróbuj ponownie za chwilę.',
+    previously_unsubscribed:
+      'Ten adres był wcześniej wypisany z subskrypcji. Skontaktuj się z nami, aby ponownie uzyskać dostęp.',
+  };
+
+  const FIELD_FOR_ERROR: Record<string, string> = {
+    invalid_email: 'email',
+    missing_firma: 'firma',
+    invalid_role: 'rodzajFirmy',
+    previously_unsubscribed: 'email',
+  };
+
+  function clearErrors() {
+    Object.values(fieldErrors).forEach((el) => {
+      if (!el) return;
+      el.textContent = '';
+      el.classList.add('hidden');
+    });
+    if (formError) {
+      formError.textContent = '';
+      formError.classList.add('hidden');
+    }
+  }
+
+  function showFieldError(field: string, message: string) {
+    const el = fieldErrors[field];
+    if (!el) return;
+    el.textContent = message;
+    el.classList.remove('hidden');
+  }
+
+  function showFormError(message: string) {
+    if (!formError) return;
+    formError.textContent = message;
+    formError.classList.remove('hidden');
+  }
+
+  function setLoading(loading: boolean) {
+    if (!submitButton) return;
+    submitButton.disabled = loading;
+    if (labelDefault && labelLoading) {
+      labelDefault.classList.toggle('hidden', loading);
+      labelLoading.classList.toggle('hidden', !loading);
+    }
+  }
+
+  function loadGatedContent() {
+    const mount = document.getElementById('gated-content');
+    if (!mount || mount.children.length > 0) return;
+    const slug = mount.dataset.slug;
+    if (!slug) return;
+    fetch(`/api/gated/${slug}`, { credentials: 'same-origin' })
+      .then((r) => (r.ok ? r.text() : null))
+      .then((html) => {
+        if (!html) return;
+        mount.insertAdjacentHTML('beforeend', html);
+        const w = window as unknown as { initConstellationScrollSpy?: () => void };
+        w.initConstellationScrollSpy?.();
+      })
+      .catch((err) => console.error('Gated content fetch failed:', err));
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    const link = target?.closest<HTMLAnchorElement>('a[href="#unlock-modal"]');
+    if (!link || !dialog) return;
+    e.preventDefault();
+    clearErrors();
+    dialog.showModal();
+  });
+
+  dialog?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('[data-modal-close]')) {
+      dialog.close();
+    }
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form) return;
+    clearErrors();
+    setLoading(true);
+
+    const data = new FormData(form);
+    const payload = {
+      email: String(data.get('email') ?? '').trim(),
+      firma: String(data.get('firma') ?? '').trim(),
+      rodzajFirmy: String(data.get('rodzajFirmy') ?? ''),
+    };
+
+    try {
+      const res = await fetch('/api/unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        credentials: 'same-origin',
+      });
+
+      if (res.ok) {
+        dialog?.close();
+        form.reset();
+        loadGatedContent();
+        return;
+      }
+
+      const body = (await res.json().catch(() => null)) as { error?: string } | null;
+      const code = body?.error ?? 'subscribe_failed';
+      const message = FIELD_ERRORS_PL[code] ?? 'Coś poszło nie tak. Spróbuj ponownie za chwilę.';
+      const field = FIELD_FOR_ERROR[code];
+      if (field) showFieldError(field, message);
+      else showFormError(message);
+    } catch {
+      showFormError('Brak połączenia. Sprawdź internet i spróbuj ponownie.');
+    } finally {
+      setLoading(false);
+    }
+  });
+</script>

@@ -5,21 +5,39 @@
  * + strategic-assessment) as an HTML fragment. The fragment is injected
  * into the static page's #gated-content mount point by client JS.
  *
- * Phase 1: NO AUTH CHECK YET. This endpoint serves the gated HTML to
- * any caller. Auth + MailerLite verification land in Phase 2.
+ * Phase 2: cookie + MailerLite verification.
+ *   - Reads signed `unlocked` cookie (HMAC over `{ email, exp }`).
+ *   - On every request, re-checks MailerLite for active subscription.
+ *   - Any failure → 401 + clear cookie. Client script leaves mount empty
+ *     so the gate teaser stays visible.
  */
 import type { APIRoute } from 'astro';
 import { experimental_AstroContainer } from 'astro/container';
 import { getEntry } from 'astro:content';
 import GatedSections from '../../../components/GatedSections.astro';
+import { readCookie, verifyCookie, buildClearCookie } from '../../../lib/cookies';
+import { isActive } from '../../../lib/mailerlite';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params }) => {
+const unauthorized = () =>
+  new Response('Unauthorized', {
+    status: 401,
+    headers: { 'Set-Cookie': buildClearCookie() },
+  });
+
+export const GET: APIRoute = async ({ params, request }) => {
   const slug = params.slug;
   if (!slug) {
     return new Response('Missing slug', { status: 400 });
   }
+
+  const token = readCookie(request.headers.get('cookie'));
+  const payload = verifyCookie(token);
+  if (!payload) return unauthorized();
+
+  const active = await isActive(payload.email);
+  if (!active) return unauthorized();
 
   const report = await getEntry('reports', slug);
   if (!report) {
@@ -68,9 +86,7 @@ export const GET: APIRoute = async ({ params }) => {
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
-      // Phase 1: no caching while we iterate. Phase 2 will set proper
-      // Cache-Control once auth gating is wired up.
-      'Cache-Control': 'no-store',
+      'Cache-Control': 'private, no-store',
     },
   });
 };
