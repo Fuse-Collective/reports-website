@@ -40,6 +40,7 @@ if (type === 'report-cover') {
     },
     headline: s.headline,
     subtitle: s.authorHeadline ?? s.subtitle,
+    metricsLabel: s.metricsLabel,
     metrics: (s.metrics ?? []).map((m: any) => {
       const parts = splitValue(m.value);
       return { ...parts, delta: m.note, label: m.label };

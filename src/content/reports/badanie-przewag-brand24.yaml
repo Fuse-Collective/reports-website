@@ -15,7 +15,7 @@ sections:
           value: "SaaS, social listening + AI"
         - label: "Zasięg"
           value: "154 kraje, 4 000+ klientów"
-    metricsLabel: "Kluczowe metryki"
+    metricsLabel: "Brand24 w liczbach"
     metrics:
       - label: "W 154 krajach"
         value: "4000+ klientów"
@@ -43,11 +43,6 @@ sections:
         label: "Odblokuj pełny raport"
         href: "#unlock-modal"
     gateNote: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
-
-  - type: chapter-title
-    surface: accent
-    headline: "Jak szukamy przewagi konkurencyjnej?"
-    subtitle: "Zanim pokażemy wyniki badania Brand24, zaczynamy od problemu i metodologii."
 
   - type: pain-block
     headline: "5 sygnałów problemu z wyróżnieniem"

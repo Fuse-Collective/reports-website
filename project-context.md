@@ -33,6 +33,7 @@ None
 - axe_per_section: true
 - playwright_vrt: true
 - figma_export: true
+- browser_inspect_tool: agent-browser
 
 ## Responsive Strategy
 ```yaml
