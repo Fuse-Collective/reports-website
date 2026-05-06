@@ -99,6 +99,22 @@ strong, b {
   }
 }
 
+/* Gate-locked elements (unlock CTAs, gate teasers, etc): hidden once the
+ * report's content gate has been satisfied. Set
+ *   document.body.dataset.gateState = 'unlocked'
+ * after a successful gated content fetch (auto-unlock or modal submit). */
+[data-gate-state="unlocked"] [data-gate-locked] {
+  display: none;
+}
+
+/* Muted text on dark surfaces: override --color-text-muted from solid
+ * #808080 (which reads as dingy gray on near-black) to a white-derived
+ * rgba so it reads as a clean, low-emphasis white. CSS custom property
+ * cascade scopes this override only inside [data-surface="dark"] subtrees. */
+[data-surface="dark"] {
+  --color-text-muted: rgba(255, 255, 255, 0.7);
+}
+
 /* Brand icon colors: yellow accents → white on accent surface */
 [data-surface="accent"] [data-icon] :is(path, circle, ellipse)[fill]:not([fill="none"]):not([fill="currentColor"]) {
   fill: white;

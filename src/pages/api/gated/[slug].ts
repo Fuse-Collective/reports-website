@@ -75,7 +75,17 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   const scope2Content =
     darkIdx !== -1 ? sections.slice(darkIdx + 1, scope2End) : [];
-  const postMenu = sections.slice(scope2End);
+
+  // Mirror the always-visible-tail filter from [slug].astro: types that
+  // render OUTSIDE the gated fetch (offer-cards, cta, about) must NOT be
+  // included here, otherwise they'd be duplicated — once via this API
+  // response, once via the static page tail.
+  const ALWAYS_VISIBLE_TAIL_TYPES = new Set(['offer-cards', 'cta', 'about']);
+  const isAlwaysVisible = (s: any) =>
+    ALWAYS_VISIBLE_TAIL_TYPES.has(s.type) || s.alwaysVisible === true;
+  const postMenu = sections
+    .slice(scope2End)
+    .filter((s: any) => !isAlwaysVisible(s));
 
   // Render the gated portion to an HTML string via Container API.
   const container = await experimental_AstroContainer.create();

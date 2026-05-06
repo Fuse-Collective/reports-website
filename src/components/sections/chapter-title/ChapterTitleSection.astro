@@ -6,22 +6,32 @@
  */
 import SectionIntro from '../../ui/SectionIntro.astro';
 
+type Surface = 'light' | 'muted' | 'dark' | 'accent';
+
 interface Props {
   headline: string;
   subtitle?: string;
   chapterLabel?: string;
+  surface?: Surface;
 }
 
-const { headline, subtitle = '', chapterLabel } = Astro.props;
+const { headline, subtitle = '', chapterLabel, surface = 'dark' } = Astro.props;
+
+const bgClass: Record<Surface, string> = {
+  light: 'bg-surface-light',
+  muted: 'bg-surface-muted',
+  dark: 'bg-surface-dark',
+  accent: 'bg-surface-accent',
+};
 ---
 
 <section
-  class="bg-surface-dark py-comfortable lg:py-monumental px-page-gutter"
-  data-surface="dark"
+  class:list={[bgClass[surface], 'py-comfortable lg:py-monumental px-page-gutter']}
+  data-surface={surface}
   data-section-type="chapter-title"
 >
   <div class="mx-auto max-w-content-max">
-    <SectionIntro headline={headline} body={subtitle} indicator="left">
+    <SectionIntro headline={headline} body={subtitle} indicator="right">
       {chapterLabel && (
         <span
           slot="left-extra"

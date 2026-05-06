@@ -8,7 +8,13 @@ const offerCardSchema = z.object({
   headline: z.string(),
   icon: z.string(),
   body: z.string(),
-  link: z.object({ label: z.string(), href: z.string() }),
+  link: z.object({ label: z.string(), href: z.string() }).optional(),
+});
+
+const offerCardsCta = z.object({
+  label: z.string(),
+  href: z.string(),
+  variant: z.enum(['primary', 'secondary']).optional(),
 });
 
 const offerCardsSection = z.object({
@@ -16,6 +22,9 @@ const offerCardsSection = z.object({
   headline: z.string(),
   description: z.string(),
   as: z.enum(['h1', 'h2']).optional(),
+  surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
+  anchorId: z.string().optional(),
+  ctas: z.array(offerCardsCta).optional(),
   cards: z.array(offerCardSchema).optional(),
 });
 
@@ -51,6 +60,18 @@ const servicesGridSection = z.object({
   surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
   numbered: z.boolean().optional(),
   anchorId: z.string().optional(),
+  alwaysVisible: z.boolean().optional(),
+  indicatorPos: z.union([z.boolean(), z.enum(['left', 'right', 'arrow'])]).optional(),
+  cta: z.object({
+    label: z.string(),
+    href: z.string(),
+    variant: z.enum(['primary', 'secondary']).optional(),
+  }).optional(),
+  sourceLink: z.object({
+    label: z.string(),
+    href: z.string(),
+  }).optional(),
+  sourceNote: z.string().optional(),
   services: z.array(z.object({
     heading: z.string(),
     icon: z.string().optional(),
@@ -98,6 +119,12 @@ const reportCoverMetric = z.object({
 
 const reportCoverSection = z.object({
   type: z.literal('report-cover'),
+  /** Bold-hero eyebrow (small uppercase label above headline). Optional —
+   * defaults to "Raport Fuse Collective · {year}" / "Badanie przewag" if absent. */
+  eyebrow: z.object({
+    label: z.string(),
+    category: z.string(),
+  }).optional(),
   headline: z.string(),
   subtitle: z.string(),
   profileLabel: z.string(),
@@ -116,9 +143,9 @@ const reportCoverSection = z.object({
   }),
   cta: z.object({
     primary: z.object({ label: z.string(), href: z.string() }),
-    secondary: z.object({ label: z.string(), href: z.string() }),
+    secondary: z.object({ label: z.string(), href: z.string() }).optional(),
   }),
-  gateNote: z.string(),
+  gateNote: z.string().optional(),
 });
 
 const chapterTitleSection = z.object({
@@ -126,6 +153,7 @@ const chapterTitleSection = z.object({
   headline: z.string(),
   subtitle: z.string().optional(),
   chapterLabel: z.string().optional(),
+  surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
 });
 
 const constellationStarSchema = z.object({
@@ -260,7 +288,7 @@ const overviewSection = z.object({
   })).optional(),
   sectionPills: z.array(z.object({
     label: z.string(),
-    state: z.enum(['locked']),
+    state: z.enum(['locked', 'open']),
     href: z.string().optional(),
     items: z.array(z.object({
       number: z.string(),

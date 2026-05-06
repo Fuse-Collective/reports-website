@@ -36,7 +36,7 @@ interface SectionPillItem {
 
 interface SectionPill {
   label: string;
-  state: 'locked';
+  state: 'locked' | 'open';
   href?: string;
   items?: SectionPillItem[];
 }
@@ -60,17 +60,17 @@ const {
 } = Astro.props;
 ---
 
-<div class:list={["flex flex-col gap-standard items-start", className]}>
+<div class:list={["flex flex-col gap-standard", className]}>
 
   {/* Section 1 — Areas. Header pill always shown; items list only when
       mode === 'areas'. */}
-  <div class="flex flex-col gap-standard items-start">
+  <div class="flex flex-col gap-standard">
     {areasHref ? (
       <a
         href={areasHref}
-        class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+        class="block w-full rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
       >
-        <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
+        <div class="flex w-full items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
           <Icon name="areas-indicator" class="w-6 h-6 shrink-0 text-on-surface-dark" />
           <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
             {areasLabel}
@@ -78,7 +78,7 @@ const {
         </div>
       </a>
     ) : (
-      <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
+      <div class="flex w-full items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
         <Icon name="areas-indicator" class="w-6 h-6 shrink-0 text-on-surface-dark" />
         <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
           {areasLabel}
@@ -120,10 +120,11 @@ const {
       `constellations` mode the first section pill's items are shown. */}
   {sectionPills.map((pill, i) => {
     const expanded = mode === 'constellations' && i === 0 && pill.items && pill.items.length > 0;
+    const isLocked = pill.state === 'locked';
     const pillInner = (
-      <div class="inline-flex items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
+      <div class="flex w-full items-center gap-tight rounded-full bg-surface-light border border-outline-light pl-tight pr-[10px] py-tight">
         <span class="inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary text-on-surface-dark shrink-0">
-          <Icon name="padlock-mini" class="w-6 h-6" />
+          {isLocked && <Icon name="padlock-mini" class="w-6 h-6" />}
         </span>
         <span class="font-body text-label-sm font-semibold uppercase tracking-wider text-on-surface-dark">
           {pill.label}
@@ -131,11 +132,11 @@ const {
       </div>
     );
     return (
-      <div class="flex flex-col gap-standard items-start">
+      <div class="flex flex-col gap-standard">
         {pill.href ? (
           <a
             href={pill.href}
-            class="rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            class="block w-full rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
           >
             {pillInner}
           </a>

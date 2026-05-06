@@ -1,0 +1,201 @@
+---
+/**
+ * ReportCoverBoldSection — editorial dark hero (Odważna variant).
+ * Source: scratch/hero/landing.html §S1·B
+ * Dark surface · headline with primary-colored emphasis · 4-col metric ticker ·
+ * 3-col footer (CTA / author / context) · acquisition footnote.
+ */
+
+import Button from '../../ui/Button.astro';
+
+interface EyebrowParts {
+  label: string;
+  category: string;
+}
+
+interface BoldMetric {
+  value: string;
+  unit?: string;
+  delta?: string;
+  label: string;
+}
+
+interface BoldAuthor {
+  name: string;
+  role: string;
+  photoUrl?: string;
+}
+
+interface BoldCta {
+  primary: { label: string; href: string };
+  secondary?: { label: string; href: string };
+  note?: string;
+}
+
+interface Props {
+  eyebrow: EyebrowParts;
+  /** Headline. Wrap emphasized text in <em> to render in primary yellow. */
+  headline: string;
+  subtitle: string;
+  metrics: BoldMetric[];
+  ctaLabel?: string;
+  cta: BoldCta;
+  authorLabel?: string;
+  author: BoldAuthor;
+  contextLabel?: string;
+  /** Plain text or HTML (use <b> for inline semibold emphasis). */
+  contextBody: string;
+  /** Optional acquisition footnote. Use <b> to color emphasis in primary. */
+  acquisition?: string;
+}
+
+const {
+  eyebrow,
+  headline,
+  subtitle,
+  metrics,
+  ctaLabel,
+  cta,
+  authorLabel,
+  author,
+  contextLabel,
+  contextBody,
+  acquisition,
+} = Astro.props;
+---
+
+<section
+  class="bg-surface-dark text-on-surface-light"
+  data-surface="dark"
+  data-section-type="report-cover-bold"
+>
+  <div class="px-page-gutter pt-hero-top pb-comfortable lg:pb-monumental">
+    <div class="mx-auto max-w-content-max">
+
+      {/* Eyebrow row */}
+      <div class="flex items-center gap-compact mb-standard text-label-sm font-normal text-text-muted">
+        <span class="w-2 h-2 bg-primary rounded-full shrink-0" aria-hidden="true"></span>
+        <span>{eyebrow.label}</span>
+        <span class="opacity-50" aria-hidden="true">·</span>
+        <span>{eyebrow.category}</span>
+      </div>
+
+      {/* Headline + author byline (2 cols on desktop):
+          left = headline + subtitle; right = photo + name/role. */}
+      <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_0.8fr] gap-comfortable lg:gap-breathing items-start mb-relaxed lg:mb-comfortable">
+
+        {/* Left — headline + subtitle */}
+        <div>
+          <h1
+            class="report-cover-bold__headline font-body font-normal text-headline-md lg:text-display-xl leading-tight tracking-tight max-w-[22ch] mb-relaxed"
+            set:html={headline}
+          />
+          <p class="font-body text-title-md leading-relaxed text-on-surface-light max-w-[60ch]">
+            {subtitle}
+          </p>
+        </div>
+
+        {/* Right — author byline + description paragraph */}
+        <div class="flex flex-col gap-relaxed">
+          {authorLabel && (
+            <p class="font-body text-label-sm font-semibold uppercase tracking-[0.18em] text-text-muted">
+              {authorLabel}
+            </p>
+          )}
+          <div class="flex items-center gap-standard">
+            {author.photoUrl ? (
+              <img
+                src={author.photoUrl}
+                alt={author.name}
+                width="72"
+                height="72"
+                class="w-[72px] h-[72px] rounded-full object-cover shrink-0 bg-primary"
+              />
+            ) : (
+              <div
+                class="w-[72px] h-[72px] rounded-full bg-primary flex items-center justify-center shrink-0 text-label-sm font-semibold uppercase tracking-[0.14em] text-on-primary text-center"
+                aria-label="Placeholder dla zdjęcia autora"
+              >
+                Foto
+              </div>
+            )}
+            <div class="flex flex-col">
+              <span class="font-body text-body-sm font-semibold text-on-surface-light">
+                {author.name}
+              </span>
+              <span class="font-body text-label-sm text-text-muted mt-tight">
+                {author.role}
+              </span>
+            </div>
+          </div>
+          {contextLabel && (
+            <p class="font-body text-label-sm font-semibold uppercase tracking-[0.18em] text-text-muted">
+              {contextLabel}
+            </p>
+          )}
+          <p
+            class="font-body text-title-md leading-relaxed text-on-surface-light"
+            set:html={contextBody}
+          />
+        </div>
+
+      </div>
+
+      {/* Metric ticker — 1 / 2 / 4 cols. Outer wrapper carries top+left
+        borders; each cell carries right+bottom — clean single-pixel grid. */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-outline-dark-subtle">
+        {metrics.map((m) => (
+          <div class="border-r border-b border-outline-dark-subtle p-comfortable flex flex-col gap-tight">
+            <span class="font-body text-headline-lg font-bold leading-[1.05] tracking-tight text-on-surface-light">
+              {m.value}
+              {m.unit && (
+                <span class="font-normal text-body text-text-muted ml-[6px]">{m.unit}</span>
+              )}
+            </span>
+            {m.delta && (
+              <span class="font-body text-label-sm font-semibold text-primary tracking-wide">
+                {m.delta}
+              </span>
+            )}
+            <span class="font-body text-label-sm leading-relaxed text-text-muted">
+              {m.label}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Caption directly under the ticker — context disclaimer, small + muted.
+          No max-width: spans full ticker width to avoid mid-line wrap break. */}
+      {acquisition && (
+        <p
+          class="report-cover-bold__acquisition font-body text-label-sm leading-relaxed text-text-muted mt-relaxed mb-comfortable"
+          set:html={acquisition}
+        />
+      )}
+
+      {/* Footer — gateNote only (CTA buttons removed per design). */}
+      {cta.note && (
+        <p
+          class="font-body text-label-sm leading-relaxed text-text-muted max-w-[80ch]"
+          data-gate-locked
+        >
+          {cta.note}
+        </p>
+      )}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* em inside the headline renders upright in primary color (per HTML reference). */
+  .report-cover-bold__headline :global(em) {
+    font-style: normal;
+    color: var(--color-primary);
+  }
+  /* b inside the acquisition footnote renders in primary color, semibold. */
+  .report-cover-bold__acquisition :global(b) {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

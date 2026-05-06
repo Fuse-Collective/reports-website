@@ -87,7 +87,19 @@ const scope2End = Math.min(
   sections.length,
 );
 
-const preMenu = primaryIdx !== -1 ? sections.slice(0, primaryIdx) : sections;
+const preMenuRaw = primaryIdx !== -1 ? sections.slice(0, primaryIdx) : sections;
+
+// In open mode (gating disabled), scrub gate-related CTAs from the report
+// cover so the hero doesn't render an "Odblokuj dostęp" button pointing at
+// a missing #gate anchor or the gate-justification note.
+const preMenu = gatingEnabled
+  ? preMenuRaw
+  : preMenuRaw.map((section: any) => {
+      if (section.type !== 'report-cover') return section;
+      const { secondary: _drop, ...primaryOnly } = section.cta ?? {};
+      const { gateNote: _gateNote, ...rest } = section;
+      return { ...rest, cta: primaryOnly };
+    });
 const scope1Content = primaryIdx !== -1 ? sections.slice(primaryIdx + 1, scope1End) : [];
 
 // Transitional region (between scope 1 and scope 2). Preview-gate is
@@ -101,11 +113,20 @@ const beforePreviewGate = pgInBetween
 const afterPreviewGate = pgInBetween ? sections.slice(previewGateIdx + 1, betweenEnd) : [];
 
 const scope2Content = darkIdx !== -1 ? sections.slice(darkIdx + 1, scope2End) : [];
-const postMenu = sections.slice(scope2End);
+
+// Tail sections that ALWAYS render (regardless of gate state) — placed
+// after the gated mount in the page flow. Currently: offer-cards. Future:
+// cta, about. Anything else stays inside the gated portion.
+const ALWAYS_VISIBLE_TAIL_TYPES = new Set(['offer-cards', 'cta', 'about']);
+const isAlwaysVisible = (s: any) =>
+  ALWAYS_VISIBLE_TAIL_TYPES.has(s.type) || s.alwaysVisible === true;
+const postMenuRaw = sections.slice(scope2End);
+const alwaysVisibleTail = postMenuRaw.filter(isAlwaysVisible);
+const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
 ---
 
 <BaseLayout title={title} description={description}>
-  <NavBar surface="light" />
+  <NavBar surface="dark" />
 
   {preMenu.map((section) => (
     <SectionRenderer section={section} />
@@ -129,7 +150,7 @@ const postMenu = sections.slice(scope2End);
           insightLabel={primaryData.insightLabel}
           insight={primaryData.insight}
           insightPoints={primaryData.insightPoints}
-          cta={primaryData.cta}
+          cta={gatingEnabled ? primaryData.cta : undefined}
           inMenuScope={true}
         />
 
@@ -194,8 +215,12 @@ const postMenu = sections.slice(scope2End);
     />
   )}
 
-  {/* Future: offer/CTA/about sections render here, always visible, always
-      at the end of the page regardless of gate state. */}
+  {/* Always-visible tail (offer-cards, future cta/about). Renders at the end
+      of the page regardless of gate state — sits OUTSIDE the gated fetch so
+      non-subscribers see the conversion path even when the gate is closed. */}
+  {alwaysVisibleTail.map((section) => (
+    <SectionRenderer section={section} />
+  ))}
 
   {sideNav && (
     <ReportSideNav
@@ -372,6 +397,9 @@ const postMenu = sections.slice(scope2End);
           if (!r.ok) return;
           const html = await r.text();
           mount.insertAdjacentHTML('beforeend', html);
+          // Mark gate state so [data-gate-locked] elements (unlock CTAs,
+          // gate teasers) hide via the CSS rule in global.css.
+          document.body.dataset.gateState = 'unlocked';
           // Re-scan now that constellation sections + their menu items exist.
           initConstellationScrollSpy();
         } catch (err) {

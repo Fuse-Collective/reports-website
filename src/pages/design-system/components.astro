@@ -37,6 +37,25 @@ const areaIcons = [
   'areas/magic-wand',
   'areas/robot',
 ] as const;
+
+const brandIcons = [
+  'brand/strategia',
+  'brand/proces',
+  'brand/lider',
+  'brand/identyfikacja',
+  'brand/spojrzenie',
+  'brand/komunikacja',
+  'brand/nowa-marka',
+  'brand/rebranding',
+  'brand/owl',
+] as const;
+
+const constellationIcons = [
+  'constellations/cluster',
+  'constellations/gwiazda',
+  'constellations/warning',
+  'constellations/cpd',
+] as const;
 ---
 
 <PreviewLayout title="UI Components" current="/design-system/components/">
@@ -308,20 +327,52 @@ const areaIcons = [
       {surfaces.map((s) => (
         <div class:list={["ds-panel p-comfortable", s !== 'light' && 'hidden', `bg-surface-${s}`]} data-panel-surface={s} data-surface={s}>
 
-          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Arrows</p>
+          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Arrows &amp; utility</p>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable mb-relaxed">
             <div class="flex flex-col gap-tight items-start">
               <Icon name="arrow-right-long" class="w-[160px] h-auto text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
               <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">arrow-right-long</code>
             </div>
             <div class="flex flex-col gap-tight items-start">
+              <Icon name="arrow-right" class="w-[64px] h-[64px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+              <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">arrow-right</code>
+            </div>
+            <div class="flex flex-col gap-tight items-start">
+              <Icon name="arrow-up-right" class="w-[64px] h-[64px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+              <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">arrow-up-right</code>
+            </div>
+            <div class="flex flex-col gap-tight items-start">
               <Icon name="indicator-circle" class="w-[80px] h-[80px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
               <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">indicator-circle</code>
+            </div>
+            <div class="flex flex-col gap-tight items-start">
+              <Icon name="book" class="w-[64px] h-[64px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+              <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">book</code>
             </div>
             <div class="flex flex-col gap-tight items-start">
               <Icon name="padlock" class="w-[64px] h-[64px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
               <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">padlock</code>
             </div>
+          </div>
+
+          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Brand</p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable mb-relaxed">
+            {brandIcons.map((name) => (
+              <div class="flex flex-col gap-tight items-start">
+                <Icon name={name} class="w-[120px] h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">{name}</code>
+              </div>
+            ))}
+          </div>
+
+          <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Constellations</p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-comfortable mb-relaxed">
+            {constellationIcons.map((name) => (
+              <div class="flex flex-col gap-tight items-start">
+                <Icon name={name} class="w-[120px] h-[120px] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent" />
+                <code class="font-mono text-label-sm text-text-muted on-dark:text-on-surface-light/60 on-accent:text-on-surface-dark/60">{name}</code>
+              </div>
+            ))}
           </div>
 
           <p class="font-body text-label-sm uppercase tracking-wide text-text-muted on-dark:text-on-surface-light/50 on-accent:text-on-surface-dark/50 mb-compact">Problems</p>

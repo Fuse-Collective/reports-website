@@ -31,7 +31,7 @@ const defaultLinks: NavLink[] = [
   { label: 'Oferta',                href: 'https://www.fusecollective.com/oferta/' },
   { label: 'Proces',                href: 'https://www.fusecollective.com/proces-brandingu/' },
   { label: 'Podcast i poradniki',   href: 'https://www.fusecollective.com/poradniki/' },
-  { label: 'Anatomia decyzji B2B',  href: 'https://www.fusecollective.com/pobierz-anatomia-decyzji-b2b/' },
+  { label: 'Raporty i badania B2B', href: 'https://www.fusecollective.com/raporty-i-badania-b2b/' },
   { label: 'Kontakt',               href: 'https://www.fusecollective.com/kontakt/' },
 ];
 
@@ -41,6 +41,16 @@ const textColor: Record<Surface, string> = {
   light: 'text-on-surface-dark',
   dark: 'text-on-surface-light',
   accent: 'text-on-surface-accent',
+};
+
+// Logo variant follows surface so it stays legible:
+//   light  → dark logo (black circle, white wordmark cutout)
+//   dark   → accent logo (yellow circle, dark wordmark)
+//   accent → dark logo (black on yellow surface)
+const logoVariant: Record<Surface, 'dark' | 'light' | 'accent'> = {
+  light: 'dark',
+  dark: 'accent',
+  accent: 'dark',
 };
 ---
 
@@ -54,7 +64,7 @@ const textColor: Record<Surface, string> = {
     <div class:list={["mx-auto max-w-content-max h-monumental flex items-center justify-between gap-comfortable", textColor[surface]]}>
 
       <Logo
-        variant="dark"
+        variant={logoVariant[surface]}
         size={80}
         href={logoHref}
         ariaLabel="Fuse Collective — strona główna"

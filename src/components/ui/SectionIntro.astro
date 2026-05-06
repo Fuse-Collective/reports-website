@@ -43,6 +43,7 @@ const {
 } = Astro.props;
 
 const hasLeftExtra = Astro.slots.has('left-extra');
+const hasRightExtra = Astro.slots.has('right-extra');
 const indicatorPos: 'left' | 'right' | 'arrow' | null =
   indicator === true ? 'right' : (indicator || null);
 
@@ -96,6 +97,7 @@ const arrowClass =
           {body}
         </p>
       )}
+      {hasRightExtra && <slot name="right-extra" />}
     </div>
   </div>
 )}

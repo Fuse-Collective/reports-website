@@ -7,15 +7,26 @@
  *   Mobile:  1406:41882 (360px)
  *
  * Surface variants via data-surface attribute.
+ *
+ * Optional `ctas` render in SectionIntro's `left-extra` slot (below the
+ * headline in the left column). Optional per-card `link`. When NO card has
+ * a link, the inner subgrid drops to 2 rows so cards align cleanly.
  */
 import SectionIntro from '../../ui/SectionIntro.astro';
+import Button from '../../ui/Button.astro';
 import OfferCard from './OfferCard.astro';
 
 interface Card {
   headline: string;
   icon: string;
   body: string;
-  link: { label: string; href: string };
+  link?: { label: string; href: string };
+}
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
 }
 
 type Surface = 'light' | 'muted' | 'dark' | 'accent';
@@ -24,12 +35,25 @@ interface Props {
   headline: string;
   description: string;
   cards?: Card[];
+  ctas?: Cta[];
+  anchorId?: string;
   as?: 'h1' | 'h2';
   surface?: Surface;
 }
 
-const { headline, description, cards, as: headingTag = 'h2', surface = 'muted' } = Astro.props;
+const {
+  headline,
+  description,
+  cards,
+  ctas,
+  anchorId,
+  as: headingTag = 'h2',
+  surface = 'muted',
+} = Astro.props;
 const hasCards = cards && cards.length > 0;
+const hasCtas = ctas && ctas.length > 0;
+const hasAnyLink = !!cards?.some((c) => c.link);
+const cardRows = hasAnyLink ? 3 : 2;
 
 const bgMap: Record<Surface, string> = {
   light: 'bg-surface-light',
@@ -37,9 +61,15 @@ const bgMap: Record<Surface, string> = {
   dark: 'bg-surface-dark',
   accent: 'bg-surface-accent',
 };
+
+// Button surface mapping: secondary/primary token sets are keyed on
+// 'light' | 'accent' | 'dark'. Muted falls under the light family.
+const buttonSurface: 'light' | 'accent' | 'dark' =
+  surface === 'accent' ? 'accent' : surface === 'dark' ? 'dark' : 'light';
 ---
 
 <section
+  id={anchorId}
   class:list={[bgMap[surface], "py-comfortable lg:py-monumental"]}
   data-surface={surface}
   data-section-type="offer-cards"
@@ -51,12 +81,38 @@ const bgMap: Record<Surface, string> = {
       body={description}
       indicator
       as={headingTag}
-    />
+    >
+      {hasCtas && (
+        <div slot="left-extra" class="flex flex-col gap-compact lg:flex-row lg:flex-wrap lg:items-center mt-comfortable">
+          {ctas.map((cta) => (
+            <Button
+              variant={cta.variant ?? 'primary'}
+              surface={buttonSurface}
+              href={cta.href}
+            >
+              {cta.label}
+            </Button>
+          ))}
+        </div>
+      )}
+    </SectionIntro>
 
     {hasCards && (
-      <div class="grid grid-cols-1 lg:grid-cols-2 lg:[grid-template-rows:repeat(3,auto)] mt-[72px] border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent">
+      <div
+        class:list={[
+          "grid grid-cols-1 lg:grid-cols-2 mt-[72px]",
+          hasAnyLink ? "lg:[grid-template-rows:repeat(3,auto)]" : "lg:[grid-template-rows:repeat(2,auto)]",
+          "border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent",
+        ]}
+      >
         {cards.map((card) => (
-          <OfferCard headline={card.headline} icon={card.icon} link={card.link}>
+          <OfferCard
+            headline={card.headline}
+            icon={card.icon}
+            link={card.link}
+            rows={cardRows}
+            buttonSurface={buttonSurface}
+          >
             <Fragment set:html={card.body} />
           </OfferCard>
         ))}

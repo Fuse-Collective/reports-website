@@ -3,7 +3,10 @@ client: "Brand24"
 description: "Raport z badania przewag konkurencyjnych Brand24 — framework stosowany z firmami B2B."
 sections:
   - type: report-cover
-    headline: "Co wyróżnia Brand24?"
+    eyebrow:
+      label: "Raport Fuse Collective · 2026"
+      category: "Badanie przewag konkurencyjnych"
+    headline: "Co wyróżnia <em>Brand24</em>?"
     subtitle: "Spółka od 14 lat rośnie dwucyfrowo, a decyzje podejmowane przez te lata budowały jej przewagę konkurencyjną."
     profileLabel: "Profil firmy"
     profile:
@@ -14,20 +17,20 @@ sections:
           value: "154 kraje, 4 000+ klientów"
     metricsLabel: "Kluczowe metryki"
     metrics:
-      - label: "Przychody 2024"
-        value: "35,28 mln zł"
-        note: "+27% r/r"
-      - label: "MRR Q4 2025"
-        value: "973 tys. USD"
-        note: "+34% r/r"
-      - label: "ARPU Q4 2025"
-        value: "264 USD"
-        note: "+38% r/r"
-      - label: "Wzrost MRR"
-        value: "16 kw. dynamicznego wzrostu z rzędu"
+      - label: "W 154 krajach"
+        value: "4000+ klientów"
+      - label: "Przychody 2025"
+        value: "42,6 mln zł"
+        note: "+21% r/r"
+      - label: "EBITDA 2025"
+        value: "8,2 mln zł"
+        note: "+100% r/r"
+      - label: "MRR Q1 2026"
+        value: ">1 mln USD"
+        note: "+39% r/r"
     disclaimer: "W 2024 Semrush (przez Prowly) przejął ~57,6% akcji Brand24. W 2025 Adobe ogłosiło przejęcie Semrush za ~1,9 mld USD (zamknięcie oczekiwane H1 2026)."
-    authorHeadline: "To nie jest artykuł o Brand24, tylko raport z badania przewag konkurencyjnych."
-    authorBody: "W badaniu wykorzystaliśmy framework, który stosujemy z firmami B2B: przemysł, technologia, produkcja, SaaS. Nasze prace dla klientów są poufne. Brand24 wybraliśmy celowo: publiczna spółka, znana marka, pełna transparentność danych."
+    authorHeadline: "To nie jest artykuł o Brand24, tylko raport z badania przewag konkurencyjnych. Wykorzystaliśmy w nim framework, który stosujemy z firmami B2B: przemysł, technologia, produkcja, SaaS."
+    authorBody: "Nasze prace dla klientów są poufne. Brand24 wybraliśmy celowo: publiczna spółka, znana marka, pełna transparentność danych."
     author:
       name: "Tomasz Maciąg"
       role: "CEO i strateg · Fuse Collective"
@@ -37,17 +40,18 @@ sections:
         label: "Wyniki badania"
         href: "#overview-areas"
       secondary:
-        label: "Odblokuj dostęp"
-        href: "#gate"
+        label: "Odblokuj pełny raport"
+        href: "#unlock-modal"
     gateNote: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
   - type: chapter-title
+    surface: accent
     headline: "Jak szukamy przewagi konkurencyjnej?"
     subtitle: "Zanim pokażemy wyniki badania Brand24, zaczynamy od problemu i metodologii."
 
   - type: pain-block
     headline: "5 sygnałów problemu z wyróżnieniem"
-    consequenceLabel: "Co to oznacza w liczbach"
+    consequenceLabel: "Ile kosztuje brak wyróżnienia"
     consequences:
       - text: "Wyższe koszty pozyskania klienta"
       - text: "Dłuższa sprzedaż, niższe zaufanie"
@@ -135,6 +139,9 @@ sections:
       - label: "Ocena strategiczna"
         state: locked
         href: "#ocena-strategiczna"
+      - label: "Znajdź swoją przewagę"
+        state: open
+        href: "#oferta"
     cta:
       label: "Odblokuj dostęp"
       href: "#gate"
@@ -430,7 +437,7 @@ sections:
       icon: "brand/owl"
       headline: "Jak powstały te pomysły?"
       paragraphs:
-        - "Pomysły wyżej wygenerował nasz wewnętrzny silnik analityczny (Fuse Foresight) łączący bazę wiedzy o B2B (badania, wzorce przewag, case studies) z kontekstem analizowanej firmy. Rekomendacje powstają na danych i wzorcach rynkowych, a nie na intuicji jednego konsultanta."
+        - "Pomysły wyżej wygenerował nasz wewnętrzny silnik analityczny (Fuse Foresight) łączący bazę wiedzy o B2B (badania, wzorce przewag, case studies) z kontekstem analizowanej firmy. Rekomendacje powstają na danych i wzorcach rynkowych, a nie na intuicji jednego konsultanta. System wygenerował ponad 160 pomysłów. Najciekawsze prezentujemy w tym raporcie."
       cta:
         label: "Zobacz ofertę"
         href: "https://www.fusecollective.com/oferta/"
@@ -709,3 +716,133 @@ sections:
       - heading: "Największe ryzyko"
         icon: "proces"
         description: "Przewagi na poziomie poszczególnych funkcji mają okno 6-12 miesięcy. Trwałe przewagi to te oparte na modelu (samoobsługa vs sprzedaż relacyjna), kulturze (DNA) i pozycji ekosystemowej (Chatbeat + Semrush)."
+
+  - type: offer-cards
+    anchorId: oferta
+    surface: muted
+    headline: "Chcesz odkryć przewagę swojej firmy?"
+    description: "Sprint odkrywania przewagi konkurencyjnej to skoncentrowany 3-tygodniowy proces, który pomoże Ci odkryć, dlaczego klienci powinni wybierać właśnie Ciebie, i da Ci fundament do budowania komunikacji, sprzedaży i pozycjonowania."
+    ctas:
+      - label: "Darmowa konsultacja"
+        href: "https://www.fusecollective.com/umow-darmowa-konsultacje/"
+        variant: primary
+      - label: "Sprawdź ofertę"
+        href: "https://www.fusecollective.com/sprint-odkrywania-przewagi-konkurencyjnej-b2b/"
+        variant: secondary
+    cards:
+      - headline: "Co konkretnie dostajesz?"
+        icon: "rebranding"
+        body: |
+          <div class="grid gap-comfortable">
+            <div>
+              <strong class="block">Analiza wyróżników i przewag w kategorii</strong>
+              <p class="mt-tight">Pokazujemy, gdzie rynek nie widzi różnic między Wami a konkurencją.</p>
+            </div>
+            <div>
+              <strong class="block">Głęboki research z gotowymi hipotezami</strong>
+              <p class="mt-tight">Analiza Twojej firmy, klientów, kategorii i konkurencji. Przynosimy hipotezy, Twój zespół je weryfikuje.</p>
+            </div>
+            <div>
+              <strong class="block">3 warsztaty strategiczne (3 × 3h)</strong>
+              <p class="mt-tight">Prowadzone przez ekspertów. Rozbite tak, żeby nie blokować całego dnia. Online lub stacjonarnie.</p>
+            </div>
+            <div>
+              <strong class="block">Mapa przewag konkurencyjnych</strong>
+              <p class="mt-tight">Dokument z potencjalnymi źródłami wyróżnienia oraz jedną odpowiedzią na pytanie „dlaczego wy". Konkret, nie 50 stron do szuflady.</p>
+            </div>
+            <div>
+              <strong class="block">Rekomendacje do kierunków pozycjonowania</strong>
+              <p class="mt-tight">Wiesz, którą przewagę warto postawić w centrum komunikacji.</p>
+            </div>
+          </div>
+      - headline: "Jakie są aktualne ceny?"
+        icon: "nowa-marka"
+        body: |
+          <div class="grid gap-comfortable">
+            <div>
+              <span class="block text-price-display leading-normal text-on-surface-dark">12 500 zł</span>
+              <p class="mt-tight">Mała firma: 20-50 mln przychodu rocznego.</p>
+            </div>
+            <div>
+              <span class="block text-price-display leading-normal text-on-surface-dark">16 500 zł</span>
+              <p class="mt-tight">Średnia firma: 50-250 mln przychodu rocznego.</p>
+            </div>
+            <div>
+              <span class="block text-price-display leading-normal text-on-surface-dark">19 500 zł</span>
+              <p class="mt-tight">Duża firma: 250+ mln przychodu rocznego.</p>
+            </div>
+            <p class="mt-compact">Cena zależy od skali firmy. Im większa firma, tym większy zakres researchu, złożoność projektu oraz więcej do zyskania na jasnej przewadze.</p>
+          </div>
+
+  - type: services-grid
+    anchorId: dowody
+    surface: light
+    indicatorPos: left
+    alwaysVisible: true
+    headline: "Marki znacząco różne wygrywają na rynku B2B.<br>To mierzalne."
+    body: "Od lat analizujemy raporty i badania branżowe B2B, żeby lepiej zrozumieć zachowania zakupowe oraz wyciągnąć z nich praktyczne porady do budowania silnej marki B2B."
+    sourceLink:
+      label: "Zobacz raport Blueprint for Brand Growth"
+      href: "https://www.kantar.com/campaigns/blueprint-for-brand-growth"
+    sourceNote: "Kantar przeanalizował 21 000 marek, 540 kategorii (B2C i B2B) na 54 rynkach."
+    cta:
+      label: "Zobacz bazę wiedzy"
+      href: "https://www.fusecollective.com/raporty-i-badania-b2b/"
+      variant: primary
+    services:
+      - heading: "5× większa penetracja rynku"
+        icon: "komunikacja"
+        description: "Marki znacząco różne osiągają 5-krotnie wyższą penetrację rynku niż średnia kategorii."
+      - heading: "2× wyższa cena"
+        icon: "proces"
+        description: "Klienci są skłonni zapłacić nawet 2-krotnie więcej za marki postrzegane jako znacząco różne."
+      - heading: "Inność w 90% determinuje gotowość do wyższej ceny"
+        icon: "identyfikacja"
+        description: "Stopień inności w ponad 90% determinuje, czy klient zapłaci wyższą cenę."
+
+  - type: offer-cards
+    anchorId: o-nas
+    surface: accent
+    headline: "<strong>Agencja Fuse Collective</strong><br>Dwa obszary wyróżnienia marki pod opieką jednego zespołu."
+    description: "Większość firm nie wie, w którym z dwóch obszarów tkwi ich wyróżnik. Zaczynamy od jego znalezienia. Potem prowadzimy cały projekt jednym zespołem, od strategii do wdrożenia."
+    cards:
+      - headline: "Wyróżnij się przez działania"
+        icon: "strategia"
+        link:
+          label: "Sprawdź ofertę"
+          href: "https://www.fusecollective.com/sprint-odkrywania-przewagi-konkurencyjnej-b2b/"
+        body: |
+          <div class="grid gap-comfortable">
+            <p><strong>W ramach doradztwa szukamy wyróżnienia</strong> w produktach, customer experience, technologii, modelu biznesowym, marketingu.</p>
+            <div>
+              <strong class="block">1. Mapowanie rozwoju marki</strong>
+              <p class="mt-tight">Gdy rozważacie różne rozwiązania i chcecie sprawdzić, gdzie Wasze pieniądze przyniosą najlepsze efekty.</p>
+            </div>
+            <div>
+              <a href="https://www.fusecollective.com/sprint-odkrywania-przewagi-konkurencyjnej-b2b/" class="hover:underline">
+                <strong class="block">2. Sprint odkrywania przewagi konkurencyjnej B2B →</strong>
+              </a>
+              <p class="mt-tight">Gdy czujecie, że rynek nie docenia Waszej wartości, klienci nie widzą realnej różnicy między Wami a konkurencją, więc rywalizujecie głównie ceną.</p>
+            </div>
+            <div>
+              <strong class="block">3. Strategiczne pozycjonowanie</strong>
+              <p class="mt-tight">Gdy planujecie rozwój, działacie na konkurencyjnym rynku i potrzebujecie wyróżnienia, chcecie uporządkować marketing i działać świadomie.</p>
+            </div>
+          </div>
+      - headline: "Wyróżnij się tożsamość"
+        icon: "identyfikacja"
+        link:
+          label: "Sprawdź ofertę"
+          href: "https://www.fusecollective.com/oferta/"
+        body: |
+          <div class="grid gap-comfortable">
+            <p><strong>W ramach transformacji lub odświeżania marek zwiększamy wyróżnienie</strong> przez identyfikację wizualną, rozpoznawalność, język i komunikację.</p>
+            <div>
+              <strong class="block">1. Rebranding lub odświeżenie wizerunku B2B</strong>
+              <p class="mt-tight">Gdy odczuwacie wpływ słabego wizerunku, chcecie się wyróżnić, wzmocnić pozycję, uporządkować marketing i wzmocnić jego skuteczność.</p>
+            </div>
+            <div>
+              <strong class="block">2. System identyfikacji wizualnej</strong>
+              <p class="mt-tight">Gdy potrzebujecie tylko profesjonalnego wyglądu firmy, ale nie prowadzicie aktywnych działań marketingowych lub nie macie budżetu/czasu na strategiczne działania.</p>
+            </div>
+          </div>

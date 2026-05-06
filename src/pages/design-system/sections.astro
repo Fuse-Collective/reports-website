@@ -4,6 +4,7 @@ import OfferCardsSection from '../../components/sections/offer-cards/OfferCardsS
 import ServicesSection from '../../components/sections/services/ServicesSection.astro';
 import PainBlockSection from '../../components/sections/pain-block/PainBlockSection.astro';
 import ReportCoverSection from '../../components/sections/report-cover/ReportCoverSection.astro';
+import ReportCoverBoldSection from '../../components/sections/report-cover/ReportCoverBoldSection.astro';
 import ChapterTitleSection from '../../components/sections/chapter-title/ChapterTitleSection.astro';
 import OverviewSection from '../../components/sections/overview/OverviewSection.astro';
 import AnalysisSection from '../../components/sections/analysis/AnalysisSection.astro';
@@ -70,6 +71,44 @@ const reportCover = {
     secondary: { label: "Odblokuj pełną wersję", href: "#gate" },
   },
   gateNote: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami.",
+};
+
+/* Bold hero data — sourced from `reportCover` (original ReportCoverSection content)
+ * with structural mapping to Bold's prop shape. Editorial framing strings
+ * (eyebrow, ctaLabel, authorLabel, contextLabel) stay as-is — Bold has no
+ * equivalents in the original. Lossy fields documented inline below. */
+const reportCoverBold = {
+  eyebrow: {
+    label: 'Raport Fuse Collective · 2026',
+    category: 'Badanie przewag konkurencyjnych',
+  },
+  /* headline ← original.headline, with <em> wrap on subject name. */
+  headline: 'Co wyróżnia <em>Brand24</em>?',
+  /* subtitle ← original.authorHeadline + concrete numbers from the metric
+   * ticker below (revenue, MRR milestone, EBITDA). Lede + receipt pattern. */
+  subtitle: `${reportCover.authorHeadline} Najnowsze wyniki spółki imponują: 42,6 mln zł przychodów w 2025 r. (+21% r/r), MRR powyżej 1 mln USD (+39% r/r) i EBITDA 8,2 mln zł (+100% r/r).`,
+  /* metrics — single row of 4 cells, user-curated from Q1 2026 / FY 2025
+   * figures: scale (clients × geo) + revenue + profitability + recurring rev. */
+  metrics: [
+    { value: '4000+', unit: 'klientów', label: 'W 154 krajach' },
+    { value: '42,6',  unit: 'mln zł',  delta: '+21% r/r',  label: 'Przychody 2025' },
+    { value: '8,2',   unit: 'mln zł',  delta: '+100% r/r', label: 'EBITDA 2025' },
+    { value: '>1',    unit: 'mln USD', delta: '+39% r/r',  label: 'MRR Q1 2026' },
+  ],
+  /* cta ← original.cta + original.gateNote into Bold's `note` slot.
+   * ctaLabel intentionally omitted (per user — "remove Zacznij czytać"). */
+  cta: {
+    primary: reportCover.cta.primary,
+    secondary: reportCover.cta.secondary,
+    note: reportCover.gateNote,
+  },
+  /* author ← original.author (direct). authorLabel intentionally omitted. */
+  author: reportCover.author,
+  /* contextBody ← original.authorBody. contextLabel intentionally omitted. */
+  contextBody: reportCover.authorBody,
+  /* acquisition — disclaimer rendered directly under the metric ticker as a
+   * small, muted note (Semrush/Adobe acquisition context). */
+  acquisition: reportCover.disclaimer,
 };
 
 const overviewAreas = [
@@ -183,6 +222,12 @@ const analysisArea01 = {
   <div>
     <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">ReportCoverSection</h2>
     <ReportCoverSection {...reportCover} />
+  </div>
+
+  {/* ReportCoverBoldSection — Odważna (editorial dark hero) */}
+  <div>
+    <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">ReportCoverBoldSection <span class="font-normal text-text-muted">— Odważna (editorial dark hero)</span></h2>
+    <ReportCoverBoldSection {...reportCoverBold} />
   </div>
 
   {/* ChapterTitleSection */}

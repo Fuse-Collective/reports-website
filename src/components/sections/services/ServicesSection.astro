@@ -10,6 +10,8 @@
  */
 import SectionIntro from '../../ui/SectionIntro.astro';
 import ServiceCard from './ServiceCard.astro';
+import Button from '../../ui/Button.astro';
+import { Icon } from 'astro-icon/components';
 
 interface Service {
   heading: string;
@@ -17,7 +19,19 @@ interface Service {
   description: string;
 }
 
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
+}
+
+interface SourceLink {
+  label: string;
+  href: string;
+}
+
 type Surface = 'light' | 'muted' | 'dark' | 'accent';
+type IndicatorPos = boolean | 'left' | 'right' | 'arrow';
 
 interface Props {
   headline: string;
@@ -27,9 +41,25 @@ interface Props {
   surface?: Surface;
   numbered?: boolean;
   anchorId?: string;
+  indicatorPos?: IndicatorPos;
+  cta?: Cta;
+  sourceLink?: SourceLink;
+  sourceNote?: string;
 }
 
-const { headline, body, services, as: headingTag = 'h2', surface = 'dark', numbered = false, anchorId } = Astro.props;
+const {
+  headline,
+  body,
+  services,
+  as: headingTag = 'h2',
+  surface = 'dark',
+  numbered = false,
+  anchorId,
+  indicatorPos,
+  cta,
+  sourceLink,
+  sourceNote,
+} = Astro.props;
 
 const bgMap: Record<Surface, string> = {
   light: 'bg-surface-light',
@@ -37,6 +67,12 @@ const bgMap: Record<Surface, string> = {
   dark: 'bg-surface-dark',
   accent: 'bg-surface-accent',
 };
+
+const buttonSurface: 'light' | 'accent' | 'dark' =
+  surface === 'accent' ? 'accent' : surface === 'dark' ? 'dark' : 'light';
+
+const indicator: IndicatorPos = indicatorPos !== undefined ? indicatorPos : true;
+const hasHeaderExtras = !!(cta || sourceLink || sourceNote);
 ---
 
 <section
@@ -50,11 +86,45 @@ const bgMap: Record<Surface, string> = {
     <SectionIntro
       headline={headline}
       body={body}
-      indicator
+      indicator={indicator}
       as={headingTag}
-    />
+    >
+      {(sourceLink || sourceNote) && (
+        <div slot="left-extra" class="flex flex-col gap-tight mt-comfortable">
+          {sourceLink && (
+            <Button variant="text-link" surface={buttonSurface} href={sourceLink.href}>
+              <Icon name="book" slot="icon" />
+              {sourceLink.label}
+            </Button>
+          )}
+          {sourceNote && (
+            <p class="font-body text-[12px] leading-[16px] font-[500] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
+              {sourceNote}
+            </p>
+          )}
+        </div>
+      )}
+      {cta && (
+        <div slot="right-extra" class="mt-compact">
+          <Button
+            variant={cta.variant ?? 'primary'}
+            surface={buttonSurface}
+            href={cta.href}
+          >
+            <Icon name="arrow-up-right" slot="icon" />
+            {cta.label}
+          </Button>
+        </div>
+      )}
+    </SectionIntro>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:[grid-template-rows:repeat(6,auto)] lg:[grid-template-rows:repeat(6,auto)] mt-[72px] border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent">
+    <div class:list={[
+      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-[72px]",
+      services.length > 3
+        ? "md:[grid-template-rows:repeat(6,auto)] lg:[grid-template-rows:repeat(6,auto)]"
+        : "md:[grid-template-rows:repeat(3,auto)] lg:[grid-template-rows:repeat(3,auto)]",
+      "border-r border-b border-outline-dark on-dark:border-outline-white on-accent:border-on-surface-accent"
+    ]}>
       {services.map((service, i) => (
         <ServiceCard
           heading={service.heading}

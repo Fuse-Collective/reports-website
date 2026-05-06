@@ -3,7 +3,7 @@
  * Dispatcher — renders the correct section template based on section.type.
  * Built sections get their own component; unbuilt ones show a placeholder.
  */
-import ReportCoverSection from './report-cover/ReportCoverSection.astro';
+import ReportCoverBoldSection from './report-cover/ReportCoverBoldSection.astro';
 import ChapterTitleSection from './chapter-title/ChapterTitleSection.astro';
 import PainBlockSection from './pain-block/PainBlockSection.astro';
 import OverviewSection from './overview/OverviewSection.astro';
@@ -21,10 +21,42 @@ interface Props {
 const { section } = Astro.props;
 const type = section.type as string;
 const headline = (section as Record<string, unknown>).headline as string | undefined;
+
+/* Map YAML report-cover → ReportCoverBoldSection props.
+ * Splits "42,6 mln zł" → value="42,6" + unit="mln zł" (regex on first space).
+ * `note` (e.g. "+21% r/r") becomes `delta`. Profile-style cells (no note)
+ * pass through cleanly — Bold renders the unit beside value either way. */
+let boldProps: any = null;
+if (type === 'report-cover') {
+  const s = section as any;
+  const splitValue = (v: string): { value: string; unit?: string } => {
+    const m = v.match(/^(\S+)\s+(.+)$/);
+    return m ? { value: m[1], unit: m[2] } : { value: v };
+  };
+  boldProps = {
+    eyebrow: s.eyebrow ?? {
+      label: 'Raport Fuse Collective',
+      category: 'Badanie przewag konkurencyjnych',
+    },
+    headline: s.headline,
+    subtitle: s.authorHeadline ?? s.subtitle,
+    metrics: (s.metrics ?? []).map((m: any) => {
+      const parts = splitValue(m.value);
+      return { ...parts, delta: m.note, label: m.label };
+    }),
+    cta: {
+      ...s.cta,
+      note: s.gateNote,
+    },
+    author: s.author,
+    contextBody: s.authorBody ?? '',
+    acquisition: s.disclaimer,
+  };
+}
 ---
 
 {type === 'report-cover' ? (
-  <ReportCoverSection {...section as any} />
+  <ReportCoverBoldSection {...boldProps} />
 ) : type === 'chapter-title' ? (
   <ChapterTitleSection {...section as any} />
 ) : type === 'pain-block' ? (
