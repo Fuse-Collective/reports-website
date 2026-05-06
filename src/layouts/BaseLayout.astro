@@ -21,6 +21,14 @@ const { title, description = '' } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
+
+    {/* Umami analytics — self-hosted at analytics.fusecollective.com */}
+    <script
+      is:inline
+      defer
+      src="https://analytics.fusecollective.com/script.js"
+      data-website-id="a1a2956b-bee8-4192-99ca-93ab4db5f98b"
+    ></script>
   </head>
   <body class="bg-surface-light text-on-surface-dark font-body">
     <slot />
