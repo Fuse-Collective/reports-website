@@ -137,6 +137,7 @@ const {
           <a
             href={pill.href}
             class="block w-full rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            data-locked-pill={isLocked ? '' : null}
           >
             {pillInner}
           </a>
@@ -155,6 +156,7 @@ const {
                   <a
                     href={href}
                     class="inline-flex items-center gap-standard rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                    data-locked-pill={isLocked ? '' : null}
                   >
                     <span class="inline-flex w-8 h-8 items-center justify-center rounded-full font-body text-label-sm font-normal leading-none tabular-nums text-on-surface-dark on-dark:text-on-surface-light group-data-[current=true]:bg-surface-dark group-data-[current=true]:text-on-surface-light on-dark:group-data-[current=true]:bg-surface-light on-dark:group-data-[current=true]:text-on-surface-dark">
                       <span class="group-data-[current=true]:translate-y-[1px] group-data-[current=true]:-translate-x-[1px]">{item.number}</span>

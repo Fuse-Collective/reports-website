@@ -139,7 +139,7 @@ sections:
         href: "#oferta"
     cta:
       label: "Odblokuj dostęp"
-      href: "#gate"
+      href: "#unlock-modal"
       note: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
   - type: analysis

@@ -91,7 +91,7 @@ const textClass =
         )}
 
         {cta && (
-          <div class="flex flex-col gap-standard">
+          <div class="flex flex-col gap-standard" data-gate-locked>
             <Button variant="primary" surface={surface} href={cta.href}>
               {cta.label}
               <svg slot="icon" viewBox="0 0 64 64" fill="none">

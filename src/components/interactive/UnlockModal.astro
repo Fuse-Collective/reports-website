@@ -192,6 +192,11 @@ import { Icon } from 'astro-icon/components';
       .then((html) => {
         if (!html) return;
         mount.insertAdjacentHTML('beforeend', html);
+        // Mark gate as unlocked so [data-gate-locked] elements (unlock CTAs)
+        // hide via the global CSS rule. Same hook as [slug].astro fires on
+        // initial-load auto-unlock — duplicated here for the modal-success
+        // path so users see CTAs disappear without a refresh.
+        document.body.dataset.gateState = 'unlocked';
         const w = window as unknown as { initConstellationScrollSpy?: () => void };
         w.initConstellationScrollSpy?.();
       })
@@ -200,11 +205,27 @@ import { Icon } from 'astro-icon/components';
 
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement | null;
-    const link = target?.closest<HTMLAnchorElement>('a[href="#unlock-modal"]');
-    if (!link || !dialog) return;
-    e.preventDefault();
-    clearErrors();
-    dialog.showModal();
+    if (!dialog) return;
+
+    // Direct unlock-modal links: always open the modal regardless of gate state.
+    const directLink = target?.closest<HTMLAnchorElement>('a[href="#unlock-modal"]');
+    if (directLink) {
+      e.preventDefault();
+      clearErrors();
+      dialog.showModal();
+      return;
+    }
+
+    // Locked TOC pills + their items: route to modal while gate is closed
+    // (the anchor target doesn't exist in the static HTML yet). After unlock,
+    // body has data-gate-state="unlocked" and the click flows through to its
+    // native anchor, which now resolves to the injected gated content.
+    const lockedPill = target?.closest<HTMLAnchorElement>('a[data-locked-pill]');
+    if (lockedPill && document.body.dataset.gateState !== 'unlocked') {
+      e.preventDefault();
+      clearErrors();
+      dialog.showModal();
+    }
   });
 
   dialog?.addEventListener('click', (e) => {
