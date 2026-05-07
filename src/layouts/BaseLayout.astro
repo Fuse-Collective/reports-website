@@ -22,13 +22,12 @@ const { title, description = '' } = Astro.props;
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    {/* Umami analytics — self-hosted at analytics.fusecollective.com */}
-    <script
-      is:inline
-      defer
-      src="https://analytics.fusecollective.com/script.js"
-      data-website-id="a1a2956b-bee8-4192-99ca-93ab4db5f98b"
-    ></script>
+    {/*
+      Umami analytics — server-side via Vercel Routing Middleware
+      (see /middleware.ts at project root). The client-side <script>
+      previously here was blocked by ~30-40% of ad blockers; the edge
+      middleware now dispatches the pageview directly to Umami.
+    */}
   </head>
   <body class="bg-surface-light text-on-surface-dark font-body">
     <slot />
