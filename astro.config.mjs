@@ -11,7 +11,13 @@ export default defineConfig({
   // `export const prerender = false`. Used by /api/gated/* routes that
   // serve the gated portion of reports after subscription verification.
   output: 'static',
-  adapter: vercel(),
+  // middlewareMode: 'edge' — deploys src/middleware.ts as a Vercel Edge
+  // Function that runs on every request, including prerendered pages.
+  // Used for server-side analytics (Umami) so we don't depend on
+  // client-side scripts that ad blockers strip.
+  adapter: vercel({
+    middlewareMode: 'edge',
+  }),
 
   integrations: [
     sitemap(),

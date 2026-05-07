@@ -141,4 +141,12 @@ const { areasLabel, areas, areasHref, sectionPills = [] } = Astro.props;
     const target = e.target as Node;
     if (!root.contains(target)) setPanelOpen(false);
   });
+
+  // Click on a link INSIDE the panel closes it after the native anchor
+  // scroll fires. Without this, the panel stays open on top of the
+  // scrolled-to section, which feels broken on mobile.
+  panel?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('a')) setPanelOpen(false);
+  });
 </script>
