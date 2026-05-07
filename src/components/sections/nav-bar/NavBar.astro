@@ -173,6 +173,13 @@ const logoVariant: Record<Surface, 'dark' | 'light' | 'accent'> = {
   toggles.forEach((btn) => btn.addEventListener('click', open));
   closers.forEach((btn) => btn.addEventListener('click', close));
 
+  // Auto-close drawer on link click (any anchor inside the drawer): users
+  // expect the menu to dismiss after picking a destination on mobile.
+  drawer?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('a')) close();
+  });
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer && !drawer.hidden) close();
   });
