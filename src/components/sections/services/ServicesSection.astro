@@ -34,7 +34,8 @@ type Surface = 'light' | 'muted' | 'dark' | 'accent';
 type IndicatorPos = boolean | 'left' | 'right' | 'arrow';
 
 interface Props {
-  headline: string;
+  /** Optional — when omitted, SectionIntro is skipped entirely. */
+  headline?: string;
   body?: string;
   services: Service[];
   as?: 'h1' | 'h2';
@@ -45,6 +46,9 @@ interface Props {
   cta?: Cta;
   sourceLink?: SourceLink;
   sourceNote?: string;
+  /** When rendered inside a `<MenuScope>`, set to true to reserve the 368px
+   * right-rail space so content doesn't collide with the floating overlay. */
+  inMenuScope?: boolean;
 }
 
 const {
@@ -59,6 +63,7 @@ const {
   cta,
   sourceLink,
   sourceNote,
+  inMenuScope = false,
 } = Astro.props;
 
 const bgMap: Record<Surface, string> = {
@@ -81,45 +86,48 @@ const hasHeaderExtras = !!(cta || sourceLink || sourceNote);
   data-surface={surface}
   data-section-type="services"
 >
-  <div class="px-page-gutter"><div class="mx-auto max-w-content-max">
+  <div class="px-page-gutter"><div class:list={['mx-auto max-w-content-max', inMenuScope && 'xl:pr-[368px]']}>
 
-    <SectionIntro
-      headline={headline}
-      body={body}
-      indicator={indicator}
-      as={headingTag}
-    >
-      {(sourceLink || sourceNote) && (
-        <div slot="left-extra" class="flex flex-col gap-tight mt-comfortable">
-          {sourceLink && (
-            <Button variant="text-link" surface={buttonSurface} href={sourceLink.href}>
-              <Icon name="book" slot="icon" />
-              {sourceLink.label}
+    {headline && (
+      <SectionIntro
+        headline={headline}
+        body={body}
+        indicator={indicator}
+        as={headingTag}
+      >
+        {(sourceLink || sourceNote) && (
+          <div slot="left-extra" class="flex flex-col gap-tight mt-comfortable">
+            {sourceLink && (
+              <Button variant="text-link" surface={buttonSurface} href={sourceLink.href}>
+                <Icon name="book" slot="icon" />
+                {sourceLink.label}
+              </Button>
+            )}
+            {sourceNote && (
+              <p class="font-body text-[12px] leading-[16px] font-[500] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
+                {sourceNote}
+              </p>
+            )}
+          </div>
+        )}
+        {cta && (
+          <div slot="right-extra" class="mt-compact">
+            <Button
+              variant={cta.variant ?? 'primary'}
+              surface={buttonSurface}
+              href={cta.href}
+            >
+              <Icon name="arrow-up-right" slot="icon" />
+              {cta.label}
             </Button>
-          )}
-          {sourceNote && (
-            <p class="font-body text-[12px] leading-[16px] font-[500] text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
-              {sourceNote}
-            </p>
-          )}
-        </div>
-      )}
-      {cta && (
-        <div slot="right-extra" class="mt-compact">
-          <Button
-            variant={cta.variant ?? 'primary'}
-            surface={buttonSurface}
-            href={cta.href}
-          >
-            <Icon name="arrow-up-right" slot="icon" />
-            {cta.label}
-          </Button>
-        </div>
-      )}
-    </SectionIntro>
+          </div>
+        )}
+      </SectionIntro>
+    )}
 
     <div class:list={[
-      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-[72px]",
+      "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+      headline && "mt-[72px]",
       services.length > 3
         ? "md:[grid-template-rows:repeat(6,auto)] lg:[grid-template-rows:repeat(6,auto)]"
         : "md:[grid-template-rows:repeat(3,auto)] lg:[grid-template-rows:repeat(3,auto)]",

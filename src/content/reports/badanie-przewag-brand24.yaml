@@ -131,9 +131,9 @@ sections:
             label: "Pierwszy w nowym świecie"
           - number: "05"
             label: "Twierdza danych"
-      - label: "Ocena strategiczna"
+      - label: "Wnioski i playbook"
         state: locked
-        href: "#ocena-strategiczna"
+        href: "#overview-insights"
       - label: "Znajdź swoją przewagę"
         state: open
         href: "#oferta"
@@ -696,9 +696,14 @@ sections:
         title: "Kopiowalność"
         body: "Jedyna konstelacja, w której czas działa wyłącznie na korzyść Brand24. Każdy dzień powiększa przewagę. Konkurent musiałby zacząć zbierać dane 14 lat temu. Nowy gracz może skopiować interfejs i cennik, ale nie dane."
 
+  - type: overview
+    surface: accent
+    headline: "Wnioski i playbook"
+    subtitle: "Uniwersalne reguły budowania trudnej do skopiowania przewagi B2B. Każda wynika z przewag Brand24, ale jest przetłumaczona na język dowolnej innej kategorii."
+    insightLabel: "Brand24 robi rzeczy klasy enterprise w nie-enterprise'owy sposób."
+    insight: "Konstelacje Brand24 to konkretny przypadek. Pod nimi jednak leżą reguły, które obowiązują w każdej kategorii i firmie B2B. Ten rozdział wyciąga z badania te ogólne wnioski i pokazuje, jak je zastosować w swojej organizacji."
+
   - type: services-grid
-    headline: "Brand24 robi rzeczy klasy enterprise w nie-enterprise'owy sposób."
-    body: "Ten jeden mianownik łączy wszystkie 5 konstelacji."
     surface: accent
     anchorId: ocena-strategiczna
     services:
@@ -711,6 +716,87 @@ sections:
       - heading: "Największe ryzyko"
         icon: "proces"
         description: "Przewagi na poziomie poszczególnych funkcji mają okno 6-12 miesięcy. Trwałe przewagi to te oparte na modelu (samoobsługa vs sprzedaż relacyjna), kulturze (DNA) i pozycji ekosystemowej (Chatbeat + Semrush)."
+
+  - type: insights
+    surface: light
+    anchorId: wnioski-uniwersalne
+    insights:
+      - number: "01"
+        title: "Konkurent skopiuje cechę. Nie skopiuje systemu."
+        meaning: "Pojedynczy wyróżnik jest kopiowalny w czasie krótszym niż jeden cykl planistyczny. Trwałą pozycję dają nie pojedyncze przewagi, tylko sposób, w jaki są ze sobą powiązane. Konstelacja oznacza, że odtworzenie jednego elementu nic nie daje konkurentowi, bo wartość generuje dopiero całość."
+        recommendations:
+          - heading: "Narysuj mapę powiązań, nie listę funkcji."
+            body: "Spójrz na swoje wyróżniki jako sieć, nie spis. Te, które działają w izolacji, są kandydatami do odpisania. Te, które się wzajemnie napędzają, są fundamentem reszty punktów poniżej."
+          - heading: "Pokaż mechanizm wszędzie tam, gdzie pokazujesz cechy."
+            body: "Wszędzie, gdzie pokazujesz cechy w wierszach (strona, deck sprzedażowy, oferta, briefing dla agencji), zastąp listę diagramem lub narracją typu „X zasila Y, które generuje Z”. Konstelacja zostaje w pamięci klienta. Tabelka nie."
+          - heading: "Opowiedz markę przez jedną konstelację, nie przez 11 funkcji."
+            body: "W keynote'ach założyciela, w manifeście marki, w opisie firmy w prasie wybierz jedną-dwie konstelacje i trzymaj się ich przez 12-18 miesięcy. Powtarzalność uczy rynek twojej narracji szybciej niż każdy nowy headline."
+
+      - number: "02"
+        title: "Przewaga zaczyna się od pytania w momencie decyzji klienta, nie od specyfikacji produktu."
+        meaning: "Większość firm B2B planuje przewagę od strony produktu. „Mamy lepszy algorytm”, „działamy szybciej”, wszystkie te zdania zaczynają się od „my”, więc są niewspółmierzalne z niczym poza inną listą cech. Demand pointy odwracają logikę. Zaczynają od pytania, które klient sobie stawia, i sprawdzają, ile cech produktu domyka odpowiedź."
+        recommendations:
+          - heading: "Zmapuj demand pointy zanim zaczniesz cokolwiek innego."
+            body: "Zacznij od listy 5-10 pytań, które klient sobie zadaje, gdy szuka rozwiązania. Bez tej listy każde sformułowanie strategii, headline'a i pitch'a jest hipotezą bez fundamentu. To godzina pracy, która zwraca się stokrotnie."
+          - heading: "Pisz słowami klienta, nie własnym słownikiem produktowym."
+            body: "Cytuj formułki z rozmów discovery dosłownie. Headline na stronie („Chcesz znać cenę zanim porozmawiasz z handlowcem?”), tytuł posta na LinkedIn, sekcja w propozycji handlowej, odpowiedź w RFP. Klient widzi swoją własną głowę w twoim dokumencie i to jest sygnał zaufania."
+          - heading: "Rozróżniaj rejestr funkcjonalny, emocjonalny i aspiracyjny."
+            body: "Funkcjonalny demand point („chcę porównać dane przed zakupem”) wymaga liczb, dowodów, kalkulatorów. Emocjonalny („nie chcę presji handlowca”) wymaga ciepłej historii i twarzy człowieka. Aspiracyjny („chcę być pierwszy w nowej kategorii”) wymaga wizji i autorytetu. Pomylenie rejestrów to typowy błąd, którym tracicie deal'e i konwersje."
+
+      - number: "03"
+        title: "Przewagę zakorzenioną w DNA firmy trudniej skopiować."
+        meaning: "W planowaniu strategicznym najczęściej pracuje się na warstwie funkcji, bo jest najbliżej zespołu produktu i najszybciej daje rezultaty kwartalne. Ale to jest też warstwa, w której przewaga rozpływa się najszybciej. Model, kultura i pozycja ekosystemowa są wolniejsze do zbudowania, ale wytrzymują naciski rynku."
+        recommendations:
+          - heading: "Zinwentaryzuj swoją przewagę po warstwach."
+            body: "Spisz, co u was działa na poziomie funkcji (skopiowalne w 12 miesięcy), modelu (skopiowalne w 3-5 lat), kultury i pozycji w ekosystemie (kopiowalne tylko teoretycznie). Ten audyt zazwyczaj odsłania, że wasza komunikacja zewnętrzna mówi tylko o najpłytszej warstwie. To jest punkt wyjścia do reszty."
+          - heading: "Przesuń komunikację brand z funkcji na model."
+            body: "Headliner założyciela, manifest marki, raport roczny, podcast firmowy, wystąpienie na konferencji branżowej powinny mówić o filozofii biznesowej, nie o nowej funkcji w roadmapie. Komunikacja produktowa może mówić o funkcjach, ale tylko ona. Te dwa przekazy wzajemnie się osłabiają, jeśli płyną z tej samej rury."
+          - heading: "Audytuj budżet marketingowy raz w roku po warstwach."
+            body: "Ile pieniędzy poszło na komunikację cech (kopiowalnej w 12 miesięcy), a ile na komunikację modelu i kultury (niekopiowalnej w 5 lat). Jeśli pierwsza pula to 80% wydatków, marketing budujesz pod kwartał, nie pod dekadę."
+
+      - number: "04"
+        title: "Łam zasady kategorii, robiąc to, na co lider sobie nie pozwoli."
+        meaning: "Łamanie schematów kategorii często myli się z byciem oryginalnym lub odważnym. Mechanizm jest głębszy: pretendent może zrobić coś, czego lider nie może bez utraty obecnego przychodu, marży lub pozycji. Lider nie jest gorszy, tylko jego model finansowy zabrania mu tego ruchu."
+        recommendations:
+          - heading: "Zrób inwentarz niepisanych reguł swojej branży."
+            body: "Spisz wszystko, co wszyscy w twojej kategorii robią tak samo i nikt o tym nie dyskutuje (model sprzedaży, struktura cennika, długość kontraktu, sposób onboardingu, sposób komunikacji w kryzysie). Im dłuższa lista, tym więcej masz potencjalnych przewag do złamania. Bez tego inwentarza nie wiesz, gdzie szukać."
+          - heading: "Wybierz regułę, której złamanie kosztowałoby lidera utratę marży."
+            body: "Nie każda reguła do złamania jest warta tego samego. Najmocniejsze są te, których złamanie wymaga od lidera kanibalizacji własnego biznesu (obniżki cen, rezygnacji z kontraktów rocznych, zmiany modelu sprzedaży). To, co dla ciebie jest darmowe, dla niego jest finansowym samobójstwem. Tam jest twoja przestrzeń."
+          - heading: "Edukuj rynek, że obecne konwencje nie są naturalnym prawem."
+            body: "„Demo gate” to nie wymóg branży, tylko konwencja. „Roczny kontrakt” to nie standard, tylko praktyka liderów. Każdy artykuł, raport, podcast wskazujący „5 niepisanych zasad branży X, których nie musisz akceptować” jest jednocześnie kampanią pozyskiwania klientów i edukacją rynku."
+
+      - number: "05"
+        title: "Niekopiowalna przewaga to świadoma rezygnacja, której konkurent nie podejmie."
+        meaning: "W kulturze startupowej i korporacyjnej dominuje myślenie addytywne, w którym strategia jest listą rzeczy, które robimy. Trwała przewaga zaczyna się tam, gdzie zaczyna się świadoma rezygnacja. Każdą z takich rezygnacji konkurent mógłby teoretycznie powtórzyć, ale nie chce, bo musiałby zrezygnować z wartości, do której się przywiązał."
+        recommendations:
+          - heading: "Spisz, z czego rezygnujesz, zanim spiszesz, co oferujesz."
+            body: "Lista „tego nie robimy” jest mocniejszym fundamentem strategii niż lista „tego oferujemy”. Każda rezygnacja powinna być świadoma, mieć cenę i być taka, że konkurent też nie chciałby jej ponieść. Bez tej listy nie masz pozycjonowania, masz katalog."
+          - heading: "Trenuj zespół sprzedaży na komfort z mówieniem „nie”."
+            body: "„Nie obsługujemy klientów, którzy potrzebują X” to zdanie, które handlowiec powinien wypowiedzieć z taką samą łatwością jak prezentację cennika. Brak tego komfortu prowadzi do wciskania produktu klientom, którzy są spoza waszej rezygnacji, co kończy się słabą obsługą i złymi recenzjami. To najtrudniejsza zmiana w lejku, bo wymaga zmiany incentive'ów."
+          - heading: "W proposalach miej osobną sekcję „co jest poza zakresem”."
+            body: "Klient czyta ją z większą uwagą niż sekcję „co jest w zakresie”, bo szuka tam ryzyka. Wpisz ją świadomie, nie obronnie. Sekcja „out of scope” prowadzona dobrze jest narzędziem sprzedażowym, nie tylko prawnym."
+
+      - number: "06"
+        title: "Historia i staż firmy nie jest przewagą, dopóki klient nie czuje jej w produkcie."
+        meaning: "Wiele firm B2B z dłuższą historią ma niezagospodarowane aktywa czasowe: bazy klientów, archiwa projektów, wewnętrzne dane operacyjne, długoletnie relacje. Traktuje się je jako „kontekst firmy”, nie jako produkt, i to jest błąd kategorii. Klient nie kupuje historii, kupuje to, co historia umożliwia: porównania, predykcje, benchmarki, gwarancje, których nowy gracz nie da."
+        recommendations:
+          - heading: "Zinwentaryzuj swoje aktywa czasowe."
+            body: "Spisz, co masz dzięki czasowi, czego konkurent nie ma. Bazy klientów, archiwa projektów, dane operacyjne, długoletnie relacje branżowe, listy mailingowe, dane historyczne pomiarów. Każdy element to potencjalna funkcja, która może wejść do produktu albo na stronę. Bez tej listy nie zaczniesz pracy."
+          - heading: "Wymyśl funkcję, która działa tylko, gdy masz długą historię."
+            body: "Porównanie sentymentu sprzed 3 lat z dzisiejszym, benchmark dla branży zbierany od 2010, predykcja oparta na cyklu, model AI trenowany na własnych danych. Ta funkcja nie musi być wielka, wystarczy że nowy konkurent nie może jej dać, nawet jeśli go stać na taki sam silnik. Tu twoje 14 lat staje się produktem."
+          - heading: "Nie sprzedawaj historii firmy. Sprzedawaj to, co historia daje klientowi."
+            body: "„Jesteśmy od 2003” to słaby komunikat. „Możemy ci pokazać, jak twoja branża zmieniała się przez 22 lata” to mocny. W brand storytellingu, w about page, w pierwszym slajdzie pitch'a sprzedażowego zamień fakt o dacie założenia na konsekwencję dla klienta. To samo dotyczy case studies: wybieraj klientów, których obsługujesz najdłużej, bo dłuższa relacja daje więcej materiału do narracji o wartości w czasie."
+
+      - number: "07"
+        title: "Nowa kategoria istnieje dopiero wtedy, gdy rynek ma dla niej słowo."
+        meaning: "Większość firm B2B mówi o swoich produktach w języku istniejącej kategorii, bo klient go rozumie. Skazuje to jednak firmę na rolę „kolejnej opcji” w cudzej kategorii, gdzie wygrywa cena lub wyróżnik kosmetyczny. Stworzenie nowej kategorii oznacza zmianę języka, którym klient myśli o problemie. Bez nazwy nowa kategoria nie istnieje, bo klient potrzebuje słowa, którym może powiedzieć szefowi i sobie, czego potrzebuje."
+        recommendations:
+          - heading: "Wybierz jedno słowo lub koncept i przyklej się do niego na 18 miesięcy."
+            body: "Nie krócej. Ewangelizacja kategorii poniżej 18 miesięcy nie zostawia śladu. To słowo ma być twoje (możesz je wymyślić, możesz zaadoptować z innej dyscypliny) i powinno być na pierwszym slajdzie pitch'a, w pierwszym zdaniu o firmie i w nagłówku każdego materiału. Konsekwencja to broń."
+          - heading: "Subkategoryzuj, gdy pełna kategoria jest poza zasięgiem."
+            body: "Tworzenie nowej kategorii kosztuje miliony. Tworzenie podkategorii w ramach istniejącej (np. „GEO” jako podkategoria „marketingu AI”) kosztuje znacznie mniej i daje większość korzyści. Przeanalizuj, czy w twojej branży nie ma luki między dwiema istniejącymi kategoriami, w którą możesz wbić nazwę."
+          - heading: "Buduj raport branżowy, którego tytuł zawiera twoje pojęcie."
+            body: "„Raport o stanie LLM Listening 2026” sprzedaje kategorię razem z marką. Robi to taniej niż każda kampania performance, bo dziennikarze, analitycy i konkurencja muszą używać twojego słowa, żeby cytować twoje dane. Cykliczny raport po 2-3 latach wbija nazwę kategorii w branżowy żargon."
 
   - type: offer-cards
     anchorId: oferta

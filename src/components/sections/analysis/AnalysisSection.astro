@@ -37,6 +37,10 @@ interface Props {
   comparison?: Comparison;
   risksHeading: string;
   risks: Risk[];
+  /** When rendered inside a `<MenuScope>`, set to true to reserve the 368px
+   * right-rail space so content doesn't collide with the floating overlay.
+   * Default false — section is universal and works standalone. */
+  inMenuScope?: boolean;
 }
 
 const {
@@ -51,6 +55,7 @@ const {
   comparison,
   risksHeading,
   risks,
+  inMenuScope = false,
 } = Astro.props;
 
 const sectionBgClass = surface === 'muted' ? 'bg-surface-muted' : 'bg-surface-light';
@@ -64,7 +69,7 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
   data-analysis-number={number}
   data-surface={surface}
 >
-  <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
+  <div class:list={['mx-auto max-w-content-max flex flex-col gap-monumental', inMenuScope && 'xl:pr-[368px]']}>
 
     <AnalysisHeader icon={headerIcon} title={title} intro={intro} />
 

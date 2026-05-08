@@ -34,17 +34,24 @@ const primaryIdx = sections.findIndex((s) => s.type === 'overview');
 const darkIdx = sections.findIndex(
   (s, i) => i > primaryIdx && s.type === 'overview'
 );
+// Optional THIRD overview = chapter opener for the post-constellations chapter
+// (insights + strategic-assessment). When present, splits scope2 in two so
+// each chapter gets its own MenuScope rail.
+const insightsOverviewIdx = darkIdx !== -1
+  ? sections.findIndex((s, i) => i > darkIdx && s.type === 'overview')
+  : -1;
 const previewGateIdx = sections.findIndex((s) => s.type === 'preview-gate');
 const ctaIdx = sections.findIndex((s) => s.type === 'cta');
 // Menu boundary: TOC scope closes BEFORE this section so the closing
-// strategic-assessment + CTA + about sections render full-width, without
-// the sticky right-rail overlay. Identified by anchorId on the yaml entry.
+// offer-cards / cta / about sections render full-width, without the sticky
+// right-rail overlay. Identified by anchorId on the yaml entry.
 const menuEndIdx = sections.findIndex(
-  (s) => (s as any).anchorId === 'ocena-strategiczna'
+  (s) => (s as any).anchorId === 'oferta'
 );
 
 const primaryData = primaryIdx !== -1 ? sections[primaryIdx] : null;
 const darkData = darkIdx !== -1 ? sections[darkIdx] : null;
+const insightsOverviewData = insightsOverviewIdx !== -1 ? sections[insightsOverviewIdx] : null;
 const previewGateData = previewGateIdx !== -1 ? sections[previewGateIdx] : null;
 
 const sideNav = primaryData
@@ -81,7 +88,16 @@ const betweenEnd = darkIdx !== -1
       menuEndIdx !== -1 ? menuEndIdx : Infinity,
       sections.length,
     );
+// scope2 (constellations) closes at the insights chapter opener if present,
+// otherwise at the menu-end / cta / page end. scope3 (insights + strategic-
+// assessment) covers from the insights overview to the menu-end / cta / page end.
 const scope2End = Math.min(
+  insightsOverviewIdx !== -1 ? insightsOverviewIdx : Infinity,
+  ctaIdx !== -1 ? ctaIdx : Infinity,
+  menuEndIdx !== -1 ? menuEndIdx : Infinity,
+  sections.length,
+);
+const scope3End = Math.min(
   ctaIdx !== -1 ? ctaIdx : Infinity,
   menuEndIdx !== -1 ? menuEndIdx : Infinity,
   sections.length,
@@ -113,6 +129,7 @@ const beforePreviewGate = pgInBetween
 const afterPreviewGate = pgInBetween ? sections.slice(previewGateIdx + 1, betweenEnd) : [];
 
 const scope2Content = darkIdx !== -1 ? sections.slice(darkIdx + 1, scope2End) : [];
+const scope3Content = insightsOverviewIdx !== -1 ? sections.slice(insightsOverviewIdx + 1, scope3End) : [];
 
 // Tail sections that ALWAYS render (regardless of gate state) — placed
 // after the gated mount in the page flow. Currently: offer-cards. Future:
@@ -120,7 +137,9 @@ const scope2Content = darkIdx !== -1 ? sections.slice(darkIdx + 1, scope2End) : 
 const ALWAYS_VISIBLE_TAIL_TYPES = new Set(['offer-cards', 'cta', 'about']);
 const isAlwaysVisible = (s: any) =>
   ALWAYS_VISIBLE_TAIL_TYPES.has(s.type) || s.alwaysVisible === true;
-const postMenuRaw = sections.slice(scope2End);
+// postMenu starts after the LAST sticky scope (scope3 if insights chapter
+// opener exists, otherwise scope2). Always-visible offerings live here.
+const postMenuRaw = sections.slice(scope3End);
 const alwaysVisibleTail = postMenuRaw.filter(isAlwaysVisible);
 const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
 ---
@@ -155,7 +174,7 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
         />
 
         {scope1Content.map((section) => (
-          <SectionRenderer section={section} />
+          <SectionRenderer section={section} inMenuScope={true} />
         ))}
       </MenuScope>
     </>
@@ -187,7 +206,7 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
           surface="dark"
         />
         {afterPreviewGate.map((section) => (
-          <SectionRenderer section={section} />
+          <SectionRenderer section={section} inMenuScope={true} />
         ))}
       </MenuScope>
     </>
@@ -211,6 +230,8 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
       darkData={darkData}
       sideNav={sideNav}
       scope2Content={scope2Content}
+      insightsOverviewData={insightsOverviewData}
+      scope3Content={scope3Content}
       postMenu={postMenu}
     />
   )}

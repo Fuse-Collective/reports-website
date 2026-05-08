@@ -29,10 +29,22 @@ interface Props {
   darkData: any | null;
   sideNav: SideNav | null;
   scope2Content: any[];
+  /** Optional second post-gate chapter opener (e.g. insights chapter). When
+   * present, renders an additional OverviewHero + MenuScope wrapping the
+   * scope3Content sections. */
+  insightsOverviewData?: any | null;
+  scope3Content?: any[];
   postMenu: any[];
 }
 
-const { darkData, sideNav, scope2Content, postMenu } = Astro.props;
+const {
+  darkData,
+  sideNav,
+  scope2Content,
+  insightsOverviewData = null,
+  scope3Content = [],
+  postMenu,
+} = Astro.props;
 ---
 
 {darkData && sideNav && (
@@ -61,7 +73,40 @@ const { darkData, sideNav, scope2Content, postMenu } = Astro.props;
       />
 
       {scope2Content.map((section) => (
-        <SectionRenderer section={section} />
+        <SectionRenderer section={section} inMenuScope={true} />
+      ))}
+    </MenuScope>
+  </>
+)}
+
+{insightsOverviewData && sideNav && (
+  <>
+    <OverviewHero
+      headline={insightsOverviewData.headline}
+      subtitle={insightsOverviewData.subtitle}
+      surface={(insightsOverviewData as any).surface ?? 'accent'}
+      anchorId="overview-insights"
+    />
+
+    <MenuScope
+      areasLabel={sideNav.areasLabel}
+      areas={sideNav.areas}
+      areasHref="#overview-areas"
+      sectionPills={sideNav.sectionPills}
+      mode="wnioski"
+    >
+      <OverviewInsight
+        insightLabel={insightsOverviewData.insightLabel}
+        insight={insightsOverviewData.insight}
+        insightPoints={insightsOverviewData.insightPoints}
+        cta={insightsOverviewData.cta}
+        surface={(insightsOverviewData as any).surface ?? 'accent'}
+        inMenuScope={true}
+        menuHeight="auto"
+      />
+
+      {scope3Content.map((section) => (
+        <SectionRenderer section={section} inMenuScope={true} />
       ))}
     </MenuScope>
   </>

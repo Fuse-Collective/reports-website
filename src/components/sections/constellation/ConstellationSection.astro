@@ -76,6 +76,11 @@ interface Props {
   ideas?: Star[];
 
   featured?: Featured;
+
+  /** When rendered inside a `<MenuScope>`, set to true to reserve the 368px
+   * right-rail space so content doesn't collide with the floating overlay.
+   * Default false — section is universal and works standalone. */
+  inMenuScope?: boolean;
 }
 
 const {
@@ -94,6 +99,7 @@ const {
   ideasSubheading,
   ideas,
   featured,
+  inMenuScope = false,
 } = Astro.props;
 
 const sectionBgClass = surface === 'muted' ? 'bg-surface-muted' : 'bg-surface-light';
@@ -107,7 +113,7 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
   data-constellation-number={number}
   data-surface={surface}
 >
-  <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
+  <div class:list={['mx-auto max-w-content-max flex flex-col gap-monumental', inMenuScope && 'xl:pr-[368px]']}>
 
     {/* 1. Header */}
     <div class="flex flex-col items-start gap-standard lg:flex-row lg:gap-relaxed">
@@ -132,7 +138,7 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
       <h3 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark m-0">
         {starsHeading}
       </h3>
-      <div class:list={['grid grid-cols-1 gap-breathing md:gap-relaxed', stars.length > 1 && 'md:grid-cols-2 md:gap-[120px]']}>
+      <div class:list={['grid grid-cols-1 gap-breathing', stars.length > 1 && 'md:grid-cols-2 md:gap-[80px] lg:gap-[120px]']}>
         {stars.map((s) => (
           <ConstellationStar
             tag={s.tag}
@@ -159,7 +165,7 @@ const riskCardSurface = surface === 'muted' ? 'light' : 'muted';
             <p class="font-body text-body-sm font-normal text-on-surface-dark m-0" set:html={ideasSubheading}></p>
           )}
         </div>
-        <div class:list={['grid grid-cols-1 gap-relaxed', ideas.length > 1 && 'md:grid-cols-2 md:gap-[120px]']}>
+        <div class:list={['grid grid-cols-1 gap-relaxed', ideas.length > 1 && 'md:grid-cols-2 md:gap-[80px] lg:gap-[120px]']}>
           {ideas.map((s) => (
             <ConstellationStar
               tag={s.tag}

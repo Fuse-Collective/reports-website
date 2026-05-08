@@ -1,0 +1,161 @@
+---
+/**
+ * InsightsSection — closing-style section that lists "universal insights".
+ *
+ * Each insight = one AnalysisHeader-style block (icon LEFT 258×149 + bold-lead
+ * title split on first period + meaning paragraph), followed by a sub-heading
+ * ("Jak to wykorzystać w swoim biznesie?") and a list of InsightRow rows where
+ * each row maps to one recommendation (heading on left, body on right with the
+ * yellow-dot vertical pill marker).
+ *
+ * Surface-aware: 'light' | 'muted' | 'dark' | 'accent'. Text and pill border
+ * colors adapt via on-dark/on-accent variants. Brand/area icon colors adapt
+ * via the global rules in src/styles/global.css.
+ */
+import { Icon } from 'astro-icon/components';
+import SectionIntro from '../../ui/SectionIntro.astro';
+import InsightRow from '../../common/InsightRow.astro';
+
+interface Recommendation {
+  heading: string;
+  body: string;
+}
+
+interface Insight {
+  number: string;
+  title: string;
+  meaning: string;
+  recommendations: Recommendation[];
+  /** astro-icon name. Defaults to a per-index areas/* composite (same icon
+   * set as AnalysisSection). Surface adaptation handled by global CSS rules
+   * that swap baked hex (#FECD36, #1D1D1B) per surface. */
+  icon?: string;
+}
+
+type Surface = 'light' | 'muted' | 'dark' | 'accent';
+
+interface Props {
+  /** Optional — when omitted, SectionIntro is skipped entirely (the section
+   * renders the insights list directly). Useful when a preceding overview
+   * already carries the chapter title. */
+  headline?: string;
+  body?: string;
+  insights: Insight[];
+  recommendationsHeading?: string;
+  surface?: Surface;
+  anchorId?: string;
+  as?: 'h1' | 'h2';
+  /** When rendered inside a `<MenuScope>`, set to true to reserve the 368px
+   * right-rail space so content doesn't collide with the floating overlay.
+   * Default false — section is universal and works standalone. */
+  inMenuScope?: boolean;
+}
+
+const {
+  headline,
+  body,
+  insights,
+  recommendationsHeading = 'Jak to wykorzystać w swoim biznesie?',
+  surface = 'muted',
+  anchorId,
+  as: headingTag = 'h2',
+  inMenuScope = false,
+} = Astro.props;
+
+const bgMap: Record<Surface, string> = {
+  light: 'bg-surface-light',
+  muted: 'bg-surface-muted',
+  dark: 'bg-surface-dark',
+  accent: 'bg-surface-accent',
+};
+
+const ICON_FALLBACKS = [
+  'areas/target-click',
+  'areas/eye-scan',
+  'areas/dna-helix',
+  'areas/magic-wand',
+  'areas/shopping-bag',
+  'areas/robot',
+];
+
+function splitTitle(title: string): { lead: string; rest: string } {
+  const dotIdx = title.indexOf('.');
+  if (dotIdx < 0) return { lead: title.trim(), rest: '' };
+  return {
+    lead: title.slice(0, dotIdx).trim(),
+    rest: title.slice(dotIdx + 1).trim(),
+  };
+}
+
+// Border between stacked insights — adapts to surface. On light/muted use the
+// existing soft outline; on dark switch to outline-dark-subtle so it doesn't
+// glare; on accent switch to the dark on-accent so it reads on yellow.
+const insightDividerClass =
+  surface === 'dark'
+    ? 'border-outline-dark-subtle'
+    : surface === 'accent'
+    ? 'border-on-surface-accent'
+    : 'border-outline-light';
+---
+
+<section
+  id={anchorId}
+  class:list={[bgMap[surface], 'py-monumental px-page-gutter', anchorId && 'scroll-mt-relaxed']}
+  data-section-type="insights"
+  data-surface={surface}
+>
+  <div class:list={['mx-auto max-w-content-max flex flex-col gap-monumental', inMenuScope && 'xl:pr-[368px]']}>
+
+    {headline && <SectionIntro headline={headline} body={body} as={headingTag} />}
+
+    <div class="flex flex-col gap-monumental">
+      {insights.map((insight, idx) => {
+        const { lead, rest } = splitTitle(insight.title);
+        const iconName = insight.icon ?? ICON_FALLBACKS[idx % ICON_FALLBACKS.length];
+        return (
+          <article
+            class:list={[
+              'flex flex-col gap-monumental',
+              idx > 0 && ['border-t pt-monumental', insightDividerClass],
+            ]}
+          >
+            {/* AnalysisHeader pattern — icon LEFT 258px col, title RIGHT.
+                is:inline is required so the global per-surface CSS rules in
+                global.css can target the SVG paths (sprite refs would put
+                paths in <symbol> outside the [data-surface] subtree). */}
+            <header class="flex flex-col gap-standard">
+              <div class="grid gap-standard lg:grid-cols-[258px_1fr] lg:gap-relaxed lg:items-start">
+                <Icon
+                  name={iconName}
+                  is:inline
+                  class="w-[258px] h-[149px] shrink-0"
+                  aria-hidden="true"
+                />
+                <h3 class="font-body text-headline-md lg:text-display-lg font-bold leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0 flex flex-col">
+                  <span>{lead}{rest && '.'}</span>
+                  {rest && <span>{rest}</span>}
+                </h3>
+              </div>
+              <p class="font-body text-body-md font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
+                {insight.meaning}
+              </p>
+            </header>
+
+            {/* Recommendations: sub-heading + list of InsightRow rows */}
+            <div class="flex flex-col gap-standard">
+              <h4 class="font-body text-body-lg font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
+                {recommendationsHeading}
+              </h4>
+              <div class="flex flex-col">
+                {insight.recommendations.map((rec) => (
+                  <InsightRow title={rec.heading} description={rec.body} />
+                ))}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+  </div>
+</section>

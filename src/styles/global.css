@@ -115,11 +115,24 @@ strong, b {
   --color-text-muted: rgba(255, 255, 255, 0.7);
 }
 
-/* Brand icon colors: yellow accents → white on accent surface */
-[data-surface="accent"] [data-icon] :is(path, circle, ellipse)[fill]:not([fill="none"]):not([fill="currentColor"]) {
+/* Icon color adaptation per surface — only swap the color that would be
+ * invisible on the surface, keep the other color. Yellow disk on accent =
+ * invisible → white. Dark glyph on dark = invisible → white. The other
+ * color stays so the icon retains its two-tone composition.
+ *
+ * Both rules require the icon rendered with `is:inline` so paths land inside
+ * the [data-surface] subtree (sprite <use> refs put paths in <symbol> which
+ * the cascade does not reach). */
+[data-surface="accent"] [data-icon] [fill="#FECD36"] {
   fill: white;
 }
-[data-surface="accent"] [data-icon] :is(path, circle, ellipse)[stroke]:not([stroke="none"]):not([stroke="currentColor"]) {
+[data-surface="accent"] [data-icon] [stroke="#FECD36"] {
+  stroke: white;
+}
+[data-surface="dark"] [data-icon] [fill="#1D1D1B"] {
+  fill: white;
+}
+[data-surface="dark"] [data-icon] [stroke="#1D1D1B"] {
   stroke: white;
 }
 

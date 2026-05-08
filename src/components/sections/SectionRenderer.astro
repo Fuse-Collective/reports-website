@@ -13,12 +13,17 @@ import AnalysisSection from './analysis/AnalysisSection.astro';
 import ConstellationSection from './constellation/ConstellationSection.astro';
 import OfferCardsSection from './offer-cards/OfferCardsSection.astro';
 import ServicesSection from './services/ServicesSection.astro';
+import InsightsSection from './insights/InsightsSection.astro';
 
 interface Props {
   section: Record<string, unknown>;
+  /** Forwarded to sections that support the `inMenuScope` prop (analysis,
+   * constellation, methodology, insights). When true, those sections reserve
+   * the 368px right-rail space for a floating MenuScope overlay. */
+  inMenuScope?: boolean;
 }
 
-const { section } = Astro.props;
+const { section, inMenuScope = false } = Astro.props;
 const type = section.type as string;
 const headline = (section as Record<string, unknown>).headline as string | undefined;
 
@@ -67,15 +72,17 @@ if (type === 'report-cover') {
 ) : type === 'preview-gate' ? (
   <PreviewGateSection {...section as any} />
 ) : type === 'methodology' ? (
-  <MethodologySection {...section as any} />
+  <MethodologySection {...section as any} inMenuScope={inMenuScope} />
 ) : type === 'analysis' ? (
-  <AnalysisSection {...section as any} />
+  <AnalysisSection {...section as any} inMenuScope={inMenuScope} />
 ) : type === 'constellation' ? (
-  <ConstellationSection {...section as any} />
+  <ConstellationSection {...section as any} inMenuScope={inMenuScope} />
 ) : type === 'offer-cards' ? (
   <OfferCardsSection {...section as any} />
 ) : type === 'services-grid' ? (
-  <ServicesSection {...section as any} />
+  <ServicesSection {...section as any} inMenuScope={inMenuScope} />
+) : type === 'insights' ? (
+  <InsightsSection {...section as any} inMenuScope={inMenuScope} />
 ) : (
   <section class="py-monumental px-page-gutter bg-surface-light" data-section-type={type}>
     <p class="text-label-sm text-text-muted font-body">[{type}]</p>

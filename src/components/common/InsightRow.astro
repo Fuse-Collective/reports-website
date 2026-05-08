@@ -29,20 +29,23 @@ const { title, description, class: className } = Astro.props;
       Desktop column proportions 360:40:532 match Figma Border frame (1028px
       inner content area = 360 + 48 + 40 + 48 + 532).
       Mobile: title in column 2, pill spans rows 1-2 of column 1. */}
-  <h3 class="col-start-2 row-start-1 lg:col-start-1 lg:row-start-1 lg:text-right font-body text-body-md font-normal leading-normal text-on-surface-dark m-0">
+  <h3 class="col-start-2 row-start-1 lg:col-start-1 lg:row-start-1 lg:text-right font-body text-body-md font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
     {title}
   </h3>
 
-  {/* Decorative accent pill — left-column marker on mobile, centre on desktop */}
+  {/* Decorative accent pill — left-column marker on mobile, centre on desktop.
+      Border adapts to surface so it stays visible on dark/accent. The yellow
+      dot stays yellow on light/muted/dark, becomes white on accent (handled
+      by the global accent icon rule and the on-accent variant below). */}
   <span
-    class="col-start-1 row-start-1 row-span-2 lg:col-start-2 lg:row-span-1 self-start flex w-10 h-[116px] items-start justify-center pt-tight rounded-full border-[1.6px] border-on-surface-dark"
+    class="col-start-1 row-start-1 row-span-2 lg:col-start-2 lg:row-span-1 self-start flex w-10 h-[116px] items-start justify-center pt-tight rounded-full border-[1.6px] border-on-surface-dark on-dark:border-on-surface-light on-accent:border-on-surface-accent"
     aria-hidden="true"
   >
-    <span class="w-6 h-6 rounded-full bg-primary"></span>
+    <span class="w-6 h-6 rounded-full bg-primary on-accent:bg-on-surface-light"></span>
   </span>
 
   {/* Description */}
-  <p class="col-start-2 row-start-2 lg:col-start-3 lg:row-start-1 font-body text-body font-normal leading-normal text-on-surface-dark m-0">
+  <p class="col-start-2 row-start-2 lg:col-start-3 lg:row-start-1 font-body text-body font-normal leading-normal text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent m-0">
     {description}
   </p>
 

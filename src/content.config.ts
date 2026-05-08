@@ -54,7 +54,10 @@ const painBlockSection = z.object({
 
 const servicesGridSection = z.object({
   type: z.literal('services-grid'),
-  headline: z.string(),
+  /** Optional — when omitted, the section renders without the SectionIntro
+   * header (just the cards grid). Useful when a preceding overview/hero
+   * already carries the chapter title. */
+  headline: z.string().optional(),
   body: z.string().optional(),
   as: z.enum(['h1', 'h2']).optional(),
   surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
@@ -267,6 +270,33 @@ const methodologySection = z.object({
   source: z.string().optional(),
 });
 
+const insightsRecommendationSchema = z.object({
+  heading: z.string(),
+  body: z.string(),
+});
+
+const insightsItemSchema = z.object({
+  number: z.string(),
+  title: z.string(),
+  meaning: z.string(),
+  recommendations: z.array(insightsRecommendationSchema),
+  /** Optional astro-icon name (e.g. `areas/target-click`). Defaults to a
+   * per-index areas/* placeholder when omitted. */
+  icon: z.string().optional(),
+});
+
+const insightsSection = z.object({
+  type: z.literal('insights'),
+  /** Optional — when omitted, SectionIntro is skipped entirely. */
+  headline: z.string().optional(),
+  body: z.string().optional(),
+  insights: z.array(insightsItemSchema),
+  recommendationsHeading: z.string().optional(),
+  surface: z.enum(['light', 'muted', 'dark', 'accent']).optional(),
+  anchorId: z.string().optional(),
+  as: z.enum(['h1', 'h2']).optional(),
+});
+
 const overviewSection = z.object({
   type: z.literal('overview'),
   /** Surface tone. 'accent' = primary pre-gate overview (yellow).
@@ -313,6 +343,7 @@ const section = z.discriminatedUnion('type', [
   methodologySection,
   analysisSection,
   constellationSection,
+  insightsSection,
   offerCardsSection,
   painPointsSection,
   servicesGridSection,

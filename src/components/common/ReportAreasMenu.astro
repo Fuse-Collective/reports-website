@@ -4,15 +4,19 @@
  * Used inline inside OverviewSection, wrapped for sticky/drawer behavior
  * inside ReportSideNav, and inside MenuScope (desktop overlay).
  *
- * Two modes (controls which part is expanded):
+ * Three modes (controls which part is expanded):
  *   - `areas` (default): areas list expanded at the top, trailing section
- *     pills (e.g. Konstelacje, Ocena) shown as collapsed locked pills.
+ *     pills (e.g. Konstelacje, Wnioski) shown as collapsed locked pills.
  *   - `constellations`: areas pill collapsed at the top; the FIRST section
  *     pill (Konstelacje) expanded — header pill + list of its `items`;
  *     subsequent pills collapsed. Used in the second TOC scope (next to
  *     the preview-gate insight) — the reader has moved past the analyses,
  *     so the areas list is folded away and attention shifts to what's
  *     being unlocked.
+ *   - `wnioski`: areas + constellations pills both collapsed; reader is in
+ *     the closing chapter (insights + strategic-assessment). Mirrors the
+ *     `constellations` mode's collapse pattern one step further down the
+ *     report timeline.
  *
  * Scroll-spy: each area `<li>` carries `data-area-number`. The page-level
  * script in [slug].astro watches `[data-section-type="analysis"]` and sets
@@ -46,7 +50,7 @@ interface Props {
   areas: Area[];
   areasHref?: string;
   sectionPills?: SectionPill[];
-  mode?: 'areas' | 'constellations';
+  mode?: 'areas' | 'constellations' | 'wnioski';
   class?: string;
 }
 

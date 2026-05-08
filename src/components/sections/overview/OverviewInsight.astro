@@ -45,9 +45,16 @@ interface Props {
    * (primary overview insight, post-gate dark overview insight) need this;
    * standalone renders (preview-gate, DS preview) leave it false. */
   inMenuScope?: boolean;
+  /** Sizing mode for the inner content wrapper.
+   *   'tall' (default) — `xl:min-h-[448px]` to fit the long primary menu
+   *                       (6 areas + section pills) entirely on the surface.
+   *   'auto'           — no min-height; content sizes naturally. Use for
+   *                       overview anchors with shorter menus (e.g. wnioski
+   *                       mode where everything is collapsed). */
+  menuHeight?: 'tall' | 'auto';
 }
 
-const { insightLabel, insight, insightPoints, cta, surface = 'accent', inMenuScope = false } = Astro.props;
+const { insightLabel, insight, insightPoints, cta, surface = 'accent', inMenuScope = false, menuHeight = 'tall' } = Astro.props;
 
 const bgClass = surface === 'dark' ? 'bg-surface-dark' : 'bg-surface-accent';
 
@@ -56,11 +63,15 @@ const textClass =
 ---
 
 <section
-  class:list={[bgClass, "pb-monumental px-page-gutter"]}
+  class:list={[
+    bgClass,
+    'px-page-gutter',
+    menuHeight === 'tall' ? 'pb-monumental' : 'pb-relaxed lg:pb-comfortable',
+  ]}
   data-surface={surface}
   data-section-type="overview-insight"
 >
-  <div class:list={["mx-auto max-w-content-max xl:min-h-[448px]", inMenuScope && "xl:pr-[368px]"]}>
+  <div class:list={["mx-auto max-w-content-max", menuHeight === 'tall' && "xl:min-h-[448px]", inMenuScope && "xl:pr-[368px]"]}>
 
     <div class="flex flex-col gap-relaxed lg:flex-row lg:gap-relaxed lg:items-start">
       <div class:list={["w-[148px] h-[148px] shrink-0", textClass]}>

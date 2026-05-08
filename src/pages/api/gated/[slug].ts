@@ -51,12 +51,19 @@ export const GET: APIRoute = async ({ params, request }) => {
   const darkIdx = sections.findIndex(
     (s, i) => i > primaryIdx && s.type === 'overview',
   );
+  const insightsOverviewIdx = darkIdx !== -1
+    ? sections.findIndex((s, i) => i > darkIdx && s.type === 'overview')
+    : -1;
   const ctaIdx = sections.findIndex((s) => s.type === 'cta');
-  const menuEndIdx = sections.findIndex(
-    (s) => s.anchorId === 'ocena-strategiczna',
-  );
+  const menuEndIdx = sections.findIndex((s) => s.anchorId === 'oferta');
 
   const scope2End = Math.min(
+    insightsOverviewIdx !== -1 ? insightsOverviewIdx : Infinity,
+    ctaIdx !== -1 ? ctaIdx : Infinity,
+    menuEndIdx !== -1 ? menuEndIdx : Infinity,
+    sections.length,
+  );
+  const scope3End = Math.min(
     ctaIdx !== -1 ? ctaIdx : Infinity,
     menuEndIdx !== -1 ? menuEndIdx : Infinity,
     sections.length,
@@ -64,6 +71,7 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   const primaryData = primaryIdx !== -1 ? sections[primaryIdx] : null;
   const darkData = darkIdx !== -1 ? sections[darkIdx] : null;
+  const insightsOverviewData = insightsOverviewIdx !== -1 ? sections[insightsOverviewIdx] : null;
 
   const sideNav = primaryData
     ? {
@@ -75,6 +83,8 @@ export const GET: APIRoute = async ({ params, request }) => {
 
   const scope2Content =
     darkIdx !== -1 ? sections.slice(darkIdx + 1, scope2End) : [];
+  const scope3Content =
+    insightsOverviewIdx !== -1 ? sections.slice(insightsOverviewIdx + 1, scope3End) : [];
 
   // Mirror the always-visible-tail filter from [slug].astro: types that
   // render OUTSIDE the gated fetch (offer-cards, cta, about) must NOT be
@@ -84,13 +94,20 @@ export const GET: APIRoute = async ({ params, request }) => {
   const isAlwaysVisible = (s: any) =>
     ALWAYS_VISIBLE_TAIL_TYPES.has(s.type) || s.alwaysVisible === true;
   const postMenu = sections
-    .slice(scope2End)
+    .slice(scope3End)
     .filter((s: any) => !isAlwaysVisible(s));
 
   // Render the gated portion to an HTML string via Container API.
   const container = await experimental_AstroContainer.create();
   const html = await container.renderToString(GatedSections, {
-    props: { darkData, sideNav, scope2Content, postMenu },
+    props: {
+      darkData,
+      sideNav,
+      scope2Content,
+      insightsOverviewData,
+      scope3Content,
+      postMenu,
+    },
   });
 
   return new Response(html, {

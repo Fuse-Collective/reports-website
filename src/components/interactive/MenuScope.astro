@@ -7,8 +7,12 @@
  *   2. Around the preview-gate insight + any trailing sections — the rail
  *      reappears here after disappearing during the preview-gate HERO.
  *
- * Sections inside the scope must reserve `xl:pr-[368px]` in their own
- * content wrapper so copy doesn't collide with the 320px overlay.
+ * Sections inside the scope must reserve the 368px right-rail space so copy
+ * doesn't collide with the 320px overlay. Pass `inMenuScope={true}` directly
+ * (OverviewHero, OverviewInsight, AnalysisSection, ConstellationSection,
+ * MethodologySection, InsightsSection) or via `<SectionRenderer inMenuScope=
+ * {true} />` for YAML-driven sections — both opt in to the `xl:pr-[368px]`
+ * gutter. Default `false` keeps the section universal for standalone use.
  *
  * The overlay's natural top aligns with the top of this wrapper's first
  * child. Once scrolled past, `sticky top-[2rem]` floats the menu 32px
@@ -42,8 +46,10 @@ interface Props {
   sectionPills: SectionPill[];
   /** Which part of the menu is expanded. `areas` (default) expands the
    * 6-areas list; `constellations` collapses areas and expands the first
-   * section pill (used in the second TOC scope after the preview-gate). */
-  mode?: 'areas' | 'constellations';
+   * section pill (used in the second TOC scope after the preview-gate);
+   * `wnioski` collapses both areas and constellations (used in the third
+   * TOC scope around the closing chapter). */
+  mode?: 'areas' | 'constellations' | 'wnioski';
   /** When true (default), the menu floats with `position: sticky` as the
    * user scrolls through the scope — the canonical behavior for scope 1
    * (primary overview + analyses) and scope 2 (post-gate overview).

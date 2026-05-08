@@ -32,6 +32,10 @@ interface Props {
   evidenceIntro: string;
   stats: Stat[];
   source?: string;
+  /** When rendered inside a `<MenuScope>`, set to true to reserve the 368px
+   * right-rail space so content doesn't collide with the floating overlay.
+   * Default false — section is universal and works standalone. */
+  inMenuScope?: boolean;
 }
 
 const {
@@ -42,6 +46,7 @@ const {
   evidenceIntro,
   stats,
   source,
+  inMenuScope = false,
 } = Astro.props;
 ---
 
@@ -49,7 +54,7 @@ const {
   class="bg-surface-light py-monumental px-page-gutter"
   data-section-type="methodology"
 >
-  <div class="mx-auto max-w-content-max flex flex-col gap-monumental xl:pr-[368px]">
+  <div class:list={['mx-auto max-w-content-max flex flex-col gap-monumental', inMenuScope && 'xl:pr-[368px]']}>
 
     {/* Block A — Rationale */}
     <div class="flex flex-col gap-comfortable">

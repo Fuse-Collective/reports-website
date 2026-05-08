@@ -8,6 +8,7 @@ import ReportCoverBoldSection from '../../components/sections/report-cover/Repor
 import ChapterTitleSection from '../../components/sections/chapter-title/ChapterTitleSection.astro';
 import OverviewSection from '../../components/sections/overview/OverviewSection.astro';
 import AnalysisSection from '../../components/sections/analysis/AnalysisSection.astro';
+import InsightsSection from '../../components/sections/insights/InsightsSection.astro';
 
 const painSymptoms = [
   { iconName: "problems/brak-wyroznienia", text: "Klienci porównują Was z konkurencją i wybierają najtańszą opcję" },
@@ -153,6 +154,35 @@ const analysisArea01 = {
     { icon: 'visibility-lock', title: 'Ograniczenie kategorii', body: 'Niedokładny sentyment to systemowa wada całej branży, nie specyficzny problem Brand24. Żadne narzędzie social listening nie rozwiązało tego w pełni. Szum w wynikach występuje u wszystkich graczy.' },
   ],
 };
+
+const insightsExample = {
+  headline: 'Praktyczne wnioski i playbook',
+  body: 'Pięć obserwacji z badania Brand24, które przekładają się na decyzje strategiczne niezależnie od kategorii i wielkości firmy. Pod każdą: głębsze znaczenie i konkretne sposoby zastosowania.',
+  insights: [
+    {
+      number: '01',
+      title: 'Konkurent skopiuje cechę. Nie skopiuje systemu.',
+      meaning: 'Pojedynczy wyróżnik jest kopiowalny w czasie krótszym niż jeden cykl planistyczny. Trwałą pozycję dają nie pojedyncze przewagi, tylko sposób, w jaki są ze sobą powiązane. Konstelacja oznacza, że odtworzenie jednego elementu nic nie daje konkurentowi, bo wartość generuje dopiero całość. Strateg pyta więc nie "co dodać do oferty", tylko "który element domyka mechanizm samowzmacniania".',
+      recommendations: [
+        { heading: 'Narysuj mapę powiązań, nie listę funkcji.', body: 'Spójrz na swoje wyróżniki jako sieć, nie spis. Te, które działają w izolacji, są kandydatami do odpisania. Te, które się wzajemnie napędzają, są fundamentem reszty punktów poniżej.' },
+        { heading: 'Opowiedz markę przez jedną konstelację, nie przez 11 funkcji.', body: 'W keynote\'ach założyciela, w manifeście marki, w opisie firmy w prasie wybierz jedną-dwie konstelacje i trzymaj się ich przez 12-18 miesięcy. Powtarzalność uczy rynek twojej narracji szybciej niż każdy nowy headline.' },
+        { heading: 'Filtruj odbiorców po tym, czy szukają systemu, czy łatki.', body: 'Klient szukający pojedynczej funkcji to wojna na cenę. Klient szukający systemu zostaje dłużej, płaci więcej, mniej narzeka. Ten filtr opłaca się i w lejku sprzedaży, i w targetowaniu reklam, i w doborze tematów contentu.' },
+        { heading: 'Naucz rynek odróżniać cechę od systemu.', body: 'Każdy artykuł, raport, wystąpienie czy podcast, który wyjaśnia tę różnicę, podnosi koszt skopiowania waszej pozycji. Bo zmienia kryteria, według których klient i analityk porównują oferty na rynku.' },
+      ],
+    },
+    {
+      number: '02',
+      title: 'Placeholder. Drugi wniosek pokazuje rytm wizualny stackowania.',
+      meaning: 'Akapit zaślepkowy. Pokazuje, jak długi tekst głębszego znaczenia układa się przy kolejnym wniosku, jak wpływa na rytm odstępów i jak wygląda separator między insightami. Treść do podmiany przez właściwy drugi wniosek raportu.',
+      recommendations: [
+        { heading: 'Placeholder. Pierwsza rekomendacja drugiego wniosku.', body: 'Akapit zaślepkowy pokazujący szerokość kolumny i odstępy w listingu InsightRow. Treść do podmiany.' },
+        { heading: 'Placeholder. Druga rekomendacja drugiego wniosku.', body: 'Akapit zaślepkowy pokazujący szerokość kolumny i odstępy w listingu InsightRow. Treść do podmiany.' },
+        { heading: 'Placeholder. Trzecia rekomendacja drugiego wniosku.', body: 'Akapit zaślepkowy pokazujący szerokość kolumny i odstępy w listingu InsightRow. Treść do podmiany.' },
+        { heading: 'Placeholder. Czwarta rekomendacja drugiego wniosku.', body: 'Akapit zaślepkowy pokazujący szerokość kolumny i odstępy w listingu InsightRow. Treść do podmiany.' },
+      ],
+    },
+  ],
+};
 ---
 
 <PreviewLayout title="Section Templates" current="/design-system/sections/">
@@ -266,6 +296,20 @@ const analysisArea01 = {
   <div>
     <h2 class="font-body text-headline-sm text-on-surface-dark px-page-gutter pt-comfortable pb-compact">AnalysisSection</h2>
     <AnalysisSection {...analysisArea01} />
+  </div>
+
+  {/* InsightsSection */}
+  <div class="surface-preview" data-default-surface="muted">
+    <div class="flex items-center gap-compact px-page-gutter pt-comfortable pb-compact">
+      <h2 class="font-body text-headline-sm text-on-surface-dark">InsightsSection</h2>
+      <div class="flex gap-tight ml-auto surface-buttons">
+        <button data-surface-target="light" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">light</button>
+        <button data-surface-target="muted" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer bg-on-surface-dark text-on-surface-light">muted</button>
+        <button data-surface-target="dark" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">dark</button>
+        <button data-surface-target="accent" class="px-compact py-tight font-body text-label-sm border border-outline-light rounded-button cursor-pointer hover:bg-surface-muted">accent</button>
+      </div>
+    </div>
+    <InsightsSection {...insightsExample} />
   </div>
 
 </PreviewLayout>
