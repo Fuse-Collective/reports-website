@@ -29,7 +29,7 @@ sections:
         value: ">1 mln USD"
         note: "+39% r/r"
     disclaimer: "W 2024 Semrush (przez Prowly) przejął ~57,6% akcji Brand24. W 2025 Adobe ogłosiło przejęcie Semrush za ~1,9 mld USD (zamknięcie oczekiwane H1 2026)."
-    authorHeadline: "To nie jest artykuł o Brand24, tylko raport z badania przewag konkurencyjnych. Wykorzystaliśmy w nim framework, który stosujemy z firmami B2B: przemysł, technologia, produkcja, SaaS."
+    authorHeadline: "To nie jest artykuł o Brand24, tylko raport z badania przewag konkurencyjnych zrealizowanego przez agencję Fuse Collective. Wykorzystaliśmy w nim framework, który stosujemy z firmami B2B: przemysł, technologia, produkcja, SaaS."
     authorBody: "Nasze prace dla klientów są poufne. Brand24 wybraliśmy celowo: publiczna spółka, znana marka, pełna transparentność danych."
     author:
       name: "Tomasz Maciąg"
@@ -341,13 +341,13 @@ sections:
     headline: "Chcesz zobaczyć jak przewagi łączą się w trudną do skopiowania konstelację?"
     insightLabel: "To dopiero połowa analizy. W pełnej wersji zobaczysz:"
     insightPoints:
-      - "5 konstelacji przewag (jak elementy tworzą system)"
-      - "Pomysły na wzmocnienie przewag (z narzędzia Advantage Intelligence)"
-      - "Ocena strategiczna (co najsilniejsze, co zagrożone, co wzmocnić)"
+      - "5 konstelacji przewag Brand24, czyli jak pojedyncze wyróżniki łączą się w trudny do skopiowania system"
+      - "Konkretne pomysły na wzmocnienie każdej konstelacji, wygenerowane przez nasze narzędzie Advantage Intelligence"
+      - "7 uniwersalnych reguł budowania trwałej przewagi B2B z konkretnymi rekomendacjami zastosowania w Twojej firmie"
     cta:
       label: "Odblokuj dostęp"
       href: "#unlock-modal"
-      note: "Czego możesz się spodziewać? Zostawiając maila zapisujesz się do darmowej subskrypcji. Raz w miesiącu wysyłam krótkiego maila. Najczęściej dzielę się wnioskami z badań w segmencie B2B."
+      note: "Pełna wersja raportu wymaga darmowej subskrypcji, dającej dostęp do sekcji z konstelacją przewag i oceną strategiczną. Zyskasz również dostęp do naszej wewnętrznej bazy raportów wraz z wnioskami i praktycznymi wskazówkami."
 
   - type: overview
     surface: accent
@@ -884,8 +884,8 @@ sections:
   - type: offer-cards
     anchorId: o-nas
     surface: accent
-    headline: "<strong>Agencja Fuse Collective</strong><br>Dwa obszary wyróżnienia marki pod opieką jednego zespołu."
-    description: "Większość firm nie wie, w którym z dwóch obszarów tkwi ich wyróżnik. Zaczynamy od jego znalezienia. Potem prowadzimy cały projekt jednym zespołem, od strategii do wdrożenia."
+    headline: "<strong>Raport przygotowała</strong><br>Agencja Fuse Collective"
+    description: "Większość firm B2B nie wie, czym się wyróżnia i jak to komunikować. Dlatego zaczynamy od znalezienia przewag i wyróżników w obu kluczowych obszarach."
     cards:
       - headline: "Wyróżnij się przez działania"
         icon: "strategia"
