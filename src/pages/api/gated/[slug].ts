@@ -20,9 +20,14 @@ import { isActive } from '../../../lib/mailerlite';
 
 export const prerender = false;
 
+// Gate locked (no/invalid/expired auth). Returns 204 No Content instead of
+// 401 so browsers don't log it as a network error in the console — for
+// unauthenticated visitors the locked state is the expected normal path.
+// Set-Cookie still clears any stale token so future requests don't keep
+// trying with a bad cookie.
 const unauthorized = () =>
-  new Response('Unauthorized', {
-    status: 401,
+  new Response(null, {
+    status: 204,
     headers: { 'Set-Cookie': buildClearCookie() },
   });
 

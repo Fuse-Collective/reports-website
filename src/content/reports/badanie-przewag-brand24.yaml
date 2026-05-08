@@ -891,7 +891,7 @@ sections:
         icon: "strategia"
         link:
           label: "Sprawdź ofertę"
-          href: "https://www.fusecollective.com/sprint-odkrywania-przewagi-konkurencyjnej-b2b/"
+          href: "https://www.fusecollective.com/oferta/"
         body: |
           <div class="grid gap-comfortable">
             <p><strong>W ramach doradztwa szukamy wyróżnienia</strong> w produktach, customer experience, technologii, modelu biznesowym, marketingu.</p>

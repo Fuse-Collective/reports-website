@@ -45,6 +45,11 @@ interface Props {
    * (primary overview insight, post-gate dark overview insight) need this;
    * standalone renders (preview-gate, DS preview) leave it false. */
   inMenuScope?: boolean;
+  /** Optional author photo URL. When set, replaces the indicator-circle
+   * icon with a 148px circular portrait. Test/experimental — used to see
+   * how a personal-brand author photo reads in the overview anchor. */
+  photoUrl?: string;
+  photoAlt?: string;
   /** Sizing mode for the inner content wrapper.
    *   'tall' (default) — `xl:min-h-[448px]` to fit the long primary menu
    *                       (6 areas + section pills) entirely on the surface.
@@ -54,9 +59,13 @@ interface Props {
   menuHeight?: 'tall' | 'auto';
 }
 
-const { insightLabel, insight, insightPoints, cta, surface = 'accent', inMenuScope = false, menuHeight = 'tall' } = Astro.props;
+const { insightLabel, insight, insightPoints, cta, surface = 'accent', inMenuScope = false, menuHeight = 'tall', photoUrl, photoAlt = '' } = Astro.props;
 
 const bgClass = surface === 'dark' ? 'bg-surface-dark' : 'bg-surface-accent';
+
+// Photo background: contrasts with the section surface so the portrait
+// stands out. Yellow on dark, white on accent (default).
+const photoBgClass = surface === 'dark' ? 'bg-surface-accent' : 'bg-surface-light';
 
 const textClass =
   'text-on-surface-dark on-dark:text-on-surface-light on-accent:text-on-surface-accent';
@@ -73,10 +82,16 @@ const textClass =
 >
   <div class:list={["mx-auto max-w-content-max", menuHeight === 'tall' && "xl:min-h-[448px]", inMenuScope && "xl:pr-[368px]"]}>
 
-    <div class="flex flex-col gap-relaxed lg:flex-row lg:gap-relaxed lg:items-start">
-      <div class:list={["w-[148px] h-[148px] shrink-0", textClass]}>
-        <Icon name="indicator-circle" class="w-full h-full" />
-      </div>
+    <div class:list={["flex flex-col gap-relaxed lg:flex-row lg:items-start", photoUrl ? "lg:gap-[72px]" : "lg:gap-relaxed"]}>
+      {photoUrl ? (
+        <div class:list={["w-[148px] h-[148px] shrink-0 rounded-full overflow-hidden", photoBgClass]}>
+          <img src={photoUrl} alt={photoAlt} class="w-full h-full object-cover" />
+        </div>
+      ) : (
+        <div class:list={["w-[148px] h-[148px] shrink-0", textClass]}>
+          <Icon name="indicator-circle" class="w-full h-full" />
+        </div>
+      )}
       <div class="flex flex-col gap-relaxed max-w-[893px]">
         <h3 class:list={["font-body text-headline-md lg:text-body-xl font-medium leading-tight m-0", textClass]}>
           {insightLabel}

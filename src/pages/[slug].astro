@@ -171,6 +171,8 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
           insightPoints={primaryData.insightPoints}
           cta={gatingEnabled ? primaryData.cta : undefined}
           inMenuScope={true}
+          photoUrl="/images/authors/tomasz-maciag.png"
+          photoAlt="Tomasz Maciąg"
         />
 
         {scope1Content.map((section) => (
@@ -204,6 +206,8 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
           cta={previewGateData.cta}
           inMenuScope={true}
           surface="dark"
+          photoUrl="/images/authors/tomasz-maciag.png"
+          photoAlt="Tomasz Maciąg"
         />
         {afterPreviewGate.map((section) => (
           <SectionRenderer section={section} inMenuScope={true} />
@@ -417,6 +421,8 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
           const r = await fetch(`/api/gated/${slug}`, { credentials: 'same-origin' });
           if (!r.ok) return;
           const html = await r.text();
+          // Empty body = gate locked (204 No Content). Leave teaser visible.
+          if (!html) return;
           mount.insertAdjacentHTML('beforeend', html);
           // Mark gate state so [data-gate-locked] elements (unlock CTAs,
           // gate teasers) hide via the CSS rule in global.css.
