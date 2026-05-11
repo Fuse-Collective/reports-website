@@ -144,7 +144,7 @@ const alwaysVisibleTail = postMenuRaw.filter(isAlwaysVisible);
 const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} ogType="article">
   <NavBar surface="dark" />
 
   {preMenu.map((section) => (

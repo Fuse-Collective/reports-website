@@ -7,9 +7,29 @@ import '@fontsource/poppins/700.css';
 interface Props {
   title: string;
   description?: string;
+  /** Optional Open Graph / Twitter image. Path is resolved against the
+   * deployed site URL (Astro.site). Defaults to a generic share image. */
+  ogImage?: string;
+  /** OG / social card title. Defaults to `title` if omitted. */
+  ogTitle?: string;
+  /** OG / social card description. Defaults to `description` if omitted. */
+  ogDescription?: string;
+  /** OG type (`website`, `article`, etc.). Defaults to `website`. */
+  ogType?: string;
 }
 
-const { title, description = '' } = Astro.props;
+const {
+  title,
+  description = '',
+  ogImage = '/images/og/raport-b24-share.jpg',
+  ogTitle = title,
+  ogDescription = description,
+  ogType = 'website',
+} = Astro.props;
+
+// Build absolute URLs for OG (social platforms require fully-qualified URLs).
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const absoluteOgImage = new URL(ogImage, Astro.site).toString();
 ---
 
 <html lang="pl">
@@ -21,6 +41,26 @@ const { title, description = '' } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
+
+    {/* Canonical */}
+    <link rel="canonical" href={canonicalUrl} />
+
+    {/* Open Graph (Facebook, LinkedIn, Slack, Discord, etc.) */}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1008" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="Fuse Collective Reports" />
+
+    {/* Twitter / X card */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={absoluteOgImage} />
 
     {/*
       Umami analytics — server-side via Vercel Routing Middleware
