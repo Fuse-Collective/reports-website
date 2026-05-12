@@ -23,6 +23,12 @@ import { waitUntil } from '@vercel/functions';
 
 const META_GRAPH_BASE = 'https://graph.facebook.com';
 
+// Graph API version. Meta deprecates each version on a rolling ~2-year
+// cycle, with months of advance notice. Bump intentionally — a new
+// version often has subtle behaviour changes that need testing, so
+// keeping this in code (vs. an env var) forces a code change + review.
+const META_API_VERSION = 'v22.0';
+
 export type MetaUserData = {
   /** SHA-256 hash of normalized email (lowercase + trim). */
   em?: string[];
@@ -89,7 +95,6 @@ export function extractClientIp(headers: Headers): string | undefined {
 export function sendCapiEvent(event: MetaCapiEvent): void {
   const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
   const accessToken = import.meta.env.META_CAPI_ACCESS_TOKEN;
-  const apiVersion = import.meta.env.META_CAPI_API_VERSION ?? 'v22.0';
   const testEventCode = import.meta.env.META_CAPI_TEST_EVENT_CODE;
 
   if (!pixelId || !accessToken) {
@@ -103,7 +108,7 @@ export function sendCapiEvent(event: MetaCapiEvent): void {
   };
   if (testEventCode) body.test_event_code = testEventCode;
 
-  const url = `${META_GRAPH_BASE}/${apiVersion}/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`;
+  const url = `${META_GRAPH_BASE}/${META_API_VERSION}/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`;
 
   waitUntil(
     fetch(url, {
