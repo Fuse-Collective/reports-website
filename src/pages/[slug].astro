@@ -257,6 +257,51 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
   )}
 
   {gatingEnabled && <UnlockModal />}
+
+  {/*
+    Meta Pixel — ViewContent event. Fired on every report page load,
+    browser-side (fbq) AND mirrored server-side via /api/meta/capi using
+    a shared event_id for deduplication. The CAPI mirror catches
+    ad-blocked visitors that the browser pixel misses.
+
+    Reason for is:inline + a separate <script> from the scroll-spy block
+    below: the scroll-spy script is a module (bundled, deferred). We
+    want ViewContent to fire as early as possible so the dedup window
+    on Meta's side doesn't drift across long bundle-execution gaps.
+  */}
+  <script is:inline define:vars={{ reportSlug: Astro.params.slug }}>
+    (function () {
+      var eventId = (window.crypto && window.crypto.randomUUID)
+        ? window.crypto.randomUUID()
+        : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+      var customData = { content_name: reportSlug, content_category: 'report' };
+      var sourceUrl = window.location.href;
+      try {
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'ViewContent', customData, { eventID: eventId });
+        }
+      } catch (err) {
+        // Pixel may be ad-blocked or not yet loaded — server-side CAPI
+        // mirror below carries the event alone in that case.
+      }
+      try {
+        fetch('/api/meta/capi', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event_name: 'ViewContent',
+            event_id: eventId,
+            event_source_url: sourceUrl,
+            custom_data: customData,
+          }),
+          credentials: 'same-origin',
+          keepalive: true,
+        }).catch(function () { /* swallow */ });
+      } catch (err) {
+        // Older browser without fetch — accept the loss.
+      }
+    })();
+  </script>
 </BaseLayout>
 
 <script>

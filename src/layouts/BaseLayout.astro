@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
+import MetaPixel from '../components/MetaPixel.astro';
 
 interface Props {
   title: string;
@@ -68,6 +69,13 @@ const absoluteOgImage = new URL(ogImage, Astro.site).toString();
       previously here was blocked by ~30-40% of ad blockers; the edge
       middleware now dispatches the pageview directly to Umami.
     */}
+
+    {/*
+      Meta Pixel — browser-side. Conversion API mirror (deduplicated via
+      event_id) fires from server endpoints: /api/unlock for Lead, and
+      /api/meta/capi for client-mirrored events like ViewContent.
+    */}
+    <MetaPixel />
   </head>
   <body class="bg-surface-light text-on-surface-dark font-body">
     <slot />

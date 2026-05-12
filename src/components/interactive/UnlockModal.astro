@@ -242,10 +242,18 @@ import { Icon } from 'astro-icon/components';
     setLoading(true);
 
     const data = new FormData(form);
+    // Meta Pixel dedup key — same UUID is sent to /api/unlock (server-side
+    // CAPI Lead) and to fbq('track','Lead', ..., {eventID}) below. Meta
+    // collapses both events into one. crypto.randomUUID is available in
+    // every browser we support (Astro 6 / Node 22 stack).
+    const metaEventId = crypto.randomUUID();
+    const metaEventSourceUrl = window.location.href;
     const payload = {
       email: String(data.get('email') ?? '').trim(),
       firma: String(data.get('firma') ?? '').trim(),
       rodzajFirmy: String(data.get('rodzajFirmy') ?? ''),
+      meta_event_id: metaEventId,
+      meta_event_source_url: metaEventSourceUrl,
     };
 
     try {
@@ -257,6 +265,22 @@ import { Icon } from 'astro-icon/components';
       });
 
       if (res.ok) {
+        // Fire browser-side Meta Pixel Lead with the SAME event_id the
+        // server just used for CAPI. Wrapped + guarded: pixel script may
+        // be ad-blocked, in which case the server-side CAPI carries the
+        // event alone (that's the whole point of dedup).
+        try {
+          const w = window as unknown as { fbq?: (...args: unknown[]) => void };
+          w.fbq?.(
+            'track',
+            'Lead',
+            { content_category: 'report' },
+            { eventID: metaEventId },
+          );
+        } catch (err) {
+          console.error('Meta Pixel Lead fire failed:', err);
+        }
+
         dialog?.close();
         form.reset();
         loadGatedContent();

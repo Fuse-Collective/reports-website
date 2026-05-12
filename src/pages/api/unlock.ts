@@ -15,6 +15,12 @@
 import type { APIRoute } from 'astro';
 import { signCookie, buildSetCookie } from '../../lib/cookies';
 import { subscribe } from '../../lib/mailerlite';
+import {
+  extractClientIp,
+  extractMetaCookies,
+  hashEmail,
+  sendCapiEvent,
+} from '../../lib/meta-pixel';
 
 export const prerender = false;
 
@@ -35,6 +41,12 @@ type UnlockBody = {
   email?: unknown;
   firma?: unknown;
   rodzajFirmy?: unknown;
+  /** Meta Pixel dedup key — UUID generated client-side, passed back to
+   *  Meta CAPI so the server-side event collides with the browser-side
+   *  fbq('track','Lead', ..., {eventID}) call. */
+  meta_event_id?: unknown;
+  /** window.location.href at submit time — Meta's `event_source_url`. */
+  meta_event_source_url?: unknown;
 };
 
 export const POST: APIRoute = async ({ request }) => {
@@ -68,6 +80,38 @@ export const POST: APIRoute = async ({ request }) => {
       return json({ error: 'previously_unsubscribed' }, 409);
     }
     return json({ error: 'subscribe_failed' }, 502);
+  }
+
+  // Meta CAPI Lead (server-side, deduplicated with the browser-side fbq
+  // Lead via shared event_id). Fire-and-forget via waitUntil — never
+  // blocks the response, never fails the unlock if Meta is down.
+  const metaEventId = typeof body.meta_event_id === 'string' ? body.meta_event_id : '';
+  const metaEventSourceUrl =
+    typeof body.meta_event_source_url === 'string' ? body.meta_event_source_url : '';
+  if (metaEventId && metaEventSourceUrl) {
+    const { fbp, fbc } = extractMetaCookies(request.headers.get('cookie'));
+    const clientIp = extractClientIp(request.headers);
+    const userAgent = request.headers.get('user-agent') ?? undefined;
+    sendCapiEvent({
+      event_name: 'Lead',
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: metaEventId,
+      event_source_url: metaEventSourceUrl,
+      action_source: 'website',
+      user_data: {
+        em: [hashEmail(email)],
+        ...(clientIp && { client_ip_address: clientIp }),
+        ...(userAgent && { client_user_agent: userAgent }),
+        ...(fbp && { fbp }),
+        ...(fbc && { fbc }),
+      },
+      custom_data: {
+        content_category: 'report',
+        // The `rodzajFirmy` value is small (b2b/agency/other) — useful for
+        // segmenting audiences in Ads Manager without leaking the firma value.
+        audience_role: rodzajFirmy,
+      },
+    });
   }
 
   const token = signCookie(email);
