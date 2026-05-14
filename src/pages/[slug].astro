@@ -259,47 +259,122 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
   {gatingEnabled && <UnlockModal />}
 
   {/*
-    Meta Pixel — ViewContent event. Fired on every report page load,
-    browser-side (fbq) AND mirrored server-side via /api/meta/capi using
-    a shared event_id for deduplication. The CAPI mirror catches
-    ad-blocked visitors that the browser pixel misses.
+    Meta Pixel — ViewContent event. Tied to gate engagement, not page
+    load: fires when the user (a) scrolls the preview-gate section into
+    view, or (b) clicks any gate-opening link (the "Odblokuj dostęp"
+    CTA, locked TOC pills, etc.). Once-per-session via sessionStorage.
 
-    Reason for is:inline + a separate <script> from the scroll-spy block
-    below: the scroll-spy script is a module (bundled, deferred). We
-    want ViewContent to fire as early as possible so the dedup window
-    on Meta's side doesn't drift across long bundle-execution gaps.
+    Rationale: firing on every pageload teaches Meta that "URL hit ==
+    ViewContent", diluting the signal. Tying it to actual engagement
+    (saw the offer, considered subscribing) gives the ad optimizer a
+    sharper pre-conversion target between PageView (always) and Lead
+    (form submit). Skipped entirely when no `#gate` section is in the
+    DOM — open-preview mode or returning unlocked subscribers don't
+    need the signal.
+
+    Both triggers funnel through fireViewContent(); the sessionStorage
+    guard collapses scroll+click in the same session to a single event.
+    Browser-side fbq + server-side /api/meta/capi mirror share the same
+    event_id so Meta deduplicates.
   */}
   <script is:inline define:vars={{ reportSlug: Astro.params.slug }}>
     (function () {
-      var eventId = (window.crypto && window.crypto.randomUUID)
-        ? window.crypto.randomUUID()
-        : (Date.now().toString(36) + Math.random().toString(36).slice(2));
-      var customData = { content_name: reportSlug, content_category: 'report' };
-      var sourceUrl = window.location.href;
+      var gateAnchor = document.getElementById('gate');
+      if (!gateAnchor) return;
+
+      var STORAGE_KEY = 'fbq_viewcontent_fired_' + reportSlug;
       try {
-        if (typeof window.fbq === 'function') {
-          window.fbq('track', 'ViewContent', customData, { eventID: eventId });
+        if (window.sessionStorage && sessionStorage.getItem(STORAGE_KEY) === '1') {
+          return;
         }
       } catch (err) {
-        // Pixel may be ad-blocked or not yet loaded — server-side CAPI
-        // mirror below carries the event alone in that case.
+        // sessionStorage may throw in private-browsing mode on some browsers
+        // — treat as "first fire" and skip the dedup guard.
       }
-      try {
-        fetch('/api/meta/capi', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            event_name: 'ViewContent',
-            event_id: eventId,
-            event_source_url: sourceUrl,
-            custom_data: customData,
-          }),
-          credentials: 'same-origin',
-          keepalive: true,
-        }).catch(function () { /* swallow */ });
-      } catch (err) {
-        // Older browser without fetch — accept the loss.
+
+      function fireViewContent(trigger) {
+        try {
+          if (window.sessionStorage) {
+            if (sessionStorage.getItem(STORAGE_KEY) === '1') return;
+            sessionStorage.setItem(STORAGE_KEY, '1');
+          }
+        } catch (err) {
+          // ignore
+        }
+
+        var eventId = (window.crypto && window.crypto.randomUUID)
+          ? window.crypto.randomUUID()
+          : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+        var customData = {
+          content_name: reportSlug,
+          content_category: 'report',
+          // 'scroll' | 'click' — surfaces in Events Manager so we can see
+          // which engagement signal drove ViewContent. Safe to ignore in
+          // ad campaigns; useful for funnel debugging.
+          content_trigger: trigger,
+        };
+        var sourceUrl = window.location.href;
+        try {
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', 'ViewContent', customData, { eventID: eventId });
+          }
+        } catch (err) {
+          // Pixel may be ad-blocked — server CAPI mirror below carries the event alone.
+        }
+        try {
+          fetch('/api/meta/capi', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event_name: 'ViewContent',
+              event_id: eventId,
+              event_source_url: sourceUrl,
+              custom_data: customData,
+            }),
+            credentials: 'same-origin',
+            keepalive: true,
+          }).catch(function () { /* swallow */ });
+        } catch (err) {
+          // Older browser without fetch — accept the loss.
+        }
       }
+
+      // Trigger 1 — scroll: gate section enters viewport.
+      // threshold 0.1 = 10% of the gate hero visible. Tighter than the
+      // top-edge-only default (which fires on a 1px sliver), looser than
+      // 0.5 (which on tall mobile heroes never trips).
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(
+          function (entries) {
+            for (var i = 0; i < entries.length; i++) {
+              if (entries[i].isIntersecting) {
+                fireViewContent('scroll');
+                observer.disconnect();
+                return;
+              }
+            }
+          },
+          { threshold: 0.1 }
+        );
+        observer.observe(gateAnchor);
+      }
+
+      // Trigger 2 — click: any element that opens the unlock modal.
+      // Matches direct CTAs (a[href="#unlock-modal"]) AND locked-pill
+      // anchors that get hijacked by UnlockModal's own click handler.
+      document.addEventListener('click', function (e) {
+        var target = e.target;
+        if (!target || !target.closest) return;
+        var directLink = target.closest('a[href="#unlock-modal"]');
+        if (directLink) {
+          fireViewContent('click');
+          return;
+        }
+        var lockedPill = target.closest('a[data-locked-pill]');
+        if (lockedPill && document.body.dataset.gateState !== 'unlocked') {
+          fireViewContent('click');
+        }
+      });
     })();
   </script>
 </BaseLayout>
