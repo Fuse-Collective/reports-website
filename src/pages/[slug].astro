@@ -279,8 +279,14 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
   */}
   <script is:inline define:vars={{ reportSlug: Astro.params.slug }}>
     (function () {
-      var gateAnchor = document.getElementById('gate');
-      if (!gateAnchor) return;
+      // Observe every "open the unlock modal" button on the page. The
+      // first one to enter viewport (usually the ReportCover hero CTA,
+      // visible on initial load) IS the user's gate-awareness moment —
+      // the first time they see "this is gated, click here to unlock".
+      // Earlier we observed the #gate teaser section much further down
+      // the page, which misses the actual moment of awareness.
+      var gateButtons = document.querySelectorAll('a[href="#unlock-modal"]');
+      if (gateButtons.length === 0) return;
 
       var STORAGE_KEY = 'fbq_viewcontent_fired_' + reportSlug;
       try {
@@ -288,11 +294,18 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
           return;
         }
       } catch (err) {
-        // sessionStorage may throw in private-browsing mode on some browsers
-        // — treat as "first fire" and skip the dedup guard.
+        // sessionStorage may throw in private-browsing mode — treat as
+        // "first fire" and skip the dedup guard.
       }
 
       function fireViewContent(trigger) {
+        // Returning unlocked subscribers occasionally slip through: the
+        // [data-gate-state="unlocked"] flag is set by the gated-content
+        // fetch callback (async), while this observer can fire on first
+        // paint. Best-effort dedup; one stray ViewContent per
+        // already-unlocked session is acceptable noise.
+        if (document.body.dataset.gateState === 'unlocked') return;
+
         try {
           if (window.sessionStorage) {
             if (sessionStorage.getItem(STORAGE_KEY) === '1') return;
@@ -339,10 +352,11 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
         }
       }
 
-      // Trigger 1 — scroll: gate section enters viewport.
-      // threshold 0.1 = 10% of the gate hero visible. Tighter than the
-      // top-edge-only default (which fires on a 1px sliver), looser than
-      // 0.5 (which on tall mobile heroes never trips).
+      // Trigger 1 — scroll/visibility: first gate CTA enters viewport.
+      // threshold 0.5 = half the button visible. Tighter than the
+      // top-edge-only default (fires on a 1px sliver), looser than 1.0
+      // (never trips when sticky headers overlap). For first-fold buttons
+      // (ReportCover hero on desktop), this fires within ~16ms of load.
       if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(
           function (entries) {
@@ -354,14 +368,17 @@ const postMenu = postMenuRaw.filter((s: any) => !isAlwaysVisible(s));
               }
             }
           },
-          { threshold: 0.1 }
+          { threshold: 0.5 }
         );
-        observer.observe(gateAnchor);
+        gateButtons.forEach(function (btn) { observer.observe(btn); });
       }
 
       // Trigger 2 — click: any element that opens the unlock modal.
       // Matches direct CTAs (a[href="#unlock-modal"]) AND locked-pill
       // anchors that get hijacked by UnlockModal's own click handler.
+      // Will usually no-op because the scroll trigger fires first, but
+      // remains as a fallback for ad-blocked IntersectionObserver or
+      // hash-link clicks before observer-callback runs.
       document.addEventListener('click', function (e) {
         var target = e.target;
         if (!target || !target.closest) return;
